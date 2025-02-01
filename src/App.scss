@@ -1,11 +1,9 @@
+@use 'colors';
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Space+Mono&display=swap');
 
-$accent-color: #f2511b;
-$dark-grey: #1a1a1a;
-
 body {
-  background-color: $accent-color;
+  background-color: colors.$accent-color;
   color: #fff;
   font-family: "Raleway", sans-serif;
   font-optical-sizing: auto;
@@ -19,11 +17,11 @@ body {
 }
 
 main {
-  background-color: $dark-grey;
+  background-color: colors.$grey-dark;
   padding: 3em;
   overflow: hidden;
   position: relative;
-  height: 75%;
+  height: 77%;
 }
 
 .container {
@@ -31,21 +29,28 @@ main {
   margin: 1.5em auto;
 }
 
-// header, footer {
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: space-between;
-//   max-width: 1280px;
-//   margin: 1.5em auto;
-// }
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 1.5em auto;
 
-header img {
-  border: 2px solid #fff;
-  border-radius: 50%;
-  margin-top: .5em;
-  width: 96px;
-  height: 96px;
+  a {
+    color: colors.$accent-color;
+    font-size: 20px;
+    padding: .3em;
+    display: block;
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      color: #fff;
+      background: colors.$accent-color;
+    }
+  }
 }
 
 h1, h2 {
@@ -55,33 +60,31 @@ h1, h2 {
 }
 
 h2 {
-  color: $accent-color;
+  color: colors.$accent-color;
   font-size: 36px;
   line-height: 2;
 }
 
-#about {
-  // color: $dark-grey;
-  margin: 3em auto;
-}
-
 footer {
-  // color: $dark-grey;
-  font-size: 16px;
-  padding: 3em;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  background-color: colors.$grey-light;
+  color: colors.$grey-dark;
+  padding: 5em;
+  text-align: center;
 
-  a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.5s ease;
+  img {
+    border: 6px solid #fff;
+    // outline: 2px solid colors.$accent-color;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+  }
 
-    &:hover {
-      color: $dark-grey;
-      text-decoration: underline;
-    }
+  strong {
+    color: colors.$accent-color;
+  }
+
+  span {
+    display: block;
+    opacity: 0.3;
   }
 }

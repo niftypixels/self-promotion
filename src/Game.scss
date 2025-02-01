@@ -1,5 +1,4 @@
-$accent-color: #f2511b;
-$dark-grey: #1a1a1a;
+@use 'colors';
 
 #game {
   font-family: "Space Mono", monospace;
@@ -19,13 +18,13 @@ $dark-grey: #1a1a1a;
 }
 
 .life {
-  background-color: #dedede;
+  background-color: colors.$grey-light;
   border-radius: 50%;
   width: 18px;
   height: 18px;
 
   &.lost {
-    background-color: $dark-grey;
+    background-color: colors.$grey-dark;
   }
 }
 
@@ -37,7 +36,7 @@ $dark-grey: #1a1a1a;
 }
 
 #paddle {
-  background-color: #666;
+  background-color: colors.$grey-medium;
   border-radius: 6px;
   width: 120px;
   height: 12px;
@@ -48,7 +47,7 @@ $dark-grey: #1a1a1a;
 }
 
 #floor {
-  background-color: $accent-color;
+  background-color: colors.$accent-color;
   font-size: 24px;
   line-height: 2.4em;
   padding: 0 1.5em;
@@ -68,10 +67,9 @@ $dark-grey: #1a1a1a;
 }
 
 .brick {
-  // background-color: #333;
-  transition: color 0.2s ease-in-out;
+  transition: opacity 250ms ease-in-out;
 
   &.hit {
-    color: #333;
+    opacity: 0.15;
   }
 }
