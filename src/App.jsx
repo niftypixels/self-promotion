@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import Game from './Game';
+import { useRef } from 'react';
 import About from './About';
+import Game from './Game';
 import './App.scss';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
         <header>
           <hgroup>
             <h1>SCOTT <br /> TWEDE</h1>
-            <h2>UX 🗲 UI</h2>
+            <h2>UX &#x1F5F2; UI</h2>
           </hgroup>
           <a href='mailto:scott@niftypixels.com'>
             scott@niftypixels.com
@@ -25,7 +25,7 @@ function App() {
         <img src="/sadmac.png" alt="" />
         <p>
           Made with <strong>&#x1F394;</strong> in OC
-          <span>&copy;{new Date().getFullYear()}, Scott Twede</span>
+          <span>&copy;{new Date().getFullYear()}, SCOTT TWEDE</span>
         </p>
       </footer>
     </>

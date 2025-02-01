@@ -1,4 +1,43 @@
+@use 'colors';
+
 #about {
   max-width: 1280px;
-  margin: 3em auto;
+  margin: 5em auto;
+}
+
+.awards {
+  background-color: colors.$grey-light;
+  border-radius: 10px;
+  color: colors.$accent-color;
+  display: inline-block;
+  padding: 1.5em;
+
+  h2 {
+    line-height: 1;
+  }
+
+  h3 {
+    color: colors.$grey-dark;
+  }
+
+  ul {
+    padding: 0 1.5em;
+
+    li {
+      // list-style: none;
+      line-height: 1.5;
+    }
+  }
+
+  a {
+    color: colors.$accent-color;
+    text-decoration: underline;
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      background-color: colors.$accent-color;
+      color: white;
+      text-decoration: none;
+    }
+  }
 }

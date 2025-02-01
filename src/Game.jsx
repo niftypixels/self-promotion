@@ -192,38 +192,36 @@ function Game({ mainRef }) {
   }, gameRunning ? FRAME_TIME : null);
 
   return (
-    <>
-      <section id='game' ref={gameRef}>
-        <div id='wall'>
-          {ABOUT.split('').map((char, index) => (
-            (char === ' ') ? char :
-            <span className='brick' key={index}>{char}</span>
-          ))}
+    <section id='game' ref={gameRef}>
+      <div id='wall'>
+        {ABOUT.split('').map((char, index) => (
+          (char === ' ') ? char :
+          <span className='brick' key={index}>{char}</span>
+        ))}
+      </div>
+      <div
+        className='life'
+        id='ball'
+        ref={ballRef}
+        style={{ left: ballX, top: ballY }}
+      />
+      <div
+        id='paddle'
+        ref={paddleRef}
+        style={{ left: paddleX }}
+      />
+      <aside id='floor'>
+        <div>
+          <span id='score'>Score: {score}</span>
+          <span id='lives'>
+            {Array.from({ length: TOTAL_LIVES }).map((_, index) => (
+              <div className={`life ${index >= lives ? 'lost' : ''}`} key={index} />
+            ))}
+          </span>
         </div>
-        <div
-          className='life'
-          id='ball'
-          ref={ballRef}
-          style={{ left: ballX, top: ballY }}
-        />
-        <div
-          id='paddle'
-          ref={paddleRef}
-          style={{ left: paddleX }}
-        />
-        <aside id='floor'>
-          <div>
-            <span id='score'>Score: {score}</span>
-            <span id='lives'>
-              {Array.from({ length: TOTAL_LIVES }).map((_, index) => (
-                <div className={`life ${index >= lives ? 'lost' : ''}`} key={index} />
-              ))}
-            </span>
-          </div>
-        </aside>
-      </section>
-    </>
-  );
+      </aside>
+    </section>
+  )
 }
 
 export default Game;

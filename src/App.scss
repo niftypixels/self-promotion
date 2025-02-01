@@ -4,7 +4,7 @@
 
 body {
   background-color: colors.$accent-color;
-  color: #fff;
+  color: white;
   font-family: "Raleway", sans-serif;
   font-optical-sizing: auto;
   font-weight: 700;
@@ -41,13 +41,14 @@ header {
     color: colors.$accent-color;
     font-size: 20px;
     padding: .3em;
+    margin: 0 -.3em;
     display: block;
     position: relative;
     text-decoration: none;
     transition: all 250ms ease-in-out;
 
     &:hover {
-      color: #fff;
+      color: white;
       background: colors.$accent-color;
     }
   }
@@ -68,12 +69,12 @@ h2 {
 footer {
   background-color: colors.$grey-light;
   color: colors.$grey-dark;
-  padding: 5em;
+  padding: 4em;
+  // padding-bottom: 8em;
   text-align: center;
 
   img {
-    border: 6px solid #fff;
-    // outline: 2px solid colors.$accent-color;
+    border: 6px solid white;
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -85,6 +86,7 @@ footer {
 
   span {
     display: block;
+    line-height: 2;
     opacity: 0.3;
   }
 }

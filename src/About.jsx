@@ -11,7 +11,7 @@ function About() {
         <h3>RED Interactive Agency</h3>
       </div>
       <div className='awards'>
-        <h1>Awards</h1>
+        <h2>Awards</h2>
         <h3>FWA of the Day</h3>
         <ul>
           <li>
