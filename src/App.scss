@@ -1,0 +1,87 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Space+Mono&display=swap');
+
+$accent-color: #f2511b;
+$dark-grey: #1a1a1a;
+
+body {
+  background-color: $accent-color;
+  color: #fff;
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  background-color: $dark-grey;
+  padding: 3em;
+  overflow: hidden;
+  position: relative;
+  height: 75%;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 1.5em auto;
+}
+
+// header, footer {
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-between;
+//   max-width: 1280px;
+//   margin: 1.5em auto;
+// }
+
+header img {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  margin-top: .5em;
+  width: 96px;
+  height: 96px;
+}
+
+h1, h2 {
+  font-size: 48px;
+  font-style: normal;
+  margin: 0;
+}
+
+h2 {
+  color: $accent-color;
+  font-size: 36px;
+  line-height: 2;
+}
+
+#about {
+  // color: $dark-grey;
+  margin: 3em auto;
+}
+
+footer {
+  // color: $dark-grey;
+  font-size: 16px;
+  padding: 3em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.5s ease;
+
+    &:hover {
+      color: $dark-grey;
+      text-decoration: underline;
+    }
+  }
+}
