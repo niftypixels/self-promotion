@@ -40,8 +40,8 @@ header {
   a {
     color: colors.$accent-color;
     font-size: 20px;
-    padding: .3em;
-    margin: 0 -.3em;
+    padding: .3em .5em;
+    margin: 0 -.5em;
     display: block;
     position: relative;
     text-decoration: none;
@@ -70,14 +70,14 @@ footer {
   background-color: colors.$grey-light;
   color: colors.$grey-dark;
   padding: 4em;
-  // padding-bottom: 8em;
   text-align: center;
 
   img {
     border: 6px solid white;
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    image-rendering: pixelated;
+    width: 128px;
+    height: 128px;
   }
 
   strong {
@@ -86,7 +86,7 @@ footer {
 
   span {
     display: block;
-    line-height: 2;
+    margin: 2em auto;
     opacity: 0.3;
   }
 }
