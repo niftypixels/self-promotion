@@ -6,36 +6,38 @@ function About() {
   return (
     <section id='about'>
       <div className='experience'>
-        <h1>Experience</h1>
-        <h3>Sony Interactive Entertainment</h3>
-        <h3>RED Interactive Agency</h3>
+        <h1>EXPERIENCE</h1>
+        <h2>Sony Interactive Entertainment</h2>
+        <code>July 2014 &mdash; December 2023, Aliso Viejo, CA</code>
+        <h2>RED Interactive Agency</h2>
+        <code>September 2010 &mdash; June 2014, Santa Monica, CA</code>
       </div>
-      <div className='awards'>
-        <h2>Awards</h2>
+      <aside className='awards'>
+        <h2>AWARDS</h2>
         <h3>FWA of the Day</h3>
         <ul>
           <li>
-            <a href='https://thefwa.com/cases/lucasfilm-s-star-wars-visualizer'>
+            <a href='https://thefwa.com/cases/lucasfilm-s-star-wars-visualizer' target='_blank'>
               Lucasfilm's Star Wars Visualizer
             </a>
           </li>
           <li>
-            <a href='https://thefwa.com/cases/the-hunt-for-the-golden-pistachio'>
+            <a href='https://thefwa.com/cases/the-hunt-for-the-golden-pistachio' target='_blank'>
               The Hunt for the Golden Pistachio
             </a>
           </li>
           <li>
-            <a href='https://thefwa.com/cases/ufc-social'>
+            <a href='https://thefwa.com/cases/ufc-social' target='_blank'>
               UFC Social
             </a>
           </li>
           <li>
-            <a href='https://thefwa.com/cases/el-rey-network'>
+            <a href='https://thefwa.com/cases/el-rey-network' target='_blank'>
               El Rey Network
             </a>
           </li>
         </ul>
-      </div>
+      </aside>
     </section>
   )
 }

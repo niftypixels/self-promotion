@@ -212,7 +212,7 @@ function Game({ mainRef }) {
       />
       <aside id='floor'>
         <div>
-          <span id='score'>Score: {score}</span>
+          <span id='score'>SCORE: {score}</span>
           <span id='lives'>
             {Array.from({ length: TOTAL_LIVES }).map((_, index) => (
               <div className={`life ${index >= lives ? 'lost' : ''}`} key={index} />

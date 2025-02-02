@@ -2,43 +2,50 @@
 
 #about {
   max-width: 1280px;
-  margin: 5em auto;
+  margin: 6em auto 9em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.experience {
+  code {
+    font-family: "Space Mono", monospace;
+    font-style: normal;
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
 }
 
 .awards {
-  background-color: colors.$grey-light;
-  border-radius: 10px;
-  color: colors.$accent-color;
+  color: colors.$grey-dark;
   display: inline-block;
-  padding: 1.5em;
-
-  h2 {
-    line-height: 1;
-  }
-
-  h3 {
-    color: colors.$grey-dark;
-  }
 
   ul {
-    margin: 0;
-    padding: 0 1.5em;
+    // color: white;
+    list-style: none;
 
     li {
-      // list-style: none;
       line-height: 1.5;
+      margin: 0;
+      padding: .3em .5em;
+
+      &::marker {
+        content: "\2605";
+      }
     }
   }
 
   a {
-    color: colors.$accent-color;
-    text-decoration: underline;
+    border-radius: 3px;
+    color: colors.$grey-dark;
+    padding: .3em .5em;
+    text-decoration: none;
     transition: all 250ms ease-in-out;
 
     &:hover {
-      background-color: colors.$accent-color;
-      color: white;
-      text-decoration: none;
+      background-color: white;
+      color: colors.$accent-color;
     }
   }
 }

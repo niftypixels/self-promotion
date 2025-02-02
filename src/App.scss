@@ -38,6 +38,7 @@ header {
   margin: 1.5em auto;
 
   a {
+    border-radius: 3px;
     color: colors.$accent-color;
     font-size: 20px;
     padding: .3em .5em;
@@ -52,19 +53,20 @@ header {
       background: colors.$accent-color;
     }
   }
+
+  h1, h2 {
+    font-size: 48px;
+    font-style: normal;
+    margin: 0;
+  }
+
+  h2 {
+    color: colors.$accent-color;
+    font-size: 36px;
+    line-height: 2;
+  }
 }
 
-h1, h2 {
-  font-size: 48px;
-  font-style: normal;
-  margin: 0;
-}
-
-h2 {
-  color: colors.$accent-color;
-  font-size: 36px;
-  line-height: 2;
-}
 
 footer {
   background-color: colors.$grey-light;
