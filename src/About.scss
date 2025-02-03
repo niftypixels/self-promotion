@@ -6,13 +6,18 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  h1, h2 {
+    color: white;
+  }
 }
 
 .experience {
+  color: colors.$grey-dark;
+
   code {
     font-family: "Space Mono", monospace;
     font-style: normal;
-    opacity: 0.5;
     text-transform: uppercase;
   }
 }
@@ -22,7 +27,6 @@
   display: inline-block;
 
   ul {
-    // color: white;
     list-style: none;
 
     li {
@@ -38,13 +42,13 @@
 
   a {
     border-radius: 3px;
-    color: colors.$grey-dark;
+    color: white;
     padding: .3em .5em;
     text-decoration: none;
     transition: all 250ms ease-in-out;
 
     &:hover {
-      background-color: white;
+      background-color: colors.$grey-dark;
       color: colors.$accent-color;
     }
   }
