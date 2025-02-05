@@ -110,6 +110,7 @@ function Game({ mainRef }) {
 
   useEffect(() => {
     const onClick = (e) => {
+      window.scrollTo(0, 0);
       setGameRunning(() => !gameRunning);
       gameRef.current.classList.toggle('game-running');
     };
