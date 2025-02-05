@@ -23,7 +23,7 @@ function App() {
       <About />
       <footer>
         <img src="/sadmac.png" alt="" />
-        <p>Made with <strong>&#x1F394;</strong> in OC</p>
+        <p>Made with <strong>&#x2764;</strong> in OC</p>
         <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
       </footer>
     </>
