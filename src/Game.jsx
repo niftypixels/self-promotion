@@ -114,8 +114,8 @@ function Game({ mainRef }) {
       gameRef.current.classList.toggle('game-running');
     };
 
-    window.addEventListener('click', onClick);
-    return () => window.removeEventListener('click', onClick);
+    mainRef.current.addEventListener('click', onClick);
+    return () => mainRef.current.removeEventListener('click', onClick);
   }, [gameRunning]);
 
   useInterval(() => { // game loop
