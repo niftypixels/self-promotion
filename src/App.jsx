@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import About from './About';
 import Game from './Game';
+import Work from './Work';
 import './App.scss';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
         </header>
         <Game mainRef={mainRef} />
       </main>
-      <About />
+      <Work />
       <footer>
         <img src="/sadmac.png" alt="" />
         <p>Made with <strong>&#x2764;</strong> in OC</p>

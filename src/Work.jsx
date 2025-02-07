@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import useInterval from './hooks/useInterval';
-import './About.scss';
+import './Work.scss';
 
-function About() {
+function Work() {
   return (
-    <section id='about'>
+    <section id='work'>
       <div className='experience'>
         <h1>EXPERIENCE</h1>
         <h2>Sony Interactive Entertainment</h2>
@@ -42,4 +42,4 @@ function About() {
   )
 }
 
-export default About;
+export default Work;
