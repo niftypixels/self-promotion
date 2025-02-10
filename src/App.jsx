@@ -12,7 +12,7 @@ function App() {
         <header>
           <hgroup>
             <h1>SCOTT <br /> TWEDE</h1>
-            <h2>UX &#x1F5F2; UI</h2>
+            <h2>UX 🗲 UI</h2>
           </hgroup>
           <a href='mailto:scott@niftypixels.com'>
             scott@niftypixels.com
@@ -23,7 +23,7 @@ function App() {
       <Work />
       <footer>
         <img src="/sadmac.png" alt="" />
-        <p>Made with <strong>&#x2764;</strong> in OC</p>
+        <p>Made with <strong>❤</strong> in OC</p>
         <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
       </footer>
     </>
