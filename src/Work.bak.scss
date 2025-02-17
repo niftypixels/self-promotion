@@ -1,0 +1,57 @@
+@use 'colors';
+
+#work {
+  max-width: 1280px;
+  margin: 6em auto 9em;
+  color: colors.$grey-dark;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.experience {
+  h2 {
+    color: white;
+  }
+
+  code {
+    font-family: "Space Mono", monospace;
+    font-style: normal;
+    text-transform: uppercase;
+  }
+}
+
+.awards {
+  display: inline-block;
+
+  h3 {
+    color: white;
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      line-height: 1.5;
+      margin: 0;
+      padding: .3em .5em;
+
+      &::marker {
+        content: "\2605";
+      }
+    }
+  }
+
+  a {
+    border-radius: 3px;
+    color: white;
+    padding: .3em .5em;
+    text-decoration: none;
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      background-color: white;
+      color: colors.$accent-color;
+    }
+  }
+}

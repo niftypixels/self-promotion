@@ -1,57 +1,58 @@
 @use 'colors';
 
 #work {
-  max-width: 1280px;
-  margin: 6em auto 9em;
+  background-color: colors.$accent-color;
   color: colors.$grey-dark;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+  margin: 3em auto 6em;
 
-.experience {
-  h2 {
-    color: white;
+  & > div {
+    display: flex;
+    justify-content: space-between;
   }
 
-  code {
-    font-family: "Space Mono", monospace;
-    font-style: normal;
-    text-transform: uppercase;
-  }
-}
+  article {
+    h2 {
+      color: white;
+    }
 
-.awards {
-  display: inline-block;
-
-  h3 {
-    color: white;
-  }
-
-  ul {
-    list-style: none;
-
-    li {
-      line-height: 1.5;
-      margin: 0;
-      padding: .3em .5em;
-
-      &::marker {
-        content: "\2605";
-      }
+    code {
+      font-family: "Space Mono", monospace;
+      font-style: normal;
+      text-transform: uppercase;
     }
   }
 
-  a {
-    border-radius: 3px;
-    color: white;
-    padding: .3em .5em;
-    text-decoration: none;
-    transition: all 250ms ease-in-out;
+  aside {
+    h3 {
+      color: white;
+    }
 
-    &:hover {
-      background-color: white;
-      color: colors.$accent-color;
+    ul {
+      list-style: none;
+      padding-left: 1.5em;
+
+      li {
+        line-height: 1.5;
+        margin: 0;
+        padding: .3em .5em;
+
+        &::marker {
+          content: "★";
+        }
+      }
+    }
+
+    a {
+      border-radius: 3px;
+      color: white;
+      padding: .3em .5em;
+      text-decoration: none;
+      transition: all 250ms ease-in-out;
+
+      &:hover {
+        background-color: white;
+        color: colors.$accent-color;
+      }
     }
   }
 }

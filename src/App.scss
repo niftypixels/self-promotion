@@ -8,86 +8,20 @@ body {
   font-family: "Raleway", sans-serif;
   font-optical-sizing: auto;
   font-weight: 700;
-  overflow-x: hidden;
 }
 
 #root {
+  overflow-x: hidden;
   width: 100vw;
   height: 100vh;
 }
 
-main {
-  background-color: colors.$grey-dark;
+section {
   padding: 3em;
-  overflow: hidden;
   position: relative;
-  height: 85%;
-}
 
-.container {
-  max-width: 1280px;
-  margin: 1.5em auto;
-}
-
-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1280px;
-  margin: 1.5em auto;
-
-  a {
-    border-radius: 3px;
-    color: colors.$accent-color;
-    font-size: 20px;
-    padding: .3em .5em;
-    margin: 0 -.5em;
-    display: block;
-    position: relative;
-    text-decoration: none;
-    transition: all 250ms ease-in-out;
-
-    &:hover {
-      color: white;
-      background: colors.$accent-color;
-    }
-  }
-
-  h1, h2 {
-    font-size: 48px;
-    font-style: normal;
-    margin: 0;
-  }
-
-  h2 {
-    color: colors.$accent-color;
-    font-size: 36px;
-    line-height: 2;
-  }
-}
-
-footer {
-  background-color: colors.$grey-light;
-  color: colors.$grey-dark;
-  padding: 3em;
-  text-align: center;
-
-  img {
-    border: 6px solid white;
-    border-radius: 50%;
-    image-rendering: pixelated;
-    width: 128px;
-    height: 128px;
-  }
-
-  strong {
-    color: colors.$accent-color;
-  }
-
-  span {
-    display: block;
-    margin: 2em auto;
-    opacity: 0.3;
+  & > div {
+    margin: auto;
+    max-width: 1280px;
   }
 }
