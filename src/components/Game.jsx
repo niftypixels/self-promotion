@@ -1,8 +1,8 @@
-import './Game.scss';
+import '../styles/Game.scss';
 
 function Game() {
   return (
-    <section id='game'>
+    <section className='container' id='game'>
       <div>
         Game
       </div>

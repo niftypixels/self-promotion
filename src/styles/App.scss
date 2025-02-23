@@ -5,7 +5,7 @@
 body {
   background-color: colors.$accent-color;
   color: white;
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-optical-sizing: auto;
   font-weight: 700;
 }
@@ -16,7 +16,12 @@ body {
   height: 100vh;
 }
 
-section {
+main {
+  background-color: colors.$grey-dark;
+  height: 80%;
+}
+
+.container {
   padding: 3em;
   position: relative;
 

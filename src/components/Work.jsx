@@ -1,8 +1,8 @@
-import './Work.scss';
+import '../styles/Work.scss';
 
 function Work() {
   return (
-    <section id='work'>
+    <section className='container' id='work'>
       <div>
         <article>
           <h1>EXPERIENCE</h1>

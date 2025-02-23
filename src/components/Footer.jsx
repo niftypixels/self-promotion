@@ -1,14 +1,14 @@
-import './Footer.scss';
+import '../styles/Footer.scss';
 
 function Footer() {
   return (
-    <section id='footer'>
+    <footer className='container'>
       <div>
         <img src="/sadmac.png" alt="" />
         <p>Made with <strong>❤</strong> in OC</p>
         <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
       </div>
-    </section>
+    </footer>
   )
 }
 
