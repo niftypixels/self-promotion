@@ -1,0 +1,42 @@
+@use 'colors';
+
+header {
+  &.container {
+    padding-bottom: 0;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  h1, h2 {
+    font-size: 48px;
+    font-style: normal;
+    margin: 0;
+  }
+
+  h2 {
+    color: colors.$accent-color;
+    font-size: 36px;
+    line-height: 2;
+  }
+
+  a {
+    border-radius: 3px;
+    color: colors.$accent-color;
+    display: block;
+    font-size: 20px;
+    padding: .3em .5em;
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      background: colors.$accent-color;
+      color: white;
+    }
+  }
+}

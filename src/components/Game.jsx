@@ -5,7 +5,7 @@ const ABOUT = 'I am a software engineer with over a decade of expertise crafting
 
 function Game({ world }) {
   useEffect(() => {
-    console.log(world.current.getBoundingClientRect());
+    console.log(world.current?.getBoundingClientRect().toJSON());
   }, []);
 
   return (
