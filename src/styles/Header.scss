@@ -2,7 +2,7 @@
 
 header {
   &.container {
-    padding-bottom: 1.5em;
+    padding-bottom: 0;
   }
 
   & > div {
@@ -10,6 +10,7 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding: 1.5em 0;
   }
 
   h1, h2 {

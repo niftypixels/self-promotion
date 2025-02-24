@@ -1,11 +1,16 @@
 @use 'colors';
 
 #game {
-  font-family: "Space Mono", monospace;
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.5;
-  padding: 0;
-  text-align: justify;
+  &.container {
+    padding-top: 0;
+  }
+
+  #wall {
+    font-family: "Space Mono", monospace;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: justify;
+  }
 }
