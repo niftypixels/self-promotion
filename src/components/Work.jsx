@@ -7,9 +7,9 @@ function Work() {
         <article>
           <h1>EXPERIENCE</h1>
           <h2>Sony Interactive Entertainment</h2>
-          <code>07/2014 &mdash; 12/2023 &raquo; Aliso Viejo + San Francisco, CA</code>
+          <pre>07/2014 &mdash; 12/2023 &raquo; Aliso Viejo + San Francisco, CA</pre>
           <h2>RED Interactive Agency</h2>
-          <code>09/2010 &mdash; 06/2014 &raquo; Santa Monica, CA</code>
+          <pre>09/2010 &mdash; 06/2014 &raquo; Santa Monica, CA</pre>
         </article>
         <aside>
           <h2>AWARDS</h2>
