@@ -28,10 +28,9 @@ header {
   a {
     border-radius: 3px;
     color: colors.$accent-color;
-    display: block;
     font-size: 20px;
+    margin-right: -.5em;
     padding: .3em .5em;
-    position: relative;
     text-decoration: none;
     transition: all 250ms ease-in-out;
 
