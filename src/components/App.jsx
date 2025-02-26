@@ -9,7 +9,7 @@ function App() {
     <>
       <main ref={mainRef} role='main'>
         <Header />
-        <Game world={mainRef} />
+        <Game mainRef={mainRef} />
       </main>
       <Work />
       <Footer />
