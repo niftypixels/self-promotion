@@ -14,7 +14,23 @@
     text-align: justify;
   }
 
-  #ball {}
+  #player {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: .5em;
+    position: absolute;
+    bottom: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #ball {
+    background-color: colors.$grey-light;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+  }
 
   #paddle {
     background-color: colors.$grey-medium;

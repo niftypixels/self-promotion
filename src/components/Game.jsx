@@ -35,8 +35,10 @@ function Game({ mainRef }) {
 
     setTimeout(() => {
       const mainRect = mainRef.current.getBoundingClientRect();
+      const ballRect = ballRef.current.getBoundingClientRect();
+      const paddleRect = paddleRef.current.getBoundingClientRect();
 
-      const wallThickness = 20;
+      const wallThickness = 10;
       const walls = [
         // top
         Bodies.rectangle(
@@ -86,10 +88,10 @@ function Game({ mainRef }) {
           <span className='brick' key={index}>{char}</span>
         ))}
       </div>
-      <span>
+      <div id='player'>
         <div id='ball' ref={ballRef} />
         <div id='paddle' ref={paddleRef} />
-      </span>
+      </div>
     </section>
   )
 }

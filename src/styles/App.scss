@@ -19,11 +19,11 @@ body {
 main {
   background-color: colors.$grey-dark;
   height: 90%;
+  position: relative;
 }
 
 .container {
   padding: 3em;
-  position: relative;
 
   & > div {
     margin: auto;
