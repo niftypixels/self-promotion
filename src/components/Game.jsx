@@ -39,35 +39,49 @@ function Game({ mainRef }) {
     const paddleRect = paddleRef.current.getBoundingClientRect();
 
     const wallThickness = 10;
-    const walls = [
-      // top
-      Bodies.rectangle(
+
+    World.add(worldRef.current, [
+      Bodies.rectangle( // top
         mainRect.width / 2, -wallThickness / 2,
         mainRect.width, wallThickness,
         { isStatic: true, label: 'wall' }
       ),
 
-      // left
-      Bodies.rectangle(
+      Bodies.rectangle( // left
         -wallThickness / 2, mainRect.height / 2,
         wallThickness, mainRect.height,
         { isStatic: true, label: 'wall' }
       ),
 
-      // right
-      Bodies.rectangle(
+      Bodies.rectangle( // right
         mainRect.width + wallThickness / 2, mainRect.height / 2,
         wallThickness, mainRect.height,
         { isStatic: true, label: 'wall' }
       ),
 
-      // bottom
-      Bodies.rectangle(
+      Bodies.rectangle( // bottom
         mainRect.width / 2, mainRect.height + wallThickness / 2,
         mainRect.width, wallThickness,
         { isStatic: true, isSensor: true, label: 'bottom' }
-      ),
-    ];
+      )
+    ]);
+
+    const ballR = ballRect.width / 2;
+    const ballX = ballR + ballRect.left;
+    const ballY = ballR + ballRect.top;
+
+    ballBodyRef.current = Bodies.circle(ballX, ballY, ballR, {
+      label: 'ball',
+      restitution: 1,
+      friction: 0,
+      frictionAir: 0,
+      inertia: Infinity, // no rotation
+      render: {
+        fillStyle: 'transparent'
+      }
+    });
+
+    World.add(worldRef.current, ballBodyRef.current);
 
     return () => {
       if (engineRef.current) {
