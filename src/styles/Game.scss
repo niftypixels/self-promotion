@@ -12,6 +12,14 @@
     font-weight: 400;
     line-height: 1.5;
     text-align: justify;
+
+    .brick {
+      transition: opacity 250ms ease-in-out;
+
+      &.hit {
+        opacity: 0.15;
+      }
+    }
   }
 
   #player {

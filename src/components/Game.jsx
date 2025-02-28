@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import Matter from 'matter-js';
 import { Body, Bodies, Engine, Events, Render, Runner, World } from 'matter-js';
 import '../styles/Game.scss';
 
@@ -33,43 +32,40 @@ function Game({ mainRef }) {
 
     worldRef.current = engineRef.current.world;
 
-    setTimeout(() => {
-      const mainRect = mainRef.current.getBoundingClientRect();
-      const ballRect = ballRef.current.getBoundingClientRect();
-      const paddleRect = paddleRef.current.getBoundingClientRect();
+    const mainRect = mainRef.current.getBoundingClientRect();
+    const ballRect = ballRef.current.getBoundingClientRect();
+    const paddleRect = paddleRef.current.getBoundingClientRect();
 
-      const wallThickness = 10;
-      const walls = [
-        // top
-        Bodies.rectangle(
-          mainRect.width / 2, -wallThickness / 2,
-          mainRect.width, wallThickness,
-          { isStatic: true, label: 'wall' }
-        ),
+    const wallThickness = 10;
+    const walls = [
+      // top
+      Bodies.rectangle(
+        mainRect.width / 2, -wallThickness / 2,
+        mainRect.width, wallThickness,
+        { isStatic: true, label: 'wall' }
+      ),
 
-        // left
-        Bodies.rectangle(
-          -wallThickness / 2, mainRect.height / 2,
-          wallThickness, mainRect.height,
-          { isStatic: true, label: 'wall' }
-        ),
+      // left
+      Bodies.rectangle(
+        -wallThickness / 2, mainRect.height / 2,
+        wallThickness, mainRect.height,
+        { isStatic: true, label: 'wall' }
+      ),
 
-        // right
-        Bodies.rectangle(
-          mainRect.width + wallThickness / 2, mainRect.height / 2,
-          wallThickness, mainRect.height,
-          { isStatic: true, label: 'wall' }
-        ),
+      // right
+      Bodies.rectangle(
+        mainRect.width + wallThickness / 2, mainRect.height / 2,
+        wallThickness, mainRect.height,
+        { isStatic: true, label: 'wall' }
+      ),
 
-        // bottom
-        Bodies.rectangle(
-          mainRect.width / 2, mainRect.height + wallThickness / 2,
-          mainRect.width, wallThickness,
-          { isStatic: true, isSensor: true, label: 'bottom' }
-        ),
-      ];
-
-    }, 100);
+      // bottom
+      Bodies.rectangle(
+        mainRect.width / 2, mainRect.height + wallThickness / 2,
+        mainRect.width, wallThickness,
+        { isStatic: true, isSensor: true, label: 'bottom' }
+      ),
+    ];
 
     return () => {
       if (engineRef.current) {
@@ -78,7 +74,7 @@ function Game({ mainRef }) {
         Engine.clear(engineRef.current);
       }
     };
-  }, []);
+  }, [gameRef.current]);
 
   return (
     <section className='container' id='game' ref={gameRef}>
