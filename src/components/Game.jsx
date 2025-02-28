@@ -26,6 +26,8 @@ function Game({ mainRef }) {
   const [score, setScore] = useState(0);
 
   useEffect(() => { // init physics engine
+    if (!gameRef.current) return;
+
     engineRef.current = Engine.create({
       gravity: { x: 0, y: 0 }
     });
