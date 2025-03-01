@@ -94,7 +94,7 @@ function Game({ mainRef }) {
       }
     );
 
-    const brickElements = Array.from(gameRef.current.getElementsByClassName('.brick'));
+    const brickElements = Array.from(gameRef.current.getElementsByClassName('brick'));
 
     setBricks(brickElements);
 
@@ -118,7 +118,7 @@ function Game({ mainRef }) {
       wallBodies,
       ballBodyRef.current,
       paddleBodyRef.current,
-      ...brickBodies
+      ...brickBodies.currewnt
     ]);
 
     runnerRef.current = Runner.create();
