@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Body, Bodies, Engine, Events, Render, Runner, World } from 'matter-js';
+import useInterval from './hooks/useInterval';
 import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
@@ -39,8 +40,7 @@ function Game({ mainRef }) {
     const paddleRect = paddleRef.current.getBoundingClientRect();
 
     const wallThickness = 10;
-
-    World.add(worldRef.current, [
+    const wallBodies =  [
       Bodies.rectangle( // top
         mainRect.width / 2, -wallThickness / 2,
         mainRect.width, wallThickness,
@@ -64,28 +64,72 @@ function Game({ mainRef }) {
         mainRect.width, wallThickness,
         { isStatic: true, isSensor: true, label: 'bottom' }
       )
-    ]);
+    ];
 
-    const ballR = ballRect.width / 2;
-    const ballX = ballRect.left + ballR;
-    const ballY = ballRect.top + ballR;
-
-    ballBodyRef.current = Bodies.circle(ballX, ballY, ballR, {
-      label: 'ball',
-      restitution: 1,
-      friction: 0,
-      frictionAir: 0,
-      inertia: Infinity, // no rotation
-      render: {
-        fillStyle: 'transparent'
+    const ballRadius = ballRect.width / 2;
+    ballBodyRef.current = Bodies.circle(
+      ballRect.left + ballRadius,
+      ballRect.top + ballRadius,
+      ballRadius,
+      {
+        label: 'ball',
+        restitution: 1, // perfect bounce
+        friction: 0,
+        frictionAir: 0,
+        inertia: Infinity, // prevents rotation
+        render: { fillStyle: 'transparent' }
       }
+    );
+
+    paddleBodyRef.current = Bodies.rectangle(
+      paddleRect.left + paddleRect.width / 2,
+      paddleRect.top + paddleRect.height / 2,
+      paddleRect.width,
+      paddleRect.height,
+      {
+        isStatic: true,
+        label: 'paddle',
+        chamfer: { radius: paddleRect.height / 2 }, // rounded edges
+        render: { fillStyle: 'transparent' }
+      }
+    );
+
+    const brickElements = Array.from(gameRef.current.getElementsByClassName('.brick'));
+
+    setBricks(brickElements);
+
+    brickBodiesRef.current = brickElements.map(domElement => {
+      const rect = domElement.getBoundingClientRect();
+      return Bodies.rectangle(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2,
+        rect.width,
+        rect.height,
+        {
+          domElement,
+          isStatic: true,
+          label: 'brick',
+          render: { fillStyle: 'transparent' }
+        }
+      );
     });
 
-    World.add(worldRef.current, ballBodyRef.current);
+    World.add(worldRef.current, [
+      wallBodies,
+      ballBodyRef.current,
+      paddleBodyRef.current,
+      ...brickBodies
+    ]);
+
+    runnerRef.current = Runner.create();
+    Runner.run(runnerRef.current, engineRef.current);
 
     return () => {
+      if (runnerRef.current) {
+        Runner.stop(runnerRef.current);
+      }
+
       if (engineRef.current) {
-        Events.off(engineRef.current);
         World.clear(worldRef.current);
         Engine.clear(engineRef.current);
       }
