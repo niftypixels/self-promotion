@@ -2,3 +2,15 @@ $accent-color: #f2511b;
 $grey-dark: #1a1a1a;
 $grey-medium: #666;
 $grey-light: #dedede;
+
+@mixin rainbow-property($property: 'background-color', $duration: 5s, $steps: 72) {
+  @keyframes rainbow-#{$property} {
+    @for $i from 0 through $steps {
+      #{percentage($i/$steps)} {
+        #{$property}: hsl($i * (360/$steps), 100%, 50%);
+      }
+    }
+  }
+
+  animation: rainbow-#{$property} $duration linear infinite;
+}

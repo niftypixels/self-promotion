@@ -67,8 +67,8 @@ function Game({ mainRef }) {
     ]);
 
     const ballR = ballRect.width / 2;
-    const ballX = ballR + ballRect.left;
-    const ballY = ballR + ballRect.top;
+    const ballX = ballRect.left + ballR;
+    const ballY = ballRect.top + ballR;
 
     ballBodyRef.current = Bodies.circle(ballX, ballY, ballR, {
       label: 'ball',
