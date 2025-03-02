@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Body, Bodies, Engine, Events, Render, Runner, World } from 'matter-js';
-import useInterval from '../hooks/useInterval';
 import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
@@ -139,8 +138,23 @@ function Game({ mainRef }) {
     };
   }, [gameRef.current]);
 
+  useEffect(() => {
+    const onClick = (e) => {
+      window.scrollTo(0, 0);
+      setGameRunning(() => !gameRunning);
+    };
+
+    mainRef.current.addEventListener('click', onClick);
+    return () => mainRef.current.removeEventListener('click', onClick);
+  }, [gameRunning]);
+
   return (
-    <section className='container' id='game' ref={gameRef}>
+    <section
+      className='container'
+      data-game-running={gameRunning}
+      id='game'
+      ref={gameRef}
+    >
       <div id='wall'>
         {ABOUT.split('').map((char, index) => (
           (char === ' ') ? char :
