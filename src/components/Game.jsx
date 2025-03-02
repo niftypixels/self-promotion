@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Body, Bodies, Engine, Events, Render, Runner, World } from 'matter-js';
-import useInterval from './hooks/useInterval';
+import useInterval from '../hooks/useInterval';
 import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
@@ -14,8 +14,9 @@ function Game({ mainRef }) {
   const gameRef = useRef(null);
   const ballRef = useRef(null);
   const paddleRef = useRef(null);
-  const engineRef = useRef(null);
 
+  const engineRef = useRef(null);
+  const runnerRef = useRef(null);
   const worldRef = useRef(null);
   const ballBodyRef = useRef(null);
   const paddleBodyRef = useRef(null);
@@ -25,6 +26,8 @@ function Game({ mainRef }) {
   const [gameRunning, setGameRunning] = useState(false);
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
 
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
