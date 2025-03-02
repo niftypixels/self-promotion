@@ -46,13 +46,14 @@ function Game({ mainRef }) {
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
 
+    const { main, ball, paddle } = rectRef.current;
+
     engineRef.current = Engine.create({
       gravity: { x: 0, y: 0 }
     });
 
     worldRef.current = engineRef.current.world;
 
-    const { main } = rectRef.current;
     const wallThickness = 10;
     const wallBodies =  [
       Bodies.rectangle( // top
@@ -95,7 +96,6 @@ function Game({ mainRef }) {
       );
     });
 
-    const { ball } = rectRef.current;
     const ballRadius = ball.width / 2;
     ballBodyRef.current = Bodies.circle(
       ball.left + ballRadius,
@@ -111,7 +111,6 @@ function Game({ mainRef }) {
       }
     );
 
-    const { paddle } = rectRef.current;
     paddleBodyRef.current = Bodies.rectangle(
       paddle.left + paddle.width / 2,
       paddle.top + paddle.height / 2,
