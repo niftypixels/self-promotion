@@ -118,7 +118,7 @@ function Game({ mainRef }) {
       wallBodies,
       ballBodyRef.current,
       paddleBodyRef.current,
-      ...brickBodiesRef.currewnt
+      ...brickBodiesRef.current
     ]);
 
     runnerRef.current = Runner.create();
