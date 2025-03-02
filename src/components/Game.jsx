@@ -13,6 +13,11 @@ function Game({ mainRef }) {
   const gameRef = useRef(null);
   const ballRef = useRef(null);
   const paddleRef = useRef(null);
+  const rectRef = useRef({
+    main: null,
+    ball: null,
+    paddle: null,
+  });
 
   const engineRef = useRef(null);
   const runnerRef = useRef(null);
@@ -28,6 +33,16 @@ function Game({ mainRef }) {
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
 
+  useEffect(() => { // dom init
+    if (!mainRef.current) return;
+
+    rectRef.current = {
+      main: mainRef.current.getBoundingClientRect(),
+      ball: ballRef.current.getBoundingClientRect(),
+      paddle: paddleRef.current.getBoundingClientRect(),
+    };
+  }, [mainRef.current]);
+
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
 
@@ -37,70 +52,34 @@ function Game({ mainRef }) {
 
     worldRef.current = engineRef.current.world;
 
-    const mainRect = mainRef.current.getBoundingClientRect();
-    const ballRect = ballRef.current.getBoundingClientRect();
-    const paddleRect = paddleRef.current.getBoundingClientRect();
-
+    const { main } = rectRef.current;
     const wallThickness = 10;
     const wallBodies =  [
       Bodies.rectangle( // top
-        mainRect.width / 2, -wallThickness / 2,
-        mainRect.width, wallThickness,
+        main.width / 2, -wallThickness / 2,
+        main.width, wallThickness,
         { isStatic: true, label: 'wall' }
       ),
-
       Bodies.rectangle( // left
-        -wallThickness / 2, mainRect.height / 2,
-        wallThickness, mainRect.height,
+        -wallThickness / 2, main.height / 2,
+        wallThickness, main.height,
         { isStatic: true, label: 'wall' }
       ),
-
       Bodies.rectangle( // right
-        mainRect.width + wallThickness / 2, mainRect.height / 2,
-        wallThickness, mainRect.height,
+        main.width + wallThickness / 2, main.height / 2,
+        wallThickness, main.height,
         { isStatic: true, label: 'wall' }
       ),
-
       Bodies.rectangle( // bottom
-        mainRect.width / 2, mainRect.height + wallThickness / 2,
-        mainRect.width, wallThickness,
+        main.width / 2, main.height + wallThickness / 2,
+        main.width, wallThickness,
         { isStatic: true, isSensor: true, label: 'bottom' }
       )
     ];
 
-    const ballRadius = ballRect.width / 2;
-    ballBodyRef.current = Bodies.circle(
-      ballRect.left + ballRadius,
-      ballRect.top + ballRadius,
-      ballRadius,
-      {
-        label: 'ball',
-        restitution: 1, // perfect bounce
-        friction: 0,
-        frictionAir: 0,
-        inertia: Infinity, // prevents rotation
-        render: { fillStyle: 'transparent' }
-      }
-    );
-
-    paddleBodyRef.current = Bodies.rectangle(
-      paddleRect.left + paddleRect.width / 2,
-      paddleRect.top + paddleRect.height / 2,
-      paddleRect.width,
-      paddleRect.height,
-      {
-        isStatic: true,
-        label: 'paddle',
-        chamfer: { radius: paddleRect.height / 2 }, // rounded edges
-        render: { fillStyle: 'transparent' }
-      }
-    );
-
     const brickElements = Array.from(gameRef.current.getElementsByClassName('brick'));
-
     setBricks(brickElements);
-
-    brickBodiesRef.current = brickElements.map(domElement => {
+    brickBodiesRef.current = bricks.map(domElement => {
       const rect = domElement.getBoundingClientRect();
       return Bodies.rectangle(
         rect.left + rect.width / 2,
@@ -116,11 +95,41 @@ function Game({ mainRef }) {
       );
     });
 
+    const { ball } = rectRef.current;
+    const ballRadius = ball.width / 2;
+    ballBodyRef.current = Bodies.circle(
+      ball.left + ballRadius,
+      ball.top + ballRadius,
+      ballRadius,
+      {
+        label: 'ball',
+        restitution: 1, // perfect bounce
+        friction: 0,
+        frictionAir: 0,
+        inertia: Infinity, // prevents rotation
+        render: { fillStyle: 'transparent' }
+      }
+    );
+
+    const { paddle } = rectRef.current;
+    paddleBodyRef.current = Bodies.rectangle(
+      paddle.left + paddle.width / 2,
+      paddle.top + paddle.height / 2,
+      paddle.width,
+      paddle.height,
+      {
+        isStatic: true,
+        label: 'paddle',
+        chamfer: { radius: paddle.height / 2 }, // rounded edges
+        render: { fillStyle: 'transparent' }
+      }
+    );
+
     World.add(worldRef.current, [
       ...wallBodies,
+      ...brickBodiesRef.current,
       ballBodyRef.current,
-      paddleBodyRef.current,
-      ...brickBodiesRef.current
+      paddleBodyRef.current
     ]);
 
     runnerRef.current = Runner.create();
@@ -137,16 +146,6 @@ function Game({ mainRef }) {
       }
     };
   }, [gameRef.current]);
-
-  useEffect(() => {
-    const onClick = (e) => {
-      window.scrollTo(0, 0);
-      setGameRunning(() => !gameRunning);
-    };
-
-    mainRef.current.addEventListener('click', onClick);
-    return () => mainRef.current.removeEventListener('click', onClick);
-  }, [gameRunning]);
 
   return (
     <section
