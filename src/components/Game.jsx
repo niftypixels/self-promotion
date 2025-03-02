@@ -118,7 +118,7 @@ function Game({ mainRef }) {
     });
 
     World.add(worldRef.current, [
-      wallBodies,
+      ...wallBodies,
       ballBodyRef.current,
       paddleBodyRef.current,
       ...brickBodiesRef.current
