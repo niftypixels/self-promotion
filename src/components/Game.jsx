@@ -215,35 +215,55 @@ function Game({ mainRef }) {
     return () => window.removeEventListener('mousemove', movePaddle);
   }, [gameRunning]);
 
-  /*
+
+
   useEffect(() => {
     if (!gameRunning) return;
 
+    // Get the initial position of the ball physics body
+    const initialBallBody = {
+      x: ballBodyRef.current.position.x,
+      y: ballBodyRef.current.position.y
+    };
+
+    // Set initial velocity for the ball
     Body.setVelocity(ballBodyRef.current, {
       x: 0,
       y: -BALL_SPEED
     });
 
-    let last = 0;
-    const frame = (time) => {
-      const delta = time - last;
+    // Use requestAnimationFrame directly with performance.now() for smoother animation
+    let animationID;
 
-      if (delta > FRAME_TIME) {
-        const { x: ballX, y: ballY } = ballBodyRef.current.position;
-        const ballR = rectRef.current.ball.width / 2;
+    const animate = () => {
+      // Get current position from physics engine
+      const currentX = ballBodyRef.current.position.x;
+      const currentY = ballBodyRef.current.position.y;
 
-        ballRef.current.style.transform = `translate(${ballX - ballR}px, ${ballY - ballR}px)`;
+      // Calculate the relative motion since initialization
+      const deltaX = currentX - initialBallBody.x;
+      const deltaY = currentY - initialBallBody.y;
 
-        last = time;
-      }
+      // Update DOM position directly with the physics delta
+      // This preserves the initial flexbox positioning
+      ballRef.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 
-      requestAnimationFrame(frame);
+      // Continue animation
+      animationID = requestAnimationFrame(animate);
     };
 
-    const animationID = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(animationID);
+    // Start animation
+    animationID = requestAnimationFrame(animate);
+
+    // Cleanup
+    return () => {
+      if (animationID) {
+        cancelAnimationFrame(animationID);
+      }
+    };
   }, [gameRunning]);
-  */
+
+
 
   return (
     <section
