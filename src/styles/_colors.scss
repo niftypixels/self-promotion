@@ -3,14 +3,16 @@ $grey-dark: #1a1a1a;
 $grey-medium: #666;
 $grey-light: #dedede;
 
+@use "sass:math";
+
 @mixin rainbow-property($property: 'background-color', $duration: 5s, $steps: 72) {
+  animation: rainbow-#{$property} $duration linear infinite;
+
   @keyframes rainbow-#{$property} {
     @for $i from 0 through $steps {
-      #{percentage($i/$steps)} {
-        #{$property}: hsl($i * (360/$steps), 100%, 50%);
+      #{percentage(math.div($i, $steps))} {
+        #{$property}: hsl(math.div($i * 360, $steps), 100%, 50%);
       }
     }
   }
-
-  animation: rainbow-#{$property} $duration linear infinite;
 }

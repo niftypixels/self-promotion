@@ -48,34 +48,42 @@ function Game({ mainRef }) {
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
 
-    const { main, ball, paddle } = rectRef.current;
-
     engineRef.current = Engine.create({
       gravity: { x: 0, y: 0 }
     });
 
     worldRef.current = engineRef.current.world;
 
+    const { main, ball, paddle } = rectRef.current;
+
     const wallThickness = 10;
     const wallBodies =  [
       Bodies.rectangle( // top
-        main.width / 2, -wallThickness / 2,
-        main.width, wallThickness,
+        main.width / 2,
+        -wallThickness / 2,
+        main.width,
+        wallThickness,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // left
-        -wallThickness / 2, main.height / 2,
-        wallThickness, main.height,
+        -wallThickness / 2,
+        main.height / 2,
+        wallThickness,
+        main.height,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // right
-        main.width + wallThickness / 2, main.height / 2,
-        wallThickness, main.height,
+        main.width + wallThickness / 2,
+        main.height / 2,
+        wallThickness,
+        main.height,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // bottom
-        main.width / 2, main.height + wallThickness / 2,
-        main.width, wallThickness,
+        main.width / 2,
+        main.height + wallThickness / 2,
+        main.width,
+        wallThickness,
         { isStatic: true, isSensor: true, label: 'bottom' }
       )
     ];
@@ -155,6 +163,60 @@ function Game({ mainRef }) {
     mainRef.current.addEventListener('click', onClick);
     return () => mainRef.current.removeEventListener('click', onClick);
   }, [gameRunning]);
+
+  useEffect(() => {
+    // if (!gameRunning) return;
+
+    const movePaddle = ({ clientX }) => {
+      const { main, paddle } = rectRef.current;
+
+      const minPaddleX = paddle.width / 2;
+      const maxPaddleX = main.width - minPaddleX;
+
+      const boundedX = Math.min(Math.max(clientX, minPaddleX), maxPaddleX);
+      const offsetX = boundedX - (main.width / 2);
+
+      paddleRef.current.style.transform = `translateX(${offsetX}px)`;
+
+      Body.setPosition(paddleBodyRef.current, {
+        x: boundedX,
+        y: paddleBodyRef.current.position.y
+      });
+    };
+
+    window.addEventListener('mousemove', movePaddle);
+    return () => window.removeEventListener('mousemove', movePaddle);
+  }, [gameRunning]);
+
+  /*
+  useEffect(() => {
+    if (!gameRunning) return;
+
+    Body.setVelocity(ballBodyRef.current, {
+      x: 0,
+      y: -BALL_SPEED
+    });
+
+    let last = 0;
+    const frame = (time) => {
+      const delta = time - last;
+
+      if (delta > FRAME_TIME) {
+        const { x: ballX, y: ballY } = ballBodyRef.current.position;
+        const ballR = rectRef.current.ball.width / 2;
+
+        ballRef.current.style.transform = `translate(${ballX - ballR}px, ${ballY - ballR}px)`;
+
+        last = time;
+      }
+
+      requestAnimationFrame(frame);
+    };
+
+    const animationID = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(animationID);
+  }, [gameRunning]);
+  */
 
   return (
     <section
