@@ -41,6 +41,8 @@ function Game({ mainRef }) {
       ball: ballRef.current.getBoundingClientRect(),
       paddle: paddleRef.current.getBoundingClientRect(),
     };
+
+    setBricks(Array.from(gameRef.current.getElementsByClassName('brick')));
   }, [mainRef.current]);
 
   useEffect(() => { // init physics engine
@@ -78,8 +80,6 @@ function Game({ mainRef }) {
       )
     ];
 
-    const brickElements = Array.from(gameRef.current.getElementsByClassName('brick'));
-    setBricks(brickElements);
     brickBodiesRef.current = bricks.map(domElement => {
       const rect = domElement.getBoundingClientRect();
       return Bodies.rectangle(
@@ -145,6 +145,16 @@ function Game({ mainRef }) {
       }
     };
   }, [gameRef.current]);
+
+  useEffect(() => {
+    const onClick = (e) => {
+      window.scrollTo(0, 0);
+      setGameRunning(() => !gameRunning);
+    };
+
+    mainRef.current.addEventListener('click', onClick);
+    return () => mainRef.current.removeEventListener('click', onClick);
+  }, [gameRunning]);
 
   return (
     <section
