@@ -5,9 +5,9 @@
     padding-top: 0;
   }
 
-  &[data-game-running='true'] {
-    @include colors.rainbow-property('color');
-  }
+  // &[data-game-running='true'] {
+  //   @include colors.rainbow-property('color');
+  // }
 
   #wall {
     font-family: 'Space Mono', monospace;
@@ -43,6 +43,7 @@
     width: 18px;
     height: 18px;
     transform: translate(0);
+    will-change: transform;
   }
 
   #paddle {
@@ -51,5 +52,6 @@
     width: 120px;
     height: 12px;
     transform: translate(0);
+    will-change: transform;
   }
 }

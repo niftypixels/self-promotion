@@ -4,7 +4,7 @@ import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
 
-const BALL_SPEED = 7;
+const BALL_SPEED = 5;
 const BALL_SPEED_MAX = 18;
 const FRAME_TIME = 1000 / 60;
 const TOTAL_LIVES = 3;
@@ -138,6 +138,27 @@ function Game({ mainRef }) {
       ballBodyRef.current,
       paddleBodyRef.current
     ]);
+
+    Events.on(engineRef.current, 'collisionStart', (event) => {
+      const pairs = event.pairs;
+
+      for (let i = 0; i < pairs.length; i++) {
+        const pair = pairs[i];
+        const { bodyA, bodyB } = pair;
+
+        if (bodyA.label === 'brick' || bodyB.label === 'brick') {
+          const brickBody = bodyA.label === 'brick' ? bodyA : bodyB;
+
+          if (brickBody.domElement) {
+            brickBody.domElement.classList.add('hit');
+          }
+
+          World.remove(worldRef.current, brickBody);
+
+          brickBodiesRef.current = brickBodiesRef.current.filter(b => b.id !== brickBody.id);
+        }
+      }
+    });
 
     runnerRef.current = Runner.create();
     Runner.run(runnerRef.current, engineRef.current);
