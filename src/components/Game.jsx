@@ -4,7 +4,7 @@ import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
 
-const BALL_SPEED = 5;
+const BALL_SPEED = 6;
 const BALL_SPEED_MAX = 18;
 const FRAME_TIME = 1000 / 60;
 const TOTAL_LIVES = 3;
@@ -26,7 +26,6 @@ function Game({ mainRef }) {
   const paddleBodyRef = useRef(null);
   const brickBodiesRef = useRef([]);
 
-  const [bricks, setBricks] = useState([]);
   const [gameRunning, setGameRunning] = useState(false);
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
@@ -41,8 +40,6 @@ function Game({ mainRef }) {
       ball: ballRef.current.getBoundingClientRect(),
       paddle: paddleRef.current.getBoundingClientRect(),
     };
-
-    setBricks(Array.from(gameRef.current.getElementsByClassName('brick')));
   }, [mainRef.current]);
 
   useEffect(() => { // init physics engine
@@ -88,7 +85,7 @@ function Game({ mainRef }) {
       )
     ];
 
-    brickBodiesRef.current = bricks.map(domElement => {
+    brickBodiesRef.current = Array.from(gameRef.current.getElementsByClassName('brick')).map(domElement => {
       const rect = domElement.getBoundingClientRect();
       return Bodies.rectangle(
         rect.left + rect.width / 2,
