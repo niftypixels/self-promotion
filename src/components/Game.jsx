@@ -4,20 +4,17 @@ import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
 
+const BALL_RADIUS = 9;
 const BALL_SPEED = 6;
 const BALL_SPEED_MAX = 18;
-const FRAME_TIME = 1000 / 60;
+const PADDLE_HEIGHT = 12;
+const PADDLE_WIDTH = 120;
 const TOTAL_LIVES = 3;
 
 function Game({ mainRef }) {
   const gameRef = useRef(null);
-  const ballRef = useRef(null);
-  const paddleRef = useRef(null);
-  const rectRef = useRef({
-    main: null,
-    ball: null,
-    paddle: null,
-  });
+  const canvasRef = useRef(null);
+  const contextRef = useRef(null);
 
   const engineRef = useRef(null);
   const runnerRef = useRef(null);
@@ -32,15 +29,17 @@ function Game({ mainRef }) {
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
 
-  useEffect(() => { // dom init
+  useEffect(() => {
     if (!mainRef.current) return;
 
-    rectRef.current = {
-      main: mainRef.current.getBoundingClientRect(),
-      ball: ballRef.current.getBoundingClientRect(),
-      paddle: paddleRef.current.getBoundingClientRect(),
-    };
-  }, [mainRef.current]);
+    const { height, width } = mainRef.current.getBoundingClientRect();
+    const canvas = canvasRef.current;
+
+    canvas.height = height;
+    canvas.width = width;
+
+    contextRef.current = canvas.getContext('2d');
+  }, []);
 
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
@@ -51,35 +50,40 @@ function Game({ mainRef }) {
 
     worldRef.current = engineRef.current.world;
 
-    const { main, ball, paddle } = rectRef.current;
+    const canvasRect = canvasRef.current.getBoundingClientRect();
+
+    const initBallX = canvasRect.width / 2;
+    const initBallY = canvasRect.height - 100;
+    const initPaddleX = initBallX;
+    const initPaddleY = initBallY + 50;
 
     const wallThickness = 10;
     const wallBodies =  [
       Bodies.rectangle( // top
-        main.width / 2,
+        canvasRect.width / 2,
         -wallThickness / 2,
-        main.width,
+        canvasRect.width,
         wallThickness,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // left
         -wallThickness / 2,
-        main.height / 2,
+        canvasRect.height / 2,
         wallThickness,
-        main.height,
+        canvasRect.height,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // right
-        main.width + wallThickness / 2,
-        main.height / 2,
+        canvasRect.width + wallThickness / 2,
+        canvasRect.height / 2,
         wallThickness,
-        main.height,
+        canvasRect.height,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // bottom
-        main.width / 2,
-        main.height + wallThickness / 2,
-        main.width,
+        canvasRect.width / 2,
+        canvasRect.height + wallThickness / 2,
+        canvasRect.width,
         wallThickness,
         { isStatic: true, isSensor: true, label: 'bottom' }
       )
@@ -101,31 +105,28 @@ function Game({ mainRef }) {
       );
     });
 
-    const ballRadius = ball.width / 2;
     ballBodyRef.current = Bodies.circle(
-      ball.left + ballRadius,
-      ball.top + ballRadius,
-      ballRadius,
+      initBallX,
+      initBallY,
+      BALL_RADIUS,
       {
         label: 'ball',
         restitution: 1, // perfect bounce
         friction: 0,
         frictionAir: 0,
         inertia: Infinity, // prevents rotation
-        render: { fillStyle: 'transparent' }
       }
     );
 
     paddleBodyRef.current = Bodies.rectangle(
-      paddle.left + paddle.width / 2,
-      paddle.top + paddle.height / 2,
-      paddle.width,
-      paddle.height,
+      initPaddleX,
+      initPaddleY,
+      PADDLE_WIDTH,
+      PADDLE_HEIGHT,
       {
         isStatic: true,
         label: 'paddle',
-        chamfer: { radius: paddle.height / 2 }, // rounded edges
-        render: { fillStyle: 'transparent' }
+        chamfer: { radius: PADDLE_HEIGHT / 2 }, // rounded edges
       }
     );
 
@@ -136,9 +137,7 @@ function Game({ mainRef }) {
       paddleBodyRef.current
     ]);
 
-    Events.on(engineRef.current, 'collisionStart', (event) => {
-      const pairs = event.pairs;
-
+    Events.on(engineRef.current, 'collisionStart', ({ pairs }) => {
       for (let i = 0; i < pairs.length; i++) {
         const pair = pairs[i];
         const { bodyA, bodyB } = pair;
@@ -202,7 +201,7 @@ function Game({ mainRef }) {
   useEffect(() => {
     const onClick = (e) => {
       window.scrollTo(0, 0);
-      setGameRunning(() => !gameRunning);
+      setGameRunning((running) => !running);
     };
 
     mainRef.current.addEventListener('click', onClick);
@@ -232,8 +231,6 @@ function Game({ mainRef }) {
     window.addEventListener('mousemove', movePaddle);
     return () => window.removeEventListener('mousemove', movePaddle);
   }, [gameRunning]);
-
-
 
   useEffect(() => {
     if (!gameRunning) return;
@@ -281,8 +278,6 @@ function Game({ mainRef }) {
     };
   }, [gameRunning]);
 
-
-
   return (
     <section
       className='container'
@@ -296,10 +291,7 @@ function Game({ mainRef }) {
           <span className='brick' key={index}>{char}</span>
         ))}
       </div>
-      <div id='player'>
-        <div id='ball' ref={ballRef} />
-        <div id='paddle' ref={paddleRef} />
-      </div>
+      <canvas ref={canvasRef} />
     </section>
   )
 }
