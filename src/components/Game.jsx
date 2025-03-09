@@ -161,11 +161,11 @@ function Game({ mainRef }) {
 
     // TODO: delete the wireframe renderer
     const render = Render.create({
-      element: mainRef.current,
+      element: gameRef.current,
       engine: engineRef.current,
       options: {
-        width: rectRef.current.main.width,
-        height: rectRef.current.main.height,
+        width: canvasRect.width,
+        height: canvasRect.height,
         wireframes: true,
         showAngleIndicator: true,
         showCollisions: true,
@@ -177,7 +177,6 @@ function Game({ mainRef }) {
         showSleeping: true
       }
     });
-
     Render.run(render);
 
     return () => {
@@ -212,15 +211,12 @@ function Game({ mainRef }) {
     // if (!gameRunning) return;
 
     const movePaddle = ({ clientX }) => {
-      const { main, paddle } = rectRef.current;
+      const canvasRect = canvasRef.current.getBoundingClientRect();
 
-      const minPaddleX = paddle.width / 2;
-      const maxPaddleX = main.width - minPaddleX;
+      const minPaddleX = PADDLE_WIDTH / 2;
+      const maxPaddleX = canvasRect.width - minPaddleX;
 
       const boundedX = Math.min(Math.max(clientX, minPaddleX), maxPaddleX);
-      const offsetX = boundedX - (main.width / 2);
-
-      paddleRef.current.style.transform = `translateX(${offsetX}px)`;
 
       Body.setPosition(paddleBodyRef.current, {
         x: boundedX,
@@ -230,20 +226,14 @@ function Game({ mainRef }) {
 
     window.addEventListener('mousemove', movePaddle);
     return () => window.removeEventListener('mousemove', movePaddle);
-  }, [gameRunning]);
+  }, []);
 
   useEffect(() => {
     if (!gameRunning) return;
 
-    // Get the initial position of the ball physics body
-    const initialBallBody = {
-      x: ballBodyRef.current.position.x,
-      y: ballBodyRef.current.position.y
-    };
-
     // Set initial velocity for the ball
     Body.setVelocity(ballBodyRef.current, {
-      x: 0,
+      x: BALL_SPEED * (Math.random() > 0.5 ? 1 : -1),
       y: -BALL_SPEED
     });
 
