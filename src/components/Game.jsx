@@ -208,10 +208,11 @@ function Game({ mainRef }) {
   }, [gameRunning]);
 
   useEffect(() => {
-    // if (!gameRunning) return;
+    if (!gameRunning) return;
+
+    const canvasRect = canvasRef.current.getBoundingClientRect();
 
     const movePaddle = ({ clientX }) => {
-      const canvasRect = canvasRef.current.getBoundingClientRect();
 
       const minPaddleX = PADDLE_WIDTH / 2;
       const maxPaddleX = canvasRect.width - minPaddleX;
@@ -237,34 +238,55 @@ function Game({ mainRef }) {
       y: -BALL_SPEED
     });
 
-    // Use requestAnimationFrame directly with performance.now() for smoother animation
     let animationID;
 
-    const animate = () => {
-      // Get current position from physics engine
-      const currentX = ballBodyRef.current.position.x;
-      const currentY = ballBodyRef.current.position.y;
+    const render = () => {
+      const canvas = canvasRef.current;
+      const ctx = contextRef.current;
 
-      // Calculate the relative motion since initialization
-      const deltaX = currentX - initialBallBody.x;
-      const deltaY = currentY - initialBallBody.y;
+      const { x: ballX, y: ballY } = ballBodyRef.current.position;
+      const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
+      const halfPaddle = {
+        h: PADDLE_HEIGHT /2,
+        w: PADDLE_WIDTH / 2
+      };
 
-      // Update DOM position directly with the physics delta
-      // This preserves the initial flexbox positioning
-      ballRef.current.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Continue animation
-      animationID = requestAnimationFrame(animate);
+      // ball
+      ctx.fillStyle = '#dedede';
+      ctx.beginPath();
+      ctx.arc(
+        ballX,
+        ballY,
+        BALL_RADIUS,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+
+      // paddle
+      ctx.fillStyle = '#666';
+      ctx.beginPath();
+      ctx.moveTo(paddleX - halfPaddle.w + halfPaddle.h, paddleY - halfPaddle.h);
+      ctx.lineTo(paddleX + halfPaddle.w - halfPaddle.h, paddleY - halfPaddle.h);
+      ctx.arc(paddleX + halfPaddle.w - halfPaddle.h, paddleY, halfPaddle.h, Math.PI * 1.5, Math.PI * 0.5);
+      ctx.lineTo(paddleX - halfPaddle.w + halfPaddle.h, paddleY + halfPaddle.h);
+      ctx.arc(paddleX - halfPaddle.w + halfPaddle.h, paddleY, halfPaddle.h, Math.PI * 0.5, Math.PI * 1.5);
+      ctx.closePath();
+      ctx.fill();
+
+      animationID = requestAnimationFrame(render);
     };
 
-    // Start animation
-    animationID = requestAnimationFrame(animate);
+    animationID = requestAnimationFrame(render);
 
-    // Cleanup
     return () => {
       if (animationID) {
         cancelAnimationFrame(animationID);
       }
+
+      Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
     };
   }, [gameRunning]);
 
