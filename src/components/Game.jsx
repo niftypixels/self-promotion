@@ -218,10 +218,8 @@ function Game({ mainRef }) {
 
       const { x: ballX, y: ballY } = ballBodyRef.current.position;
       const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
-      const halfPaddle = {
-        h: PADDLE_HEIGHT /2,
-        w: PADDLE_WIDTH / 2
-      };
+      const paddleHalfWidth = PADDLE_WIDTH / 2;
+      const paddleHalfHeight = PADDLE_HEIGHT / 2;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -240,11 +238,11 @@ function Game({ mainRef }) {
       // paddle
       ctx.fillStyle = '#666';
       ctx.beginPath();
-      ctx.moveTo(paddleX - halfPaddle.w + halfPaddle.h, paddleY - halfPaddle.h);
-      ctx.lineTo(paddleX + halfPaddle.w - halfPaddle.h, paddleY - halfPaddle.h);
-      ctx.arc(paddleX + halfPaddle.w - halfPaddle.h, paddleY, halfPaddle.h, Math.PI * 1.5, Math.PI * 0.5);
-      ctx.lineTo(paddleX - halfPaddle.w + halfPaddle.h, paddleY + halfPaddle.h);
-      ctx.arc(paddleX - halfPaddle.w + halfPaddle.h, paddleY, halfPaddle.h, Math.PI * 0.5, Math.PI * 1.5);
+      ctx.moveTo(paddleX - paddleHalfWidth + paddleHalfHeight, paddleY - paddleHalfHeight);
+      ctx.lineTo(paddleX + paddleHalfWidth - paddleHalfHeight, paddleY - paddleHalfHeight);
+      ctx.arc(paddleX + paddleHalfWidth - paddleHalfHeight, paddleY, paddleHalfHeight, Math.PI * 1.5, Math.PI * 0.5);
+      ctx.lineTo(paddleX - paddleHalfWidth + paddleHalfHeight, paddleY + paddleHalfHeight);
+      ctx.arc(paddleX - paddleHalfWidth + paddleHalfHeight, paddleY, paddleHalfHeight, Math.PI * 0.5, Math.PI * 1.5);
       ctx.closePath();
       ctx.fill();
 
