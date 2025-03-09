@@ -269,13 +269,13 @@ function Game({ mainRef }) {
       id='game'
       ref={gameRef}
     >
+      <canvas ref={canvasRef} />
       <div id='wall'>
         {ABOUT.split('').map((char, index) => (
           (char === ' ') ? char :
           <span className='brick' key={index}>{char}</span>
         ))}
       </div>
-      <canvas ref={canvasRef} />
     </section>
   )
 }
