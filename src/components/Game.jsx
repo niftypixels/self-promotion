@@ -159,35 +159,9 @@ function Game({ mainRef }) {
     runnerRef.current = Runner.create();
     Runner.run(runnerRef.current, engineRef.current);
 
-    // TODO: delete the wireframe renderer
-    const render = Render.create({
-      element: gameRef.current,
-      engine: engineRef.current,
-      options: {
-        width: canvasRect.width,
-        height: canvasRect.height,
-        wireframes: true,
-        showAngleIndicator: true,
-        showCollisions: true,
-        showVelocity: true,
-        background: 'transparent',
-        wireframeBackground: 'transparent',
-        hasBounds: false,
-        pixelRatio: 'auto',
-        showSleeping: true
-      }
-    });
-    Render.run(render);
-
     return () => {
       if (runnerRef.current) {
         Runner.stop(runnerRef.current);
-      }
-
-      // TODO: delete when finished with wireframe renderer
-      if (render) {
-        Render.stop(render);
-        render.canvas.remove();
       }
 
       if (engineRef.current) {
@@ -213,10 +187,8 @@ function Game({ mainRef }) {
     const canvasRect = canvasRef.current.getBoundingClientRect();
 
     const movePaddle = ({ clientX }) => {
-
       const minPaddleX = PADDLE_WIDTH / 2;
       const maxPaddleX = canvasRect.width - minPaddleX;
-
       const boundedX = Math.min(Math.max(clientX, minPaddleX), maxPaddleX);
 
       Body.setPosition(paddleBodyRef.current, {
@@ -227,7 +199,7 @@ function Game({ mainRef }) {
 
     window.addEventListener('mousemove', movePaddle);
     return () => window.removeEventListener('mousemove', movePaddle);
-  }, []);
+  }, [gameRunning]);
 
   useEffect(() => {
     if (!gameRunning) return;
