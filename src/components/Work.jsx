@@ -1,9 +1,14 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import Particles from '@tsparticles/react';
 import { loadFull } from 'tsparticles';
 import '../styles/Work.scss';
 
 function Work() {
+  useEffect(() => {
+    console.log("Work component mounted");
+    return () => console.log("Work component unmounted");
+  }, []);
+
   const particlesInit = useCallback(async (engine) => {
     await loadFull(engine);
   }, []);
