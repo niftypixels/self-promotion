@@ -4,6 +4,7 @@ import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
 
+const BALL_OFFSET = 50;
 const BALL_RADIUS = 9;
 const BALL_SPEED = 6;
 const BALL_SPEED_MAX = 18;
@@ -22,6 +23,7 @@ function Game({ mainRef }) {
   const ballBodyRef = useRef(null);
   const paddleBodyRef = useRef(null);
   const brickBodiesRef = useRef([]);
+  const renderAnimationId = useRef(null);
 
   const [gameRunning, setGameRunning] = useState(false);
   const [lives, setLives] = useState(TOTAL_LIVES);
@@ -53,9 +55,9 @@ function Game({ mainRef }) {
     const canvasRect = canvasRef.current.getBoundingClientRect();
 
     const initBallX = canvasRect.width / 2;
-    const initBallY = canvasRect.height - 100;
+    const initBallY = canvasRect.height - BALL_OFFSET;
     const initPaddleX = initBallX;
-    const initPaddleY = initBallY + 50;
+    const initPaddleY = initBallY;
 
     const wallThickness = 10;
     const wallBodies =  [
@@ -172,6 +174,55 @@ function Game({ mainRef }) {
   }, [gameRef.current]);
 
   useEffect(() => {
+    const render = () => {
+      const canvas = canvasRef.current;
+      const ctx = contextRef.current;
+
+      const { x: ballX, y: ballY } = ballBodyRef.current.position;
+      const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
+      const paddleHalf = {
+        height: PADDLE_HEIGHT / 2,
+        width: PADDLE_WIDTH / 2
+      };
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // ball
+      ctx.fillStyle = '#dedede';
+      ctx.beginPath();
+      ctx.arc(
+        ballX,
+        ballY,
+        BALL_RADIUS,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+
+      // paddle
+      ctx.fillStyle = '#666';
+      ctx.beginPath();
+      ctx.moveTo(paddleX - paddleHalf.width + paddleHalf.height, paddleY - paddleHalf.height);
+      ctx.lineTo(paddleX + paddleHalf.width - paddleHalf.height, paddleY - paddleHalf.height);
+      ctx.arc(paddleX + paddleHalf.width - paddleHalf.height, paddleY, paddleHalf.height, Math.PI * 1.5, Math.PI * 0.5);
+      ctx.lineTo(paddleX - paddleHalf.width + paddleHalf.height, paddleY + paddleHalf.height);
+      ctx.arc(paddleX - paddleHalf.width + paddleHalf.height, paddleY, paddleHalf.height, Math.PI * 0.5, Math.PI * 1.5);
+      ctx.closePath();
+      ctx.fill();
+
+      renderAnimationId.current = requestAnimationFrame(render);
+    };
+
+    renderAnimationId.current = requestAnimationFrame(render);
+
+    return () => {
+      if (renderAnimationId.current) {
+        cancelAnimationFrame(renderAnimationId.current);
+      }
+    };
+  }, [ballBodyRef.current, paddleBodyRef.current]);
+
+  useEffect(() => {
     const onClick = (e) => {
       window.scrollTo(0, 0);
       setGameRunning((running) => !running);
@@ -182,14 +233,21 @@ function Game({ mainRef }) {
   }, [gameRunning]);
 
   useEffect(() => {
-    if (!gameRunning) return;
+    // if (!gameRunning) return;
 
     const canvasRect = canvasRef.current.getBoundingClientRect();
 
-    const movePaddle = ({ clientX }) => {
+    const movePlayer = ({ clientX }) => {
       const minPaddleX = PADDLE_WIDTH / 2;
       const maxPaddleX = canvasRect.width - minPaddleX;
       const boundedX = Math.min(Math.max(clientX, minPaddleX), maxPaddleX);
+
+      if (!gameRunning) {
+        Body.setPosition(ballBodyRef.current, {
+          x: boundedX,
+          y: ballBodyRef.current.position.y
+        });
+      }
 
       Body.setPosition(paddleBodyRef.current, {
         x: boundedX,
@@ -197,10 +255,11 @@ function Game({ mainRef }) {
       });
     };
 
-    window.addEventListener('mousemove', movePaddle);
-    return () => window.removeEventListener('mousemove', movePaddle);
+    window.addEventListener('mousemove', movePlayer);
+    return () => window.removeEventListener('mousemove', movePlayer);
   }, [gameRunning]);
 
+  /*
   useEffect(() => {
     if (!gameRunning) return;
 
@@ -261,6 +320,7 @@ function Game({ mainRef }) {
       Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
     };
   }, [gameRunning]);
+  */
 
   return (
     <section
