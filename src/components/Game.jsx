@@ -4,7 +4,7 @@ import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
 
-const BALL_OFFSET = 50;
+const BALL_OFFSET = 60;
 const BALL_RADIUS = 9;
 const BALL_SPEED = 6;
 const BALL_SPEED_MAX = 18;
@@ -174,10 +174,18 @@ function Game({ mainRef }) {
   }, [gameRef.current]);
 
   useEffect(() => {
-    const render = () => {
-      const canvas = canvasRef.current;
-      const ctx = contextRef.current;
+    const canvas = canvasRef.current;
+    const ctx = contextRef.current;
+    const ballVelocity = { x: 0, y: 0 };
 
+    if (gameRunning) {
+      ballVelocity.x = BALL_SPEED * (Math.random() > 0.5 ? 1 : -1);
+      ballVelocity.y = -BALL_SPEED;
+    }
+
+    Body.setVelocity(ballBodyRef.current, ballVelocity);
+
+    const render = () => {
       const { x: ballX, y: ballY } = ballBodyRef.current.position;
       const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
       const paddleHalf = {
@@ -220,7 +228,7 @@ function Game({ mainRef }) {
         cancelAnimationFrame(renderAnimationId.current);
       }
     };
-  }, [ballBodyRef.current, paddleBodyRef.current]);
+  }, [gameRunning, ballBodyRef.current, paddleBodyRef.current]);
 
   useEffect(() => {
     const onClick = (e) => {
