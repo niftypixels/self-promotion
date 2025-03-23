@@ -10,7 +10,7 @@ function App() {
       <main ref={mainRef} role='main'>
         <Header />
         <Game mainRef={mainRef} />
-        <Lava />
+        {/* <Lava /> */}
       </main>
       <Work />
       <Footer />

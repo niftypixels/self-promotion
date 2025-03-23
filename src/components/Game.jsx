@@ -228,7 +228,7 @@ function Game({ mainRef }) {
         cancelAnimationFrame(renderAnimationId.current);
       }
     };
-  }, [gameRunning, ballBodyRef.current, paddleBodyRef.current]);
+  }, [gameRunning]);
 
   useEffect(() => {
     const onClick = (e) => {
