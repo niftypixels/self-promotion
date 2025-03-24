@@ -130,11 +130,7 @@ function Game({ mainRef }) {
       initPaddleY,
       PADDLE_WIDTH,
       PADDLE_HEIGHT,
-      {
-        isStatic: true,
-        label: 'paddle',
-        chamfer: { radius: PADDLE_HEIGHT / 2 }, // rounded edges
-      }
+      { isStatic: true, label: 'paddle' }
     );
 
     World.add(worldRef.current, [
@@ -218,7 +214,13 @@ function Game({ mainRef }) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       ctx.beginPath();
-      ctx.arc(ballX, ballY, BALL_RADIUS, 0, Math.PI * 2);
+      ctx.arc(
+        ballX,
+        ballY,
+        BALL_RADIUS,
+        0,
+        Math.PI * 2
+      );
       ctx.fillStyle = '#dedede';
       ctx.fill();
 
