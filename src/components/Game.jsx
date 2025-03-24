@@ -207,6 +207,99 @@ function Game({ mainRef }) {
     };
   }, []);
 
+  useEffect(() => { // game loop
+    const canvas = canvasRef.current;
+    const ctx = contextRef.current;
+
+    const render = () => {
+      const { x: ballX, y: ballY } = ballBodyRef.current.position;
+      const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
+      const paddleHalf = {
+        height: PADDLE_HEIGHT / 2,
+        width: PADDLE_WIDTH / 2
+      };
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // draw ball
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, BALL_RADIUS, 0, Math.PI * 2);
+      ctx.fillStyle = '#dedede';
+      ctx.fill();
+
+      // draw paddle
+      ctx.beginPath();
+      ctx.rect(
+        paddleX - paddleHalf.width,
+        paddleY - paddleHalf.height,
+        PADDLE_WIDTH,
+        PADDLE_HEIGHT
+      );
+      ctx.fillStyle = '#666';
+      ctx.fill();
+
+      renderAnimationId.current = requestAnimationFrame(render);
+    };
+
+    renderAnimationId.current = requestAnimationFrame(render);
+
+    return () => {
+      if (renderAnimationId.current) {
+        cancelAnimationFrame(renderAnimationId.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => { // player movement
+    const canvasRect = canvasRef.current.getBoundingClientRect();
+
+    const movePlayer = ({ clientX }) => {
+      const minPaddleX = PADDLE_WIDTH / 2;
+      const maxPaddleX = canvasRect.width - minPaddleX;
+      const boundedX = Math.min(Math.max(clientX, minPaddleX), maxPaddleX);
+
+      Body.setPosition(paddleBodyRef.current, {
+        x: boundedX,
+        y: paddleBodyRef.current.position.y
+      });
+
+      if (gameState === GAME_STATE.READY) {
+        Body.setPosition(ballBodyRef.current, {
+          x: boundedX,
+          y: ballBodyRef.current.position.y
+        });
+      }
+    };
+
+    window.addEventListener('mousemove', movePlayer);
+    return () => window.removeEventListener('mousemove', movePlayer);
+  }, [gameState]);
+
+  const handleClick = useCallback(() => {
+    window.scrollTo(0, 0);
+
+    switch (gameState) {
+      case GAME_STATE.READY:
+        setGameState(GAME_STATE.RUNNING);
+
+        Body.setVelocity(ballBodyRef.current, {
+          x: BALL_SPEED * (Math.random() > 0.5 ? 1 : -1),
+          y: -BALL_SPEED
+        });
+        break;
+      case GAME_STATE.OVER:
+      case GAME_STATE.WIN:
+        setLives(TOTAL_LIVES);
+        setScore(0);
+        break;
+    }
+  }, [gameState]);
+
+  useEffect(() => {
+    mainRef.current.addEventListener('click', handleClick);
+    return () => mainRef.current.removeEventListener('click', handleClick);
+  }, [handleClick]);
+
   /*
   useEffect(() => {
     const canvas = canvasRef.current;
