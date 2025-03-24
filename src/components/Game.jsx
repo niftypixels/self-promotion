@@ -207,31 +207,25 @@ function Game({ mainRef }) {
     };
   }, []);
 
-  useEffect(() => { // game loop
+  useEffect(() => { // animation loop
     const canvas = canvasRef.current;
     const ctx = contextRef.current;
 
     const render = () => {
       const { x: ballX, y: ballY } = ballBodyRef.current.position;
       const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
-      const paddleHalf = {
-        height: PADDLE_HEIGHT / 2,
-        width: PADDLE_WIDTH / 2
-      };
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // draw ball
       ctx.beginPath();
       ctx.arc(ballX, ballY, BALL_RADIUS, 0, Math.PI * 2);
       ctx.fillStyle = '#dedede';
       ctx.fill();
 
-      // draw paddle
       ctx.beginPath();
       ctx.rect(
-        paddleX - paddleHalf.width,
-        paddleY - paddleHalf.height,
+        paddleX - PADDLE_WIDTH / 2,
+        paddleY - PADDLE_HEIGHT / 2,
         PADDLE_WIDTH,
         PADDLE_HEIGHT
       );
@@ -252,10 +246,9 @@ function Game({ mainRef }) {
 
   useEffect(() => { // player movement
     const canvasRect = canvasRef.current.getBoundingClientRect();
-
+    const minPaddleX = PADDLE_WIDTH / 2;
+    const maxPaddleX = canvasRect.width - minPaddleX;
     const movePlayer = ({ clientX }) => {
-      const minPaddleX = PADDLE_WIDTH / 2;
-      const maxPaddleX = canvasRect.width - minPaddleX;
       const boundedX = Math.min(Math.max(clientX, minPaddleX), maxPaddleX);
 
       Body.setPosition(paddleBodyRef.current, {
@@ -295,169 +288,10 @@ function Game({ mainRef }) {
     }
   }, [gameState]);
 
-  useEffect(() => {
+  useEffect(() => { // click binding
     mainRef.current.addEventListener('click', handleClick);
     return () => mainRef.current.removeEventListener('click', handleClick);
   }, [handleClick]);
-
-  /*
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = contextRef.current;
-    const ballVelocity = { x: 0, y: 0 };
-
-    if (gameRunning) {
-      ballVelocity.x = BALL_SPEED * (Math.random() > 0.5 ? 1 : -1);
-      ballVelocity.y = -BALL_SPEED;
-    }
-
-    Body.setVelocity(ballBodyRef.current, ballVelocity);
-
-    const render = () => {
-      const { x: ballX, y: ballY } = ballBodyRef.current.position;
-      const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
-      const paddleHalf = {
-        height: PADDLE_HEIGHT / 2,
-        width: PADDLE_WIDTH / 2
-      };
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // ball
-      ctx.fillStyle = '#dedede';
-      ctx.beginPath();
-      ctx.arc(
-        ballX,
-        ballY,
-        BALL_RADIUS,
-        0,
-        Math.PI * 2
-      );
-      ctx.fill();
-
-      // paddle
-      ctx.fillStyle = '#666';
-      ctx.beginPath();
-      ctx.moveTo(paddleX - paddleHalf.width + paddleHalf.height, paddleY - paddleHalf.height);
-      ctx.lineTo(paddleX + paddleHalf.width - paddleHalf.height, paddleY - paddleHalf.height);
-      ctx.arc(paddleX + paddleHalf.width - paddleHalf.height, paddleY, paddleHalf.height, Math.PI * 1.5, Math.PI * 0.5);
-      ctx.lineTo(paddleX - paddleHalf.width + paddleHalf.height, paddleY + paddleHalf.height);
-      ctx.arc(paddleX - paddleHalf.width + paddleHalf.height, paddleY, paddleHalf.height, Math.PI * 0.5, Math.PI * 1.5);
-      ctx.closePath();
-      ctx.fill();
-
-      renderAnimationId.current = requestAnimationFrame(render);
-    };
-
-    renderAnimationId.current = requestAnimationFrame(render);
-
-    return () => {
-      if (renderAnimationId.current) {
-        cancelAnimationFrame(renderAnimationId.current);
-      }
-    };
-  }, [gameRunning]);
-
-  useEffect(() => {
-    const onClick = (e) => {
-      window.scrollTo(0, 0);
-      setGameRunning((running) => !running);
-    };
-
-    mainRef.current.addEventListener('click', onClick);
-    return () => mainRef.current.removeEventListener('click', onClick);
-  }, [gameRunning]);
-
-  useEffect(() => {
-    // if (!gameRunning) return;
-
-    const canvasRect = canvasRef.current.getBoundingClientRect();
-
-    const movePlayer = ({ clientX }) => {
-      const minPaddleX = PADDLE_WIDTH / 2;
-      const maxPaddleX = canvasRect.width - minPaddleX;
-      const boundedX = Math.min(Math.max(clientX, minPaddleX), maxPaddleX);
-
-      if (!gameRunning) {
-        Body.setPosition(ballBodyRef.current, {
-          x: boundedX,
-          y: ballBodyRef.current.position.y
-        });
-      }
-
-      Body.setPosition(paddleBodyRef.current, {
-        x: boundedX,
-        y: paddleBodyRef.current.position.y
-      });
-    };
-
-    window.addEventListener('mousemove', movePlayer);
-    return () => window.removeEventListener('mousemove', movePlayer);
-  }, [gameRunning]);
-  */
-
-  /*
-  useEffect(() => {
-    if (!gameRunning) return;
-
-    // Set initial velocity for the ball
-    Body.setVelocity(ballBodyRef.current, {
-      x: BALL_SPEED * (Math.random() > 0.5 ? 1 : -1),
-      y: -BALL_SPEED
-    });
-
-    let animationID;
-
-    const render = () => {
-      const canvas = canvasRef.current;
-      const ctx = contextRef.current;
-
-      const { x: ballX, y: ballY } = ballBodyRef.current.position;
-      const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
-      const paddleHalf = {
-        height: PADDLE_HEIGHT / 2,
-        width: PADDLE_WIDTH / 2
-      };
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // ball
-      ctx.fillStyle = '#dedede';
-      ctx.beginPath();
-      ctx.arc(
-        ballX,
-        ballY,
-        BALL_RADIUS,
-        0,
-        Math.PI * 2
-      );
-      ctx.fill();
-
-      // paddle
-      ctx.fillStyle = '#666';
-      ctx.beginPath();
-      ctx.moveTo(paddleX - paddleHalf.width + paddleHalf.height, paddleY - paddleHalf.height);
-      ctx.lineTo(paddleX + paddleHalf.width - paddleHalf.height, paddleY - paddleHalf.height);
-      ctx.arc(paddleX + paddleHalf.width - paddleHalf.height, paddleY, paddleHalf.height, Math.PI * 1.5, Math.PI * 0.5);
-      ctx.lineTo(paddleX - paddleHalf.width + paddleHalf.height, paddleY + paddleHalf.height);
-      ctx.arc(paddleX - paddleHalf.width + paddleHalf.height, paddleY, paddleHalf.height, Math.PI * 0.5, Math.PI * 1.5);
-      ctx.closePath();
-      ctx.fill();
-
-      animationID = requestAnimationFrame(render);
-    };
-
-    animationID = requestAnimationFrame(render);
-
-    return () => {
-      if (animationID) {
-        cancelAnimationFrame(animationID);
-      }
-
-      Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
-    };
-  }, [gameRunning]);
-  */
 
   return (
     <section
