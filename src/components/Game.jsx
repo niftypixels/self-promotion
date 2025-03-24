@@ -12,10 +12,18 @@ const PADDLE_HEIGHT = 12;
 const PADDLE_WIDTH = 120;
 const TOTAL_LIVES = 3;
 
+const GAME_STATE = {
+  READY: 'ready',
+  RUNNING: 'running',
+  OVER: 'over',
+  WIN: 'win'
+};
+
 function Game({ mainRef }) {
   const gameRef = useRef(null);
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
+  const renderAnimationId = useRef(null);
 
   const engineRef = useRef(null);
   const runnerRef = useRef(null);
@@ -23,15 +31,12 @@ function Game({ mainRef }) {
   const ballBodyRef = useRef(null);
   const paddleBodyRef = useRef(null);
   const brickBodiesRef = useRef([]);
-  const renderAnimationId = useRef(null);
 
-  const [gameRunning, setGameRunning] = useState(false);
+  const [gameState, setGameState] = useState(GAME_STATE.READY);
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
-  const [gameWon, setGameWon] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { // init canvas
     if (!mainRef.current) return;
 
     const { height, width } = mainRef.current.getBoundingClientRect();
@@ -154,6 +159,35 @@ function Game({ mainRef }) {
           World.remove(worldRef.current, brickBody);
 
           brickBodiesRef.current = brickBodiesRef.current.filter(b => b.id !== brickBody.id);
+
+          setScore(prevScore => prevScore + 100);
+
+          if (brickBodiesRef.current.length === 0) {
+            Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
+            // Body.setPosition(ballBodyRef.current, { x: initBallX, y: initBallY });
+
+            setGameState(GAME_STATE.WIN);
+          }
+        }
+
+        if (
+          (bodyA.label === 'ball' && bodyB.label === 'bottom') ||
+          (bodyA.label === 'bottom' && bodyB.label === 'ball')
+        ) {
+          if (lives > 1) {
+            Body.setPosition(ballBodyRef.current, {
+              x: paddleBodyRef.current.position.x,
+              y: initBallY
+            });
+
+            setLives(prevLives => prevLives - 1);
+            setGameState(GAME_STATE.READY);
+          } else {
+            setLives(0);
+            setGameState(GAME_STATE.OVER);
+          }
+
+          Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
         }
       }
     });
@@ -171,8 +205,9 @@ function Game({ mainRef }) {
         Engine.clear(engineRef.current);
       }
     };
-  }, [gameRef.current]);
+  }, []);
 
+  /*
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = contextRef.current;
@@ -266,6 +301,7 @@ function Game({ mainRef }) {
     window.addEventListener('mousemove', movePlayer);
     return () => window.removeEventListener('mousemove', movePlayer);
   }, [gameRunning]);
+  */
 
   /*
   useEffect(() => {
@@ -333,7 +369,7 @@ function Game({ mainRef }) {
   return (
     <section
       className='container'
-      data-game-running={gameRunning}
+      data-state={gameState}
       id='game'
       ref={gameRef}
     >
