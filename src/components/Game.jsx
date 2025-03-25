@@ -167,6 +167,26 @@ function Game({ mainRef }) {
         }
 
         if (
+          (bodyA.label === 'ball' && bodyB.label === 'wall') ||
+          (bodyA.label === 'wall' && bodyB.label === 'ball')
+        ) {
+          const ballBody = bodyA.label === 'ball' ? bodyA : bodyB;
+          const { velocity } = ballBody;
+          const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+
+          // add slight angular variation (0.05-0.15 radians or about 3-8 degrees)
+          const angle = Math.atan2(velocity.y, velocity.x) + (Math.random() - 0.5) * 0.1;
+
+          // apply the new velocity on next tick to not interfere with the collision resolution
+          setTimeout(() => {
+            Body.setVelocity(ballBody, {
+              x: Math.cos(angle) * speed,
+              y: Math.sin(angle) * speed
+            });
+          }, 0);
+        }
+
+        if (
           (bodyA.label === 'ball' && bodyB.label === 'bottom') ||
           (bodyA.label === 'bottom' && bodyB.label === 'ball')
         ) {
