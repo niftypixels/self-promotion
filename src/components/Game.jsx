@@ -4,7 +4,7 @@ import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive applications for top global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
 
-const BALL_OFFSET = 60;
+const BALL_OFFSET = 70;
 const BALL_RADIUS = 9;
 const BALL_SPEED = 6;
 const BALL_SPEED_MAX = 18;
@@ -303,6 +303,8 @@ function Game({ mainRef }) {
         });
         break;
       case GAME_STATE.OVER:
+        setLives(0);
+        break;
       case GAME_STATE.WIN:
         setLives(TOTAL_LIVES);
         setScore(0);
@@ -316,6 +318,7 @@ function Game({ mainRef }) {
   }, [handleClick]);
 
   return (
+    <>
     <section
       className='container'
       data-state={gameState}
@@ -330,6 +333,18 @@ function Game({ mainRef }) {
         ))}
       </div>
     </section>
+    <aside className='container' id='hud'>
+      <div>
+        <span id='score'>SCORE: {score}</span>
+        {gameState} {lives}
+        <span id='lives'>
+          {Array.from({ length: TOTAL_LIVES }).map((_, index) => (
+            <div key={index} data-state={index >= lives ? 'dead' : 'alive'} />
+          ))}
+        </span>
+      </div>
+    </aside>
+    </>
   )
 }
 

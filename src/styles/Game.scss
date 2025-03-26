@@ -1,3 +1,5 @@
+@use 'colors';
+
 #game {
   &.container {
     padding-top: 0;
@@ -25,6 +27,42 @@
 
       &.hit {
         opacity: 0.15;
+      }
+    }
+  }
+}
+
+#hud {
+  background-color: colors.$accent-color;
+  padding-bottom: 0;
+  padding-top: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  & > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 24px;
+    line-height: 2em;
+  }
+
+  #lives {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    gap: 0.5em;
+
+    div {
+      background-color: colors.$grey-light;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+
+      &[data-state='dead'] {
+        background-color: colors.$grey-dark;
       }
     }
   }
