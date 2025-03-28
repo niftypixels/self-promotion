@@ -4,6 +4,7 @@ import Game from './Game';
 import Lava from './Lava';
 import Work from './Work';
 import Footer from './Footer';
+import ParticleBackground from './ParticleBackground';
 
 export {
   App,
@@ -12,4 +13,5 @@ export {
   Lava,
   Work,
   Footer,
+  ParticleBackground,
 };
