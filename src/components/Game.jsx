@@ -36,10 +36,9 @@ function Game({ mainRef }) {
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
 
-  // refs track current state values for non-React event handlers
   const livesRef = useRef(TOTAL_LIVES);
 
-  useEffect(() => {
+  useEffect(() => { // ref tracks state value for non-React event handlers
     livesRef.current = lives;
   }, [lives]);
 
