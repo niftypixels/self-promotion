@@ -36,6 +36,12 @@ function Game({ mainRef }) {
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
 
+  const livesRef = useRef(TOTAL_LIVES);
+
+  useEffect(() => { // ref tracks state value for non-React event handlers
+    livesRef.current = lives;
+  }, [lives]);
+
   useEffect(() => { // init canvas
     if (!mainRef.current) return;
 
@@ -190,7 +196,7 @@ function Game({ mainRef }) {
           (bodyA.label === 'ball' && bodyB.label === 'bottom') ||
           (bodyA.label === 'bottom' && bodyB.label === 'ball')
         ) {
-          if (lives > 1) {
+          if (livesRef.current > 1) {
             Body.setPosition(ballBodyRef.current, {
               x: paddleBodyRef.current.position.x,
               y: initBallY
