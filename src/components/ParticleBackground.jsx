@@ -10,9 +10,6 @@ function ParticleBackground() {
 
   const particlesOptions = {
     fpsLimit: 60,
-    background: {
-      color: "#f2511b"
-    },
     interactivity: {
       events: {
         onClick: { enable: true, mode: "push" },
@@ -50,12 +47,13 @@ function ParticleBackground() {
           enable: true,
           speed: 0.05,
           sync: true,
-          startValue: "max",
-          count: 1,
-          destroy: "min"
+          startValue: "random",
+          count: 0,
+          destroy: "none",
+          direction: "alternate"
         },
         value: {
-          min: 0,
+          min: 0.1,
           max: 0.5
         }
       },
