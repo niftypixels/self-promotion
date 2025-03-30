@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
-import '../styles/ParticleBackground.scss';
+import '../styles/BackgroundParticles.scss';
 
-function ParticleBackground() {
+function BackgroundParticles() {
   const particlesInit = useCallback(async (engine) => {
     await loadSlim(engine);
   }, []);
@@ -66,17 +66,13 @@ function ParticleBackground() {
     }
   };
 
-
-
   return (
-    <div className="particle-background">
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        options={particlesOptions}
-      />
-    </div>
+    <Particles
+      id="background-particles"
+      init={particlesInit}
+      options={particlesOptions}
+    />
   );
 }
 
-export default ParticleBackground;
+export default BackgroundParticles;

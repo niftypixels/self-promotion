@@ -1,17 +1,15 @@
 import App from './App';
+import BackgroundParticles from './BackgroundParticles';
 import Header from './Header';
 import Game from './Game';
-import Lava from './Lava';
 import Work from './Work';
 import Footer from './Footer';
-import ParticleBackground from './ParticleBackground';
 
 export {
   App,
+  BackgroundParticles,
   Header,
   Game,
-  Lava,
   Work,
   Footer,
-  ParticleBackground,
 };
