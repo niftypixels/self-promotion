@@ -4,7 +4,7 @@ import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive experiences for top global brands including PlayStation, Samsung, Nvidia, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
 
-const BALL_OFFSET = 70;
+const BALL_OFFSET = 30;
 const BALL_RADIUS = 9;
 const BALL_SPEED = 6;
 const BALL_SPEED_MAX = 18;
