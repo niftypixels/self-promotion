@@ -12,10 +12,10 @@ function BackgroundParticles() {
     fpsLimit: 60,
     interactivity: {
       events: {
-        onClick: { enable: true, mode: "push" },
+        onClick: { enable: true, mode: 'push' },
         onHover: {
           enable: true,
-          mode: "repulse",
+          mode: 'repulse',
           parallax: { enable: false, force: 60, smooth: 10 }
         },
         resize: true
@@ -26,11 +26,11 @@ function BackgroundParticles() {
       }
     },
     particles: {
-      color: { value: "#1a1a1a" },
+      color: { value: '#1a1a1a' },
       move: {
-        direction: "none",
+        direction: 'none',
         enable: true,
-        outModes: "out",
+        outModes: 'out',
         random: false,
         speed: 2,
         straight: false
@@ -47,10 +47,10 @@ function BackgroundParticles() {
           enable: true,
           speed: 0.05,
           sync: true,
-          startValue: "random",
+          startValue: 'random',
           count: 0,
-          destroy: "none",
-          direction: "alternate"
+          destroy: 'none',
+          direction: 'alternate'
         },
         value: {
           min: 0.1,
@@ -58,7 +58,7 @@ function BackgroundParticles() {
         }
       },
       shape: {
-        type: "circle"
+        type: 'circle'
       },
       size: {
         value: { min: 1, max: 5 }
@@ -68,7 +68,7 @@ function BackgroundParticles() {
 
   return (
     <Particles
-      id="background-particles"
+      id='background-particles'
       init={particlesInit}
       options={particlesOptions}
     />
