@@ -77,13 +77,8 @@ function Game({ mainRef }) {
         width,
         height,
         background: 'transparent',
-        showAngleIndicator: true,
-        showCollisions: true,
-        showVelocity: true,
-        wireframe: true,
         wireframeBackground: 'transparent',
-        wireframeLineWidth: 1,
-        wireframeStrokeStyle: '#dedede',
+        wireframes: false,
       }
     });
 
