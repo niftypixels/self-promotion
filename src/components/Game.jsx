@@ -338,7 +338,7 @@ function Game({ mainRef }) {
         {gameState} {lives}
         <span id='lives'>
           {Array.from({ length: TOTAL_LIVES }).map((_, index) => (
-            <div key={index} data-state={index >= lives ? 'dead' : 'alive'} />
+            <div key={index} className={index >= lives ? 'dead' : 'alive'} />
           ))}
         </span>
       </div>

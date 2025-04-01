@@ -60,7 +60,7 @@
       width: 18px;
       height: 18px;
 
-      &[data-state='dead'] {
+      &.dead {
         background-color: colors.$grey-dark;
       }
     }
