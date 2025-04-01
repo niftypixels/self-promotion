@@ -27,6 +27,7 @@ function Game({ mainRef }) {
   const renderAnimationId = useRef(null);
 
   const engineRef = useRef(null);
+  const renderRef = useRef(null);
   const runnerRef = useRef(null);
   const worldRef = useRef(null);
   const ballBodyRef = useRef(null);
@@ -43,6 +44,7 @@ function Game({ mainRef }) {
     livesRef.current = lives;
   }, [lives]);
 
+  /*
   useEffect(() => { // init canvas
     if (!mainRef.current) return;
 
@@ -54,9 +56,12 @@ function Game({ mainRef }) {
 
     contextRef.current = canvas.getContext('2d');
   }, []);
+  */
 
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
+
+    const { height, width } = mainRef.current.getBoundingClientRect();
 
     engineRef.current = Engine.create({
       gravity: { x: 0, y: 0 }
@@ -64,40 +69,60 @@ function Game({ mainRef }) {
 
     worldRef.current = engineRef.current.world;
 
-    const canvasRect = canvasRef.current.getBoundingClientRect();
+    // const canvasRect = canvasRef.current.getBoundingClientRect();
+    const canvas = document.createElement('canvas');
+    canvasRef.current = canvas;
+    canvas.width = width;
+    canvas.height = height;
+    gameRef.current.appendChild(canvas);
 
-    const initBallX = canvasRect.width / 2;
-    const initBallY = canvasRect.height - BALL_OFFSET;
+    renderRef.current = Render.create({
+      canvas,
+      engine: engineRef.current,
+      options: {
+        width,
+        height,
+        background: 'transparent',
+        showAngleIndicator: true,
+        wireframe: true,
+        wireframeBackground: 'transparent',
+        wireframeLineWidth: 1,
+        wireframeStrokeStyle: '#dedede',
+      }
+    });
+
+    const initBallX = width / 2;
+    const initBallY = height - BALL_OFFSET;
     const initPaddleX = initBallX;
     const initPaddleY = initBallY;
 
     const wallThickness = 10;
     const wallBodies =  [
       Bodies.rectangle( // top
-        canvasRect.width / 2,
+        width / 2,
         -wallThickness / 2,
-        canvasRect.width,
+        width,
         wallThickness,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // left
         -wallThickness / 2,
-        canvasRect.height / 2,
+        height / 2,
         wallThickness,
-        canvasRect.height,
+        height,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // right
-        canvasRect.width + wallThickness / 2,
-        canvasRect.height / 2,
+        width + wallThickness / 2,
+        height / 2,
         wallThickness,
-        canvasRect.height,
+        height,
         { isStatic: true, label: 'wall' }
       ),
       Bodies.rectangle( // bottom
-        canvasRect.width / 2,
-        canvasRect.height + wallThickness / 2,
-        canvasRect.width,
+        width / 2,
+        height + wallThickness / 2,
+        width,
         wallThickness,
         { isStatic: true, isSensor: true, label: 'bottom' }
       )
@@ -230,6 +255,7 @@ function Game({ mainRef }) {
     };
   }, []);
 
+  /*
   useEffect(() => { // animation loop
     const canvas = canvasRef.current;
     const ctx = contextRef.current;
@@ -272,6 +298,7 @@ function Game({ mainRef }) {
       }
     };
   }, []);
+  */
 
   useEffect(() => { // player movement
     const canvasRect = canvasRef.current.getBoundingClientRect();
