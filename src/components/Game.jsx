@@ -23,8 +23,6 @@ const GAME_STATE = {
 function Game({ mainRef }) {
   const gameRef = useRef(null);
   const canvasRef = useRef(null);
-  const contextRef = useRef(null);
-  const renderAnimationId = useRef(null);
 
   const engineRef = useRef(null);
   const renderRef = useRef(null);
@@ -44,24 +42,8 @@ function Game({ mainRef }) {
     livesRef.current = lives;
   }, [lives]);
 
-  /*
-  useEffect(() => { // init canvas
-    if (!mainRef.current) return;
-
-    const { height, width } = mainRef.current.getBoundingClientRect();
-    const canvas = canvasRef.current;
-
-    canvas.height = height;
-    canvas.width = width;
-
-    contextRef.current = canvas.getContext('2d');
-  }, []);
-  */
-
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
-
-    const { height, width } = mainRef.current.getBoundingClientRect();
 
     engineRef.current = Engine.create({
       gravity: { x: 0, y: 0 }
@@ -69,12 +51,10 @@ function Game({ mainRef }) {
 
     worldRef.current = engineRef.current.world;
 
-    // const canvasRect = canvasRef.current.getBoundingClientRect();
-    const canvas = document.createElement('canvas');
-    canvasRef.current = canvas;
+    const { height, width } = mainRef.current.getBoundingClientRect();
+    const canvas = canvasRef.current;
     canvas.width = width;
     canvas.height = height;
-    gameRef.current.appendChild(canvas);
 
     renderRef.current = Render.create({
       canvas,
@@ -84,6 +64,8 @@ function Game({ mainRef }) {
         height,
         background: 'transparent',
         showAngleIndicator: true,
+        showCollisions: true,
+        showVelocity: true,
         wireframe: true,
         wireframeBackground: 'transparent',
         wireframeLineWidth: 1,
@@ -242,10 +224,15 @@ function Game({ mainRef }) {
 
     runnerRef.current = Runner.create();
     Runner.run(runnerRef.current, engineRef.current);
+    Render.run(renderRef.current);
 
     return () => {
       if (runnerRef.current) {
         Runner.stop(runnerRef.current);
+      }
+
+      if (renderRef.current) {
+        Render.stop(renderRef.current);
       }
 
       if (engineRef.current) {
@@ -254,51 +241,6 @@ function Game({ mainRef }) {
       }
     };
   }, []);
-
-  /*
-  useEffect(() => { // animation loop
-    const canvas = canvasRef.current;
-    const ctx = contextRef.current;
-
-    const render = () => {
-      const { x: ballX, y: ballY } = ballBodyRef.current.position;
-      const { x: paddleX, y: paddleY } = paddleBodyRef.current.position;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      ctx.beginPath();
-      ctx.arc(
-        ballX,
-        ballY,
-        BALL_RADIUS,
-        0,
-        Math.PI * 2
-      );
-      ctx.fillStyle = '#dedede';
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.rect(
-        paddleX - PADDLE_WIDTH / 2,
-        paddleY - PADDLE_HEIGHT / 2,
-        PADDLE_WIDTH,
-        PADDLE_HEIGHT
-      );
-      ctx.fillStyle = '#666';
-      ctx.fill();
-
-      renderAnimationId.current = requestAnimationFrame(render);
-    };
-
-    renderAnimationId.current = requestAnimationFrame(render);
-
-    return () => {
-      if (renderAnimationId.current) {
-        cancelAnimationFrame(renderAnimationId.current);
-      }
-    };
-  }, []);
-  */
 
   useEffect(() => { // player movement
     const canvasRect = canvasRef.current.getBoundingClientRect();
