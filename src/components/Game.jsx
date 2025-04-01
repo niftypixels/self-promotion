@@ -136,6 +136,7 @@ function Game({ mainRef }) {
         friction: 0,
         frictionAir: 0,
         inertia: Infinity, // prevents rotation
+        render: { fillStyle: '#dedede' }
       }
     );
 
@@ -144,7 +145,11 @@ function Game({ mainRef }) {
       initPaddleY,
       PADDLE_WIDTH,
       PADDLE_HEIGHT,
-      { isStatic: true, label: 'paddle' }
+      {
+        isStatic: true,
+        label: 'paddle',
+        render: { fillStyle: '#666' }
+      }
     );
 
     World.add(worldRef.current, [
