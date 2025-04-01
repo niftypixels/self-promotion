@@ -35,6 +35,7 @@ function Game({ mainRef }) {
   const [gameState, setGameState] = useState(GAME_STATE.READY);
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
+  const [physicsKey, setPhysicsKey] = useState(0);
 
   const livesRef = useRef(TOTAL_LIVES);
 
@@ -44,6 +45,19 @@ function Game({ mainRef }) {
 
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
+
+    if (runnerRef.current) {
+      Runner.stop(runnerRef.current);
+    }
+
+    if (renderRef.current) {
+      Render.stop(renderRef.current);
+    }
+
+    if (engineRef.current) {
+      World.clear(worldRef.current);
+      Engine.clear(engineRef.current);
+    }
 
     engineRef.current = Engine.create({
       gravity: { x: 0, y: 0 }
@@ -245,7 +259,7 @@ function Game({ mainRef }) {
         Engine.clear(engineRef.current);
       }
     };
-  }, []);
+  }, [physicsKey]);
 
   useEffect(() => { // player movement
     const canvasRect = canvasRef.current.getBoundingClientRect();
@@ -297,6 +311,15 @@ function Game({ mainRef }) {
     mainRef.current.addEventListener('click', handleClick);
     return () => mainRef.current.removeEventListener('click', handleClick);
   }, [handleClick]);
+
+  const handleResize = useDebounce(() => {
+    setPhysicsKey(key => key + 1);
+  }, 250);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
 
   return (
     <>
