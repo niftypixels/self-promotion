@@ -1,5 +1,5 @@
+import { Bodies, Body, Engine, Events, Render, Runner, World } from 'matter-js';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Body, Bodies, Engine, Events, Render, Runner, World } from 'matter-js';
 import { useDebounce } from '../hooks';
 import '../styles/Game.scss';
 
