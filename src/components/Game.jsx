@@ -60,7 +60,10 @@ function Game({ mainRef }) {
     }
 
     engineRef.current = Engine.create({
-      gravity: { x: 0, y: 0 }
+      gravity: { x: 0, y: 0 },
+      constraintIterations: 1,
+      positionIterations: 6,
+      velocityIterations: 4
     });
 
     worldRef.current = engineRef.current.world;
@@ -78,7 +81,7 @@ function Game({ mainRef }) {
         height,
         background: 'transparent',
         wireframeBackground: 'transparent',
-        wireframes: false,
+        wireframes: true,
       }
     });
 
@@ -94,21 +97,42 @@ function Game({ mainRef }) {
         -wallThickness / 2,
         width,
         wallThickness,
-        { isStatic: true, label: 'wall' }
+        {
+          label: 'wall',
+          isStatic: true,
+          collisionFilter: {
+            category: 0x0008, // wall
+            mask: 0xFFFF // collides with everything
+          }
+        }
       ),
       Bodies.rectangle( // left
         -wallThickness / 2,
         height / 2,
         wallThickness,
         height,
-        { isStatic: true, label: 'wall' }
+        {
+          label: 'wall',
+          isStatic: true,
+          collisionFilter: {
+            category: 0x0008, // wall
+            mask: 0xFFFF // collides with everything
+          }
+        }
       ),
       Bodies.rectangle( // right
         width + wallThickness / 2,
         height / 2,
         wallThickness,
         height,
-        { isStatic: true, label: 'wall' }
+        {
+          label: 'wall',
+          isStatic: true,
+          collisionFilter: {
+            category: 0x0008, // wall
+            mask: 0xFFFF // collides with everything
+          }
+        }
       ),
       Bodies.rectangle( // bottom
         width / 2,
@@ -128,9 +152,17 @@ function Game({ mainRef }) {
         rect.height,
         {
           domElement,
-          isStatic: true,
           label: 'brick',
-          render: { fillStyle: 'transparent' }
+          isStatic: false,
+          friction: 0.001,
+          frictionAir: 0.001,
+          restitution: 0.7,
+          density: 0.001,
+          render: { fillStyle: 'transparent' },
+          collisionFilter: {
+            category: 0x0002, // bricks
+            mask: 0x0001 // only ball collisions
+          }
         }
       );
     });
@@ -145,7 +177,12 @@ function Game({ mainRef }) {
         friction: 0,
         frictionAir: 0,
         inertia: Infinity, // prevents rotation
-        render: { fillStyle: '#dedede' }
+        density: 0.001,
+        render: { fillStyle: '#dedede' },
+        collisionFilter: {
+          category: 0x0001, // ball
+          mask: 0xFFFF // collides with everything
+        }
       }
     );
 
@@ -155,9 +192,13 @@ function Game({ mainRef }) {
       PADDLE_WIDTH,
       PADDLE_HEIGHT,
       {
-        isStatic: true,
         label: 'paddle',
-        render: { fillStyle: '#666' }
+        isStatic: true,
+        render: { fillStyle: '#666' },
+        collisionFilter: {
+          category: 0x0004, // paddle
+          mask: 0x0001 // only ball collisions
+        }
       }
     );
 
@@ -175,23 +216,46 @@ function Game({ mainRef }) {
 
         if (bodyA.label === 'brick' || bodyB.label === 'brick') {
           const brickBody = bodyA.label === 'brick' ? bodyA : bodyB;
+          const ballBody = bodyA.label === 'ball' ? bodyA : bodyB;
 
           if (brickBody.domElement) {
             brickBody.domElement.classList.add('hit');
+
+            // disable future collisions for this brick
+            Body.set(brickBody, {
+              collisionFilter: {
+                category: 0x0020, // hit brick
+                mask: 0x0000 // no collisions
+              }
+            });
           }
 
-          World.remove(worldRef.current, brickBody);
+          const { velocity } = ballBody;
+          const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+          const newSpeed = Math.min(BALL_SPEED_MAX, speed + 0.5);
+          const angle = Math.atan2(velocity.y, velocity.x);
 
-          brickBodiesRef.current = brickBodiesRef.current.filter(b => b.id !== brickBody.id);
+          Body.setVelocity(ballBody, {
+            x: Math.cos(angle) * newSpeed,
+            y: Math.sin(angle) * newSpeed
+          });
+
+          Body.applyForce(brickBody, brickBody.position, {
+            x: (Math.random() - 0.5) * 0.01,
+            y: (Math.random() - 0.5) * 0.01
+          });
+
+          setTimeout(() => {
+            World.remove(worldRef.current, brickBody);
+            brickBodiesRef.current = brickBodiesRef.current.filter(b => b.id !== brickBody.id);
+
+            if (brickBodiesRef.current.length === 0) {
+              Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
+              setGameState(GAME_STATE.WIN);
+            }
+          }, 250);
 
           setScore(prevScore => prevScore + 100);
-
-          if (brickBodiesRef.current.length === 0) {
-            Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
-            // Body.setPosition(ballBodyRef.current, { x: initBallX, y: initBallY });
-
-            setGameState(GAME_STATE.WIN);
-          }
         }
 
         if (
@@ -200,7 +264,8 @@ function Game({ mainRef }) {
         ) {
           const ballBody = bodyA.label === 'ball' ? bodyA : bodyB;
           const { velocity } = ballBody;
-          const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+          const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+          const effectiveSpeed = Math.max(speed, BALL_SPEED);
 
           // add slight angular variation (0.05-0.15 radians or about 3-8 degrees)
           const angle = Math.atan2(velocity.y, velocity.x) + (Math.random() - 0.5) * 0.1;
@@ -208,9 +273,17 @@ function Game({ mainRef }) {
           // apply the new velocity on next tick to not interfere with the collision resolution
           setTimeout(() => {
             Body.setVelocity(ballBody, {
-              x: Math.cos(angle) * speed,
-              y: Math.sin(angle) * speed
+              x: Math.cos(angle) * effectiveSpeed,
+              y: Math.sin(angle) * effectiveSpeed
             });
+
+            if (Math.abs(Math.sin(angle)) < 0.1) { // add slight vertical component if the ball is moving horizontally
+              const newVelocity = ballBody.velocity;
+              Body.setVelocity(ballBody, {
+                x: newVelocity.x,
+                y: newVelocity.y + (newVelocity.y > 0 ? 1 : -1) * effectiveSpeed * 0.2
+              });
+            }
           }, 0);
         }
 
