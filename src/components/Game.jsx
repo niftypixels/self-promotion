@@ -1,4 +1,4 @@
-import { Bodies, Body, Engine, Events, Render, Runner, World } from 'matter-js';
+import { Bodies, Body, Engine, Events, Render, Runner, World, Constraint } from 'matter-js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '../hooks';
 import '../styles/Game.scss';
@@ -78,7 +78,7 @@ function Game({ mainRef }) {
         height,
         background: 'transparent',
         wireframeBackground: 'transparent',
-        wireframes: false,
+        wireframes: true,
       }
     });
 
@@ -121,18 +121,38 @@ function Game({ mainRef }) {
 
     brickBodiesRef.current = Array.from(gameRef.current.getElementsByClassName('brick')).map(domElement => {
       const rect = domElement.getBoundingClientRect();
-      return Bodies.rectangle(
-        rect.left + rect.width / 2,
-        rect.top + rect.height / 2,
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      
+      const brick = Bodies.rectangle(
+        x,
+        y,
         rect.width,
         rect.height,
         {
           domElement,
-          isStatic: true,
+          isStatic: false,
           label: 'brick',
-          render: { fillStyle: 'transparent' }
+          render: { fillStyle: 'transparent' },
+          mass: 0.1, // Lower mass for more movement
+          restitution: 0.2,
+          friction: 0.1,
+          frictionAir: 0.1,
+          inertia: Infinity
         }
       );
+
+      // Create a constraint to keep the brick in place
+      const constraint = Constraint.create({
+        pointA: { x, y },
+        bodyB: brick,
+        stiffness: 0.2, // Lower stiffness for more movement
+        damping: 0.2, // Lower damping for more oscillation
+        length: 0
+      });
+
+      World.add(worldRef.current, constraint);
+      return brick;
     });
 
     ballBodyRef.current = Bodies.circle(
@@ -141,11 +161,19 @@ function Game({ mainRef }) {
       BALL_RADIUS,
       {
         label: 'ball',
-        restitution: 1, // perfect bounce
+        restitution: 1,
         friction: 0,
         frictionAir: 0,
-        inertia: Infinity, // prevents rotation
-        render: { fillStyle: '#dedede' }
+        inertia: Infinity,
+        render: { fillStyle: '#dedede' },
+        density: 0.0001, // Even lower density
+        slop: 0,
+        chamfer: { radius: 0 }, // Prevent any collision resolution artifacts
+        collisionFilter: {
+          group: -1, // Negative group means no collision response
+          category: 0x0001,
+          mask: 0xFFFF
+        }
       }
     );
 
@@ -175,21 +203,49 @@ function Game({ mainRef }) {
 
         if (bodyA.label === 'brick' || bodyB.label === 'brick') {
           const brickBody = bodyA.label === 'brick' ? bodyA : bodyB;
+          const ballBody = bodyA.label === 'ball' ? bodyA : bodyB;
 
           if (brickBody.domElement) {
             brickBody.domElement.classList.add('hit');
           }
 
           World.remove(worldRef.current, brickBody);
-
           brickBodiesRef.current = brickBodiesRef.current.filter(b => b.id !== brickBody.id);
+
+          // Calculate collision normal and reflect velocity
+          const normal = {
+            x: ballBody.position.x - brickBody.position.x,
+            y: ballBody.position.y - brickBody.position.y
+          };
+          const length = Math.sqrt(normal.x * normal.x + normal.y * normal.y);
+          normal.x /= length;
+          normal.y /= length;
+
+          // Get current velocity
+          const velocity = ballBody.velocity;
+          const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+          
+          // Calculate new speed (10% increase)
+          const newSpeed = Math.min(speed * 1.1, BALL_SPEED_MAX);
+          
+          // Reflect velocity using normal
+          const dot = velocity.x * normal.x + velocity.y * normal.y;
+          const newVelocity = {
+            x: velocity.x - 2 * dot * normal.x,
+            y: velocity.y - 2 * dot * normal.y
+          };
+          
+          // Normalize and scale to new speed
+          const newLength = Math.sqrt(newVelocity.x * newVelocity.x + newVelocity.y * newVelocity.y);
+          Body.setVelocity(ballBody, {
+            x: (newVelocity.x / newLength) * newSpeed,
+            y: (newVelocity.y / newLength) * newSpeed
+          });
 
           setScore(prevScore => prevScore + 100);
 
           if (brickBodiesRef.current.length === 0) {
             Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
-            // Body.setPosition(ballBodyRef.current, { x: initBallX, y: initBallY });
-
             setGameState(GAME_STATE.WIN);
           }
         }
@@ -219,9 +275,10 @@ function Game({ mainRef }) {
           (bodyA.label === 'bottom' && bodyB.label === 'ball')
         ) {
           if (livesRef.current > 1) {
+            // Position ball above paddle with some clearance
             Body.setPosition(ballBodyRef.current, {
               x: paddleBodyRef.current.position.x,
-              y: initBallY
+              y: paddleBodyRef.current.position.y - BALL_RADIUS - PADDLE_HEIGHT - 5
             });
 
             setLives(prevLives => prevLives - 1);
