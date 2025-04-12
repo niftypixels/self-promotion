@@ -1,4 +1,5 @@
 import App from './App';
+import BackgroundGrid from './BackgroundGrid';
 import BackgroundParticles from './BackgroundParticles';
 import Header from './Header';
 import Game from './Game';
@@ -7,6 +8,7 @@ import Footer from './Footer';
 
 export {
   App,
+  BackgroundGrid,
   BackgroundParticles,
   Header,
   Game,

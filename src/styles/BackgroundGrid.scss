@@ -1,0 +1,41 @@
+@use 'colors';
+
+@keyframes backgroundGrid {
+    0% { background-position-y: 0; }
+	100% { background-position-y: 1000%; }
+}
+
+#background-grid {
+  perspective: 25vh;
+  overflow: hidden;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  #grid {
+    animation: backgroundGrid 60s linear infinite;
+    background-image: linear-gradient(colors.$accent-color 2px, transparent 2px),
+                      linear-gradient(to right, colors.$accent-color 2px, colors.$grey-dark 2px);
+    background-position: center;
+    background-size: 160px 160px;
+    transform: rotateX(45deg);
+
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+  }
+
+  #mask {
+    background: linear-gradient(180deg, colors.$grey-dark, transparent);
+    position: absolute;
+    top: 30%;
+    left: 0;
+    width: 100%;
+    height: 30%;
+  }
+}

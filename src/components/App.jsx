@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { BackgroundParticles, Header, Game, Work, Footer } from '.';
+import { BackgroundGrid, BackgroundParticles, Header, Game, Work, Footer } from '.';
 import '../styles/App.scss';
 
 function App() {
@@ -9,6 +9,7 @@ function App() {
     <>
       <BackgroundParticles />
       <main ref={mainRef} role='main'>
+        <BackgroundGrid />
         <Header />
         <Game mainRef={mainRef} />
       </main>
