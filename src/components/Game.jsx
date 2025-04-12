@@ -1,3 +1,4 @@
+import FontFaceObserver from 'fontfaceobserver';
 import { Bodies, Body, Engine, Events, Render, Runner, World } from 'matter-js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '../hooks';
@@ -32,6 +33,7 @@ function Game({ mainRef }) {
   const paddleBodyRef = useRef(null);
   const brickBodiesRef = useRef([]);
 
+  const [fontLoaded, setFontLoaded] = useState(false);
   const [gameState, setGameState] = useState(GAME_STATE.READY);
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
@@ -43,8 +45,15 @@ function Game({ mainRef }) {
     livesRef.current = lives;
   }, [lives]);
 
+  useEffect(() => { // wait for webfont to init physics
+    const spaceMono = new FontFaceObserver('Space Mono');
+    spaceMono.load().then(() => {
+      setFontLoaded(true);
+    });
+  }, []);
+
   useEffect(() => { // init physics engine
-    if (!gameRef.current) return;
+    if (!gameRef.current || !fontLoaded) return;
 
     if (runnerRef.current) {
       Runner.stop(runnerRef.current);
@@ -254,7 +263,7 @@ function Game({ mainRef }) {
         Engine.clear(engineRef.current);
       }
     };
-  }, [physicsKey]);
+  }, [fontLoaded, physicsKey]);
 
   useEffect(() => { // player movement
     const canvasRect = canvasRef.current.getBoundingClientRect();
