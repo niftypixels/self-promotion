@@ -2,7 +2,7 @@
 
 @keyframes backgroundGrid {
     0% { background-position-y: 0; }
-	100% { background-position-y: 1000%; }
+	100% { background-position-y: 2000%; }
 }
 
 #background-grid {
@@ -16,7 +16,7 @@
   height: 100%;
 
   #grid {
-    animation: backgroundGrid 60s linear infinite;
+    animation: backgroundGrid 120s linear infinite;
     background-image: linear-gradient(colors.$accent-color 2px, transparent 2px),
                       linear-gradient(to right, colors.$accent-color 2px, colors.$grey-dark 2px);
     background-position: center;
