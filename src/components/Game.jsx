@@ -239,8 +239,6 @@ function Game({ mainRef }) {
 
           if (brickBodiesRef.current.length === 0) {
             Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
-            // Body.setPosition(ballBodyRef.current, { x: initBallX, y: initBallY });
-
             setGameState(GAME_STATE.WIN);
           }
         }
