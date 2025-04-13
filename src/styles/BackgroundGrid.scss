@@ -17,6 +17,8 @@
 
   #grid {
     animation: backgroundGrid 120s linear infinite;
+    will-change: background-position-y;
+
     background-image: linear-gradient(colors.$accent-color 2px, transparent 2px),
                       linear-gradient(to right, colors.$accent-color 2px, colors.$grey-dark 2px);
     background-position: center;
@@ -32,6 +34,7 @@
 
   #mask {
     background: linear-gradient(180deg, colors.$grey-dark, transparent);
+
     position: absolute;
     top: 30%;
     left: 0;
