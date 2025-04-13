@@ -95,37 +95,79 @@ function Game({ mainRef }) {
     const initBallY = height - BALL_OFFSET;
     const initPaddleX = initBallX;
     const initPaddleY = initBallY;
+    const wallThickness = PADDLE_HEIGHT;
 
-    const wallThickness = 10;
     const wallBodies =  [
       Bodies.rectangle( // top
         width / 2,
         -wallThickness / 2,
         width,
         wallThickness,
-        { isStatic: true, label: 'wall' }
+        {
+          label: 'wall',
+          isStatic: true
+        }
       ),
       Bodies.rectangle( // left
         -wallThickness / 2,
         height / 2,
         wallThickness,
         height,
-        { isStatic: true, label: 'wall' }
+        {
+          label: 'wall',
+          isStatic: true
+        }
       ),
       Bodies.rectangle( // right
         width + wallThickness / 2,
         height / 2,
         wallThickness,
         height,
-        { isStatic: true, label: 'wall' }
+        {
+          label: 'wall',
+          isStatic: true
+        }
       ),
       Bodies.rectangle( // bottom
         width / 2,
         height + wallThickness / 2,
         width,
         wallThickness,
-        { isStatic: true, isSensor: true, label: 'bottom' }
+        {
+          label: 'bottom',
+          isStatic: true,
+          isSensor: true
+        }
       )
+    ];
+
+    const cornerBodies = [
+      Bodies.fromVertices( // top left
+        wallThickness / 2,
+        wallThickness / 2,
+        [[
+          { x: 0, y: 0 },
+          { x: wallThickness, y: 0 },
+          { x: 0, y: wallThickness }
+        ]],
+        {
+          label: 'corner',
+          isStatic: true
+        }
+      ),
+      Bodies.fromVertices( // top right
+        width - wallThickness / 2,
+        wallThickness / 2,
+        [[
+          { x: 0, y: 0 },
+          { x: wallThickness, y: 0 },
+          { x: wallThickness, y: wallThickness }
+        ]],
+        {
+          label: 'corner',
+          isStatic: true
+        }
+      ),
     ];
 
     brickBodiesRef.current = Array.from(gameRef.current.getElementsByClassName('brick')).map(domElement => {
@@ -136,10 +178,9 @@ function Game({ mainRef }) {
         rect.width,
         rect.height,
         {
-          domElement,
-          isStatic: true,
           label: 'brick',
-          render: { fillStyle: 'transparent' }
+          isStatic: true,
+          domElement
         }
       );
     });
@@ -164,14 +205,15 @@ function Game({ mainRef }) {
       PADDLE_WIDTH,
       PADDLE_HEIGHT,
       {
-        isStatic: true,
         label: 'paddle',
+        isStatic: true,
         render: { fillStyle: '#666' }
       }
     );
 
     World.add(worldRef.current, [
       ...wallBodies,
+      ...cornerBodies,
       ...brickBodiesRef.current,
       ballBodyRef.current,
       paddleBodyRef.current
@@ -201,26 +243,6 @@ function Game({ mainRef }) {
 
             setGameState(GAME_STATE.WIN);
           }
-        }
-
-        if (
-          (bodyA.label === 'ball' && bodyB.label === 'wall') ||
-          (bodyA.label === 'wall' && bodyB.label === 'ball')
-        ) {
-          const ballBody = bodyA.label === 'ball' ? bodyA : bodyB;
-          const { velocity } = ballBody;
-          const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-
-          // add slight angular variation (0.05-0.15 radians or about 3-8 degrees)
-          const angle = Math.atan2(velocity.y, velocity.x) + (Math.random() - 0.5) * 0.1;
-
-          // apply the new velocity on next tick to not interfere with the collision resolution
-          setTimeout(() => {
-            Body.setVelocity(ballBody, {
-              x: Math.cos(angle) * speed,
-              y: Math.sin(angle) * speed
-            });
-          }, 0);
         }
 
         if (
