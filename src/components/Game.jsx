@@ -22,8 +22,15 @@ const GAME_STATE = {
 };
 
 function Game({ mainRef }) {
+  const [fontLoaded, setFontLoaded] = useState(false);
+  const [gameState, setGameState] = useState(GAME_STATE.READY);
+  const [lives, setLives] = useState(TOTAL_LIVES);
+  const [score, setScore] = useState(0);
+  const [physicsKey, setPhysicsKey] = useState(0);
+
   const gameRef = useRef(null);
   const canvasRef = useRef(null);
+  const livesRef = useRef(TOTAL_LIVES);
 
   const engineRef = useRef(null);
   const renderRef = useRef(null);
@@ -32,14 +39,6 @@ function Game({ mainRef }) {
   const ballBodyRef = useRef(null);
   const paddleBodyRef = useRef(null);
   const brickBodiesRef = useRef([]);
-
-  const [fontLoaded, setFontLoaded] = useState(false);
-  const [gameState, setGameState] = useState(GAME_STATE.READY);
-  const [lives, setLives] = useState(TOTAL_LIVES);
-  const [score, setScore] = useState(0);
-  const [physicsKey, setPhysicsKey] = useState(0);
-
-  const livesRef = useRef(TOTAL_LIVES);
 
   useEffect(() => { // ref tracks state value for non-React event handlers
     livesRef.current = lives;
