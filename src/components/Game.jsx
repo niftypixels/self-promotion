@@ -306,9 +306,7 @@ function Game({ mainRef }) {
     return () => mainRef.current.removeEventListener('click', handleClick);
   }, [handleClick]);
 
-  const handleResize = useDebounce(() => {
-    setPhysicsKey(key => key + 1);
-  }, 250);
+  const handleResize = useDebounce(() => setPhysicsKey(key => key + 1), 250);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -334,7 +332,6 @@ function Game({ mainRef }) {
     <aside className='container' id='hud'>
       <div>
         <span id='score'>SCORE: {score}</span>
-        {gameState} {lives}
         <span id='lives'>
           {Array.from({ length: TOTAL_LIVES }).map((_, index) => (
             <div key={index} className={index >= lives ? 'dead' : 'alive'} />
