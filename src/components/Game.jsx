@@ -140,38 +140,9 @@ function Game({ mainRef }) {
       )
     ];
 
-    const cornerBodies = [
-      Bodies.fromVertices( // top left
-        wallThickness / 2,
-        wallThickness / 2,
-        [[
-          { x: 0, y: 0 },
-          { x: wallThickness, y: 0 },
-          { x: 0, y: wallThickness }
-        ]],
-        {
-          label: 'corner',
-          isStatic: true,
-          render: { fillStyle: 'transparent' }
-        }
-      ),
-      Bodies.fromVertices( // top right
-        width - wallThickness / 2,
-        wallThickness / 2,
-        [[
-          { x: 0, y: 0 },
-          { x: wallThickness, y: 0 },
-          { x: wallThickness, y: wallThickness }
-        ]],
-        {
-          label: 'corner',
-          isStatic: true,
-          render: { fillStyle: 'transparent' }
-        }
-      ),
-    ];
-
-    brickBodiesRef.current = Array.from(gameRef.current.getElementsByClassName('brick')).map(domElement => {
+    brickBodiesRef.current = Array.from(gameRef.current.getElementsByClassName('brick'))
+                                  .filter(brick => !brick.classList.contains('hit'))
+                                  .map(domElement => {
       const rect = domElement.getBoundingClientRect();
       return Bodies.rectangle(
         rect.left + rect.width / 2,
@@ -215,7 +186,6 @@ function Game({ mainRef }) {
 
     World.add(worldRef.current, [
       ...wallBodies,
-      ...cornerBodies,
       ...brickBodiesRef.current,
       ballBodyRef.current,
       paddleBodyRef.current
