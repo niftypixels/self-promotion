@@ -30,7 +30,7 @@ function Game({ mainRef }) {
 
   const gameRef = useRef(null);
   const canvasRef = useRef(null);
-  const livesRef = useRef(TOTAL_LIVES);
+  const livesRef = useRef(lives);
 
   const engineRef = useRef(null);
   const renderRef = useRef(null);
