@@ -151,7 +151,8 @@ function Game({ mainRef }) {
         ]],
         {
           label: 'corner',
-          isStatic: true
+          isStatic: true,
+          render: { fillStyle: 'transparent' }
         }
       ),
       Bodies.fromVertices( // top right
@@ -164,7 +165,8 @@ function Game({ mainRef }) {
         ]],
         {
           label: 'corner',
-          isStatic: true
+          isStatic: true,
+          render: { fillStyle: 'transparent' }
         }
       ),
     ];
@@ -179,6 +181,7 @@ function Game({ mainRef }) {
         {
           label: 'brick',
           isStatic: true,
+          render: { fillStyle: 'transparent' },
           domElement
         }
       );
