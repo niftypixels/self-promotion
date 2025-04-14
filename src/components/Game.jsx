@@ -22,11 +22,11 @@ const GAME_STATE = {
 };
 
 function Game({ mainRef }) {
-  const [fontLoaded, setFontLoaded] = useState(false);
   const [gameState, setGameState] = useState(GAME_STATE.READY);
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
   const [physicsKey, setPhysicsKey] = useState(0);
+  const [fontLoaded, setFontLoaded] = useState(false);
 
   const gameRef = useRef(null);
   const canvasRef = useRef(null);
@@ -46,9 +46,7 @@ function Game({ mainRef }) {
 
   useEffect(() => { // wait for webfont to init physics
     const spaceMono = new FontFaceObserver('Space Mono');
-    spaceMono.load().then(() => {
-      setFontLoaded(true);
-    });
+    spaceMono.load().then(() => setFontLoaded(true));
   }, []);
 
   useEffect(() => { // init physics engine
@@ -303,7 +301,7 @@ function Game({ mainRef }) {
     }
   }, [gameState]);
 
-  useEffect(() => { // click binding
+  useEffect(() => {
     mainRef.current.addEventListener('click', handleClick);
     return () => mainRef.current.removeEventListener('click', handleClick);
   }, [handleClick]);
