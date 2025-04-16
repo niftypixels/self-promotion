@@ -17,6 +17,20 @@ footer {
     color: colors.$accent-color;
   }
 
+  a {
+    border-radius: 3px;
+    color: colors.$grey-medium;
+    font-size: 13px;
+    padding: .3em .5em;
+    text-decoration: none;
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      background-color: white;
+      color: colors.$accent-color;
+    }
+  }
+
   span {
     color: rgba(colors.$grey-medium, 0.5);
     display: block;
