@@ -2,7 +2,7 @@
 
 #work {
   color: colors.$grey-dark;
-  margin: 6em auto;
+  margin: 9em auto;
 
   & > div {
     display: flex;
@@ -22,6 +22,14 @@
   }
 
   aside {
+    border-image: linear-gradient(to bottom, transparent, colors.$grey-dark, transparent) 1 100%;
+    border-style: solid;
+    border-width: 1px;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    padding-left: 2em;
+
     h3 {
       color: white;
     }
