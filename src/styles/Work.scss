@@ -2,7 +2,7 @@
 
 #work {
   color: colors.$grey-dark;
-  margin: 3em auto 6em;
+  margin: 6em auto;
 
   & > div {
     display: flex;
@@ -27,6 +27,7 @@
     }
 
     ul {
+      color: colors.$grey-light;
       list-style: none;
       padding-left: 1.5em;
 
@@ -43,13 +44,13 @@
 
     a {
       border-radius: 3px;
-      color: white;
+      color: colors.$grey-dark;
       padding: .3em .5em;
       text-decoration: none;
       transition: all 250ms ease-in-out;
 
       &:hover {
-        background-color: white;
+        background-color: colors.$grey-light;
         color: colors.$accent-color;
       }
     }
