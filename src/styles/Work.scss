@@ -31,7 +31,7 @@
     padding-left: 2em;
 
     h3 {
-      color: white;
+      color: colors.$grey-light;
     }
 
     ul {
@@ -58,7 +58,7 @@
       transition: all 250ms ease-in-out;
 
       &:hover {
-        background-color: colors.$grey-light;
+        background-color: colors.$grey-dark;
         color: colors.$accent-color;
       }
     }
