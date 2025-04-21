@@ -11,6 +11,9 @@ function Footer() {
       <img src='/sadmac.png' alt='' />
       <p>Made with <strong>❤</strong> in OC</p>
       <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
+      <a href='mailto:scott@niftypixels.com'>
+        Contact
+      </a>
       <a href='//github.com/niftypixels/self-promotion/' target='_blank'>
         GitHub
       </a>
