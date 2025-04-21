@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useInterval } from '../hooks';
 import '../styles/BackgroundStatic.scss';
 
-function BackgroundStatic({ footerRef, fps = 30 }) {
+function BackgroundStatic({ footerRef, fps = 60 }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {

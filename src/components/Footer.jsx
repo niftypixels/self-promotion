@@ -7,7 +7,7 @@ function Footer() {
 
   return (
     <footer className='container' ref={footerRef}>
-      <BackgroundStatic footerRef={footerRef} />
+      <BackgroundStatic footerRef={footerRef} fps={30} />
       <img src='/sadmac.png' alt='' />
       <p>Made with <strong>❤</strong> in OC</p>
       <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
