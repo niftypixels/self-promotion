@@ -1,8 +1,10 @@
 @use 'colors';
 
 footer {
-  background-color: colors.$grey-light;
+  // background-color: colors.$grey-light;
+  background-image: linear-gradient(180deg, transparent, colors.$grey-light);
   color: colors.$grey-dark;
+  position: relative;
   text-align: center;
 
   img {

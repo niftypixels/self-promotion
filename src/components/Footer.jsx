@@ -1,8 +1,13 @@
+import { useRef } from 'react';
+import { BackgroundStatic } from '.';
 import '../styles/Footer.scss';
 
 function Footer() {
+  const footerRef = useRef(null);
+
   return (
-    <footer className='container'>
+    <footer className='container' ref={footerRef}>
+      <BackgroundStatic footerRef={footerRef} />
       <img src='/sadmac.png' alt='' />
       <p>Made with <strong>❤</strong> in OC</p>
       <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
