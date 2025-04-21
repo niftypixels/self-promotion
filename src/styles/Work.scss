@@ -30,7 +30,7 @@
     border-bottom: 0;
     padding-left: 2em;
 
-    h3 {
+    h2 {
       color: colors.$grey-light;
     }
 
@@ -52,7 +52,7 @@
 
     a {
       border-radius: 3px;
-      color: colors.$grey-dark;
+      color: colors.$grey-light;
       padding: .3em .5em;
       text-decoration: none;
       transition: all 250ms ease-in-out;
