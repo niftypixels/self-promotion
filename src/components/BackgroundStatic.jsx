@@ -1,48 +1,44 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useInterval } from '../hooks';
 import '../styles/BackgroundStatic.scss';
 
 function BackgroundStatic({ footerRef }) {
-  const animationRef = useRef(null);
   const canvasRef = useRef(null);
+  const fps = 30;
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-
-    const handleResize = () => {
+    const resizeCanvas = () => {
       const { width, height } = footerRef.current.getBoundingClientRect();
+      const canvas = canvasRef.current;
+
       canvas.width = width;
       canvas.height = height;
     };
 
-    const noiseMaker = () => {
-      const { width, height } = canvas;
-      const imageData = ctx.createImageData(width, height);
-      const { data } = imageData;
+    resizeCanvas();
 
-      for (let i = 0; i < data.length; i += 4) {
-        data[i] = data[i+1] = data[i+2] = Math.random() * 255; // rgb
-        data[i+3] = 255; // alpha
-      }
-
-      ctx.putImageData(imageData, 0, 0);
-    };
-
-    const staticAnimation = () => {
-      noiseMaker();
-      animationRef.current = requestAnimationFrame(staticAnimation);
-    };
-
-    handleResize();
-    staticAnimation();
-
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', resizeCanvas);
 
     return () => {
-      cancelAnimationFrame(animationRef.current);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', resizeCanvas);
     };
   }, []);
+
+  useInterval(() => {
+    if (!canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.createImageData(canvas.width, canvas.height);
+    const { data } = imageData;
+
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = data[i+1] = data[i+2] = Math.random() * 255; // rgb
+      data[i+3] = 255; // alpha
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+  }, 1000 / fps);
 
   return (
     <canvas id='background-static' ref={canvasRef} />
