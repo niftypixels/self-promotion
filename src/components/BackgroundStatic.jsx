@@ -2,13 +2,12 @@ import { useEffect, useRef } from 'react';
 import { useInterval } from '../hooks';
 import '../styles/BackgroundStatic.scss';
 
-function BackgroundStatic({ fps = 60, parentRef }) {
+function BackgroundStatic({ fps = 60 }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const resizeCanvas = () => {
-      const { width, height } = parentRef.current.getBoundingClientRect();
-
+      const { width, height } = canvasRef.current.getBoundingClientRect();
       canvasRef.current.width = width;
       canvasRef.current.height = height;
     };
