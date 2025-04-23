@@ -8,7 +8,7 @@ function BackgroundStatic({ fps = 60 }) {
   useEffect(() => {
     const resizeCanvas = () => {
       const { width, height } = canvasRef.current.getBoundingClientRect();
-      canvasRef.current.width = width;
+      canvasRef.current.width = width / 3;
       canvasRef.current.height = height;
     };
 
