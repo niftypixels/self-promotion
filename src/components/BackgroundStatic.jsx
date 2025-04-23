@@ -22,8 +22,6 @@ function BackgroundStatic({ fps = 60 }) {
   }, []);
 
   useInterval(() => {
-    if (!canvasRef.current) return;
-
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const imageData = ctx.createImageData(canvas.width, canvas.height);
