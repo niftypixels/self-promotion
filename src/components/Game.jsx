@@ -26,7 +26,6 @@ function Game({ mainRef }) {
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
   const [physicsKey, setPhysicsKey] = useState(0);
-  const [fontLoaded, setFontLoaded] = useState(false);
 
   const gameRef = useRef(null);
   const canvasRef = useRef(null);
@@ -44,13 +43,8 @@ function Game({ mainRef }) {
     livesRef.current = lives;
   }, [lives]);
 
-  useEffect(() => { // wait for webfont to init physics
-    const spaceMono = new FontFaceObserver('Space Mono');
-    spaceMono.load().then(() => setFontLoaded(true));
-  }, []);
-
   useEffect(() => { // init physics engine
-    if (!gameRef.current || !fontLoaded) return;
+    if (!gameRef.current) return;
 
     if (runnerRef.current) {
       Runner.stop(runnerRef.current);
@@ -84,7 +78,7 @@ function Game({ mainRef }) {
         height,
         background: 'transparent',
         wireframeBackground: 'transparent',
-        wireframes: false
+        wireframes: true
       }
     });
 
@@ -253,7 +247,7 @@ function Game({ mainRef }) {
         Engine.clear(engineRef.current);
       }
     };
-  }, [fontLoaded, physicsKey]);
+  }, [physicsKey]);
 
   useEffect(() => { // player movement
     const canvasRect = canvasRef.current.getBoundingClientRect();
@@ -312,6 +306,11 @@ function Game({ mainRef }) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
+
+  useEffect(() => { // recalculate physics bodies after font loads
+    const spaceMono = new FontFaceObserver('Space Mono');
+    spaceMono.load().then(() => setPhysicsKey(key => key + 1));
+  }, []);
 
   return (
     <>
