@@ -46,18 +46,22 @@ function Game({ mainRef }) {
   useEffect(() => { // init physics engine
     if (!gameRef.current) return;
 
-    if (runnerRef.current) {
-      Runner.stop(runnerRef.current);
-    }
+    const teardownPhysics = () => {
+      if (runnerRef.current) {
+        Runner.stop(runnerRef.current);
+      }
 
-    if (renderRef.current) {
-      Render.stop(renderRef.current);
-    }
+      if (renderRef.current) {
+        Render.stop(renderRef.current);
+      }
 
-    if (engineRef.current) {
-      World.clear(worldRef.current);
-      Engine.clear(engineRef.current);
-    }
+      if (engineRef.current) {
+        World.clear(worldRef.current);
+        Engine.clear(engineRef.current);
+      }
+    };
+
+    teardownPhysics();
 
     engineRef.current = Engine.create({
       gravity: { x: 0, y: 0 }
@@ -234,18 +238,7 @@ function Game({ mainRef }) {
     Render.run(renderRef.current);
 
     return () => {
-      if (runnerRef.current) {
-        Runner.stop(runnerRef.current);
-      }
-
-      if (renderRef.current) {
-        Render.stop(renderRef.current);
-      }
-
-      if (engineRef.current) {
-        World.clear(worldRef.current);
-        Engine.clear(engineRef.current);
-      }
+      teardownPhysics();
     };
   }, [physicsKey]);
 
