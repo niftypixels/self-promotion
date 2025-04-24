@@ -28,7 +28,7 @@ function BackgroundStatic({ fps = 60 }) {
     const { data } = imageData;
 
     for (let i = 0; i < data.length; i += 4) {
-      data[i] = data[i+1] = data[i+2] = Math.random() * 255; // rgb
+      data[i] = data[i+1] = data[i+2] = Math.random() * 222; // rgb
       data[i+3] = 255; // alpha
     }
 
