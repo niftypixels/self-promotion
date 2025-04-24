@@ -8,8 +8,10 @@ function Work() {
           <h1>EXPERIENCE</h1>
           <h2>Sony Interactive Entertainment</h2>
           <pre>07/2014 &mdash; 12/2023 &raquo; Aliso Viejo + San Francisco, CA</pre>
+          <h3>Senior Software Engineer, Tech Lead</h3>
           <h2>RED Interactive Agency</h2>
           <pre>09/2010 &mdash; 06/2014 &raquo; Santa Monica, CA</pre>
+          <h3>Front End Engineer</h3>
         </article>
         <aside>
           <h2>AWARDS</h2>
