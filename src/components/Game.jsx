@@ -78,7 +78,7 @@ function Game({ mainRef }) {
         height,
         background: 'transparent',
         wireframeBackground: 'transparent',
-        wireframes: true
+        wireframes: false
       }
     });
 
