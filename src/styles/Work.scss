@@ -9,15 +9,16 @@
     justify-content: space-between;
   }
 
+  h3 {
+    color: colors.$grey-light;
+  }
+
   article {
     h2 {
       color: white;
       margin-top: 2.5em;
     }
 
-    h3 {
-      color: colors.$grey-light;
-    }
 
     pre {
       font-family: 'Space Mono', monospace;
@@ -39,7 +40,7 @@
     padding-left: 2em;
 
     h2 {
-      color: colors.$grey-light;
+      color: colors.$grey-dark;
     }
 
     ul {
@@ -61,14 +62,14 @@
 
     a {
       border-radius: 3px;
-      color: colors.$grey-light;
+      color: colors.$grey-dark;
       padding: .3em .5em;
       text-decoration: none;
       transition: all 250ms ease-in-out;
 
       &:hover {
         background-color: colors.$grey-dark;
-        color: colors.$accent-color;
+        color: colors.$grey-light;
       }
     }
   }
