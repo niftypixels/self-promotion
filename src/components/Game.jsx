@@ -10,6 +10,7 @@ const BALL_OFFSET = 30;
 const BALL_RADIUS = 9;
 const BALL_SPEED = 6;
 const BALL_SPEED_MAX = 18;
+const MIN_ANGLE = Math.PI / 6;
 const PADDLE_HEIGHT = 12;
 const PADDLE_WIDTH = 120;
 const TOTAL_LIVES = 3;
@@ -20,6 +21,33 @@ const GAME_STATE = {
   OVER: 'over',
   WIN: 'win'
 };
+
+function normalizeVelocity(velocity) {
+  const angle = Math.atan2(velocity.y, velocity.x);
+  const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+
+  if (Math.abs(Math.sin(angle)) < Math.sin(MIN_ANGLE)) { // adjust shallow angle
+    const sign = Math.sign(velocity.y) || 1;
+    const newAngle = sign * MIN_ANGLE;
+
+    return {
+      x: speed * Math.cos(newAngle),
+      y: speed * Math.sin(newAngle)
+    };
+  }
+
+  if (Math.abs(Math.cos(angle)) < Math.sin(MIN_ANGLE)) { // adjust steep angle
+    const sign = Math.sign(velocity.x) || 1;
+    const newAngle = sign > 0 ? (Math.PI / 2 - MIN_ANGLE) : (Math.PI / 2 + MIN_ANGLE);
+
+    return {
+      x: speed * Math.cos(newAngle),
+      y: speed * Math.sin(newAngle)
+    };
+  }
+
+  return velocity;
+}
 
 function Game({ mainRef }) {
   const [gameState, setGameState] = useState(GAME_STATE.READY);
@@ -138,7 +166,7 @@ function Game({ mainRef }) {
 
     brickBodiesRef.current = Array.from(gameRef.current.getElementsByClassName('brick'))
                                   .filter(brick => !brick.classList.contains('hit'))
-                                  .map(domElement => {
+                                  .map((domElement) => {
       const rect = domElement.getBoundingClientRect();
       return Bodies.rectangle(
         rect.left + rect.width / 2,
