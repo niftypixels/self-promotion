@@ -17,7 +17,7 @@ function Footer() {
       <a href='//linkedin.com/in/niftypixels/' target='_blank'>
         LinkedIn
       </a>
-      <a href='/Scott-Twede-Resume.pdf' target='_blank'>
+      <a href='Scott-Twede-Resume.pdf' target='_blank'>
         PDF
       </a>
     </footer>
