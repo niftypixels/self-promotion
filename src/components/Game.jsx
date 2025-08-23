@@ -220,6 +220,14 @@ function Game({ mainRef }) {
         const pair = pairs[i];
         const { bodyA, bodyB } = pair;
 
+        // normalize velocity when ball hits walls or paddle
+        if ((bodyA.label === 'ball' && (bodyB.label === 'wall' || bodyB.label === 'paddle')) ||
+            (bodyB.label === 'ball' && (bodyA.label === 'wall' || bodyA.label === 'paddle'))) {
+          const ball = bodyA.label === 'ball' ? bodyA : bodyB;
+          const normalizedVelocity = normalizeVelocity(ball.velocity);
+          Body.setVelocity(ball, normalizedVelocity);
+        }
+
         if (bodyA.label === 'brick' || bodyB.label === 'brick') {
           const brickBody = bodyA.label === 'brick' ? bodyA : bodyB;
 
