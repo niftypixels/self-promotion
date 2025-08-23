@@ -22,6 +22,20 @@ const GAME_STATE = {
   WIN: 'win'
 };
 
+function increaseBallSpeed(velocity) {
+  const angle = Math.atan2(velocity.y, velocity.x);
+  const currentSpeed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
+
+  // increase by 5% of remaining speed capacity
+  const speedIncrement = (BALL_SPEED_MAX - currentSpeed) * 0.05;
+  const newSpeed = Math.min(BALL_SPEED_MAX, currentSpeed + speedIncrement);
+
+  return {
+    x: newSpeed * Math.cos(angle),
+    y: newSpeed * Math.sin(angle)
+  };
+}
+
 function normalizeVelocity(velocity) {
   const angle = Math.atan2(velocity.y, velocity.x);
   const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
@@ -240,6 +254,9 @@ function Game({ mainRef }) {
           brickBodiesRef.current = brickBodiesRef.current.filter(b => b.id !== brickBody.id);
 
           setScore(prevScore => prevScore + 100);
+
+          const newVelocity = increaseBallSpeed(ballBodyRef.current.velocity);
+          Body.setVelocity(ballBodyRef.current, newVelocity);
 
           if (brickBodiesRef.current.length === 0) {
             Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
