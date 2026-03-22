@@ -5,6 +5,12 @@
 @keyframes brick-nudge-left   { 0% { left: 0; } 40% { left:  5px; } 100% { left: 0; } }
 @keyframes brick-nudge-right  { 0% { left: 0; } 40% { left: -5px; } 100% { left: 0; } }
 
+@keyframes brick-glow {
+  0%   { text-shadow: 0 0 6px white, 0 0 14px colors.$accent-color; }
+  20%  { text-shadow: 0 0 10px white, 0 0 24px colors.$accent-color, 0 0 48px colors.$accent-color; }
+  100% { text-shadow: none; }
+}
+
 #game {
   &.container {
     padding-top: 0;
@@ -35,10 +41,10 @@
       &.hit {
         opacity: 0.15;
 
-        &.top    { animation: brick-nudge-top    180ms ease-out; }
-        &.bottom { animation: brick-nudge-bottom 180ms ease-out; }
-        &.left   { animation: brick-nudge-left   180ms ease-out; }
-        &.right  { animation: brick-nudge-right  180ms ease-out; }
+        &.top    { animation: brick-nudge-top    180ms ease-out, brick-glow 420ms ease-out forwards; }
+        &.bottom { animation: brick-nudge-bottom 180ms ease-out, brick-glow 420ms ease-out forwards; }
+        &.left   { animation: brick-nudge-left   180ms ease-out, brick-glow 420ms ease-out forwards; }
+        &.right  { animation: brick-nudge-right  180ms ease-out, brick-glow 420ms ease-out forwards; }
       }
     }
   }
