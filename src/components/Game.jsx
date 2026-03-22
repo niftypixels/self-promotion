@@ -2,6 +2,7 @@ import FontFaceObserver from 'fontfaceobserver';
 import { Bodies, Body, Engine, Events, Render, Runner, World } from 'matter-js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '../hooks';
+import LavaSplash from './LavaSplash';
 import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive experiences for top global brands including PlayStation, Samsung, Nvidia, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
@@ -68,6 +69,7 @@ function Game({ mainRef }) {
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
   const [physicsKey, setPhysicsKey] = useState(0);
+  const [splash, setSplash] = useState(null);
 
   const gameRef = useRef(null);
   const canvasRef = useRef(null);
@@ -272,6 +274,13 @@ function Game({ mainRef }) {
           (bodyA.label === 'ball' && bodyB.label === 'bottom') ||
           (bodyA.label === 'bottom' && bodyB.label === 'ball')
         ) {
+          const canvasRect = canvasRef.current.getBoundingClientRect();
+          setSplash({
+            x: canvasRect.left + ballBodyRef.current.position.x,
+            y: canvasRect.bottom,
+            id: Date.now()
+          });
+
           if (livesRef.current > 1) {
             Body.setPosition(ballBodyRef.current, {
               x: paddleBodyRef.current.position.x,
@@ -364,6 +373,7 @@ function Game({ mainRef }) {
 
   return (
     <>
+    <LavaSplash splash={splash} />
     <section
       className='container'
       data-state={gameState}
