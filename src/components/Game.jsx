@@ -129,9 +129,9 @@ function Game({ mainRef }) {
     });
 
     const initBallX = width / 2;
-    const initBallY = height - BALL_OFFSET;
+    const initPaddleY = height - BALL_OFFSET;
+    const initBallY = initPaddleY - PADDLE_HEIGHT / 2 - BALL_RADIUS;
     const initPaddleX = initBallX;
-    const initPaddleY = initBallY;
     const wallThickness = PADDLE_HEIGHT;
 
     const wallBodies =  [
