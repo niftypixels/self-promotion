@@ -246,7 +246,11 @@ function Game({ mainRef }) {
           const brickBody = bodyA.label === 'brick' ? bodyA : bodyB;
 
           if (brickBody.domElement) {
-            brickBody.domElement.classList.add('hit');
+            const vel = ballBodyRef.current.velocity;
+            const dir = Math.abs(vel.y) >= Math.abs(vel.x)
+              ? (vel.y > 0 ? 'top' : 'bottom')
+              : (vel.x > 0 ? 'left' : 'right');
+            brickBody.domElement.classList.add('hit', dir);
           }
 
           World.remove(worldRef.current, brickBody);
