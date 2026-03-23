@@ -1,8 +1,8 @@
 import FontFaceObserver from 'fontfaceobserver';
 import { Bodies, Body, Engine, Events, Render, Runner, World } from 'matter-js';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDebounce } from '../hooks';
 import { LavaSplash } from '.';
+import { useDebounce } from '../hooks';
 import '../styles/Game.scss';
 
 const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive experiences for top global brands including PlayStation, Samsung, Nvidia, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
@@ -292,6 +292,7 @@ function Game({ mainRef }) {
           } else {
             setLives(0);
             setGameState(GAME_STATE.OVER);
+            ballBodyRef.current.render.fillStyle = 'transparent';
           }
 
           Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
