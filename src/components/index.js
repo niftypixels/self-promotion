@@ -5,6 +5,7 @@ import BackgroundStatic from './BackgroundStatic';
 import Header from './Header';
 import Game from './Game';
 import LavaSplash from './LavaSplash';
+import Waves from './Waves';
 import Work from './Work';
 import Footer from './Footer';
 
@@ -16,6 +17,7 @@ export {
   Header,
   Game,
   LavaSplash,
+  Waves,
   Work,
   Footer,
 };
