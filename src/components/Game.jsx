@@ -236,12 +236,22 @@ function Game({ mainRef }) {
         const pair = pairs[i];
         const { bodyA, bodyB } = pair;
 
-        // normalize velocity when ball hits walls or paddle
-        if ((bodyA.label === 'ball' && (bodyB.label === 'wall' || bodyB.label === 'paddle')) ||
-            (bodyB.label === 'ball' && (bodyA.label === 'wall' || bodyA.label === 'paddle'))) {
+        if ((bodyA.label === 'ball' && bodyB.label === 'wall') ||
+            (bodyB.label === 'ball' && bodyA.label === 'wall')) {
           const ball = bodyA.label === 'ball' ? bodyA : bodyB;
-          const normalizedVelocity = normalizeVelocity(ball.velocity);
-          Body.setVelocity(ball, normalizedVelocity);
+          Body.setVelocity(ball, normalizeVelocity(ball.velocity));
+        }
+
+        if ((bodyA.label === 'ball' && bodyB.label === 'paddle') ||
+            (bodyB.label === 'ball' && bodyA.label === 'paddle')) {
+          const ball = bodyA.label === 'ball' ? bodyA : bodyB;
+          const speed = Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2);
+          const hitPos = (ball.position.x - paddleBodyRef.current.position.x) / (PADDLE_WIDTH / 2);
+          const angle = -Math.PI / 2 + Math.max(-1, Math.min(1, hitPos)) * (5 * Math.PI / 12);
+          Body.setVelocity(ball, {
+            x: speed * Math.cos(angle),
+            y: speed * Math.sin(angle)
+          });
         }
 
         if (bodyA.label === 'brick' || bodyB.label === 'brick') {
