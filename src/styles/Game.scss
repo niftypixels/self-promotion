@@ -1,5 +1,18 @@
 @use 'colors';
 
+@keyframes shake {
+  10%  { transform: translate(-6px,  3px); }
+  20%  { transform: translate( 6px, -4px); }
+  35%  { transform: translate(-5px,  5px); }
+  50%  { transform: translate( 5px, -3px); }
+  65%  { transform: translate(-3px,  4px); }
+  80%  { transform: translate( 3px, -2px); }
+  90%  { transform: translate(-1px,  1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.shake { animation: shake 350ms ease-out forwards; }
+
 @keyframes brick-nudge-top    { 0% { top: 0; } 40% { top:  5px; } 100% { top: 0; } }
 @keyframes brick-nudge-bottom { 0% { top: 0; } 40% { top: -5px; } 100% { top: 0; } }
 @keyframes brick-nudge-left   { 0% { left: 0; } 40% { left:  5px; } 100% { left: 0; } }

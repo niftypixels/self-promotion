@@ -281,6 +281,10 @@ function Game({ mainRef }) {
             id: Date.now()
           });
 
+          mainRef.current.classList.remove('shake');
+          void mainRef.current.offsetWidth;
+          mainRef.current.classList.add('shake');
+
           if (livesRef.current > 1) {
             Body.setPosition(ballBodyRef.current, {
               x: paddleBodyRef.current.position.x,
