@@ -23,6 +23,36 @@ const GAME_STATE = {
   WIN: 'win'
 };
 
+function playSound(ctx, { frequency, duration, type = 'sine', gain = 0.3, slide }) {
+  const osc = ctx.createOscillator();
+  const env = ctx.createGain();
+  osc.connect(env);
+  env.connect(ctx.destination);
+  osc.type = type;
+  osc.frequency.setValueAtTime(frequency, ctx.currentTime);
+  if (slide) osc.frequency.exponentialRampToValueAtTime(slide, ctx.currentTime + duration);
+  env.gain.setValueAtTime(gain, ctx.currentTime);
+  env.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + duration);
+}
+
+function playWin(ctx) {
+  [523, 659, 784, 1047].forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const env = ctx.createGain();
+    osc.connect(env);
+    env.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    const t = ctx.currentTime + i * 0.12;
+    env.gain.setValueAtTime(0.3, t);
+    env.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+    osc.start(t);
+    osc.stop(t + 0.25);
+  });
+}
+
 function increaseBallSpeed(velocity) {
   const angle = Math.atan2(velocity.y, velocity.x);
   const currentSpeed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
@@ -82,6 +112,7 @@ function Game({ mainRef }) {
   const ballBodyRef = useRef(null);
   const paddleBodyRef = useRef(null);
   const brickBodiesRef = useRef([]);
+  const audioCtxRef = useRef(null);
 
   useEffect(() => { // ref tracks state value for non-React event handlers
     livesRef.current = lives;
@@ -240,6 +271,7 @@ function Game({ mainRef }) {
             (bodyB.label === 'ball' && bodyA.label === 'wall')) {
           const ball = bodyA.label === 'ball' ? bodyA : bodyB;
           Body.setVelocity(ball, normalizeVelocity(ball.velocity));
+          if (audioCtxRef.current) playSound(audioCtxRef.current, { frequency: 220, duration: 0.06, type: 'triangle', gain: 0.15 });
         }
 
         if ((bodyA.label === 'ball' && bodyB.label === 'paddle') ||
@@ -252,6 +284,7 @@ function Game({ mainRef }) {
             x: speed * Math.cos(angle),
             y: speed * Math.sin(angle)
           });
+          if (audioCtxRef.current) playSound(audioCtxRef.current, { frequency: 165, duration: 0.15, type: 'sine', gain: 0.35 });
         }
 
         if (bodyA.label === 'brick' || bodyB.label === 'brick') {
@@ -269,6 +302,8 @@ function Game({ mainRef }) {
 
           brickBodiesRef.current = brickBodiesRef.current.filter(b => b.id !== brickBody.id);
 
+          if (audioCtxRef.current) playSound(audioCtxRef.current, { frequency: 660 + Math.random() * 220, duration: 0.08, type: 'square', gain: 0.15 });
+
           setScore(prevScore => prevScore + 100);
 
           const newVelocity = increaseBallSpeed(ballBodyRef.current.velocity);
@@ -276,6 +311,7 @@ function Game({ mainRef }) {
 
           if (brickBodiesRef.current.length === 0) {
             Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
+            if (audioCtxRef.current) playWin(audioCtxRef.current);
             setGameState(GAME_STATE.WIN);
           }
         }
@@ -290,6 +326,8 @@ function Game({ mainRef }) {
             y: canvasRect.bottom,
             id: Date.now()
           });
+
+          if (audioCtxRef.current) playSound(audioCtxRef.current, { frequency: 440, duration: 0.5, type: 'sawtooth', gain: 0.4, slide: 55 });
 
           mainRef.current.classList.remove('shake');
           void mainRef.current.offsetWidth;
@@ -349,6 +387,8 @@ function Game({ mainRef }) {
 
   const handleClick = useCallback(() => {
     window.scrollTo(0, 0);
+
+    if (!audioCtxRef.current) audioCtxRef.current = new AudioContext();
 
     switch (gameState) {
       case GAME_STATE.READY:
