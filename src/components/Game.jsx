@@ -1,7 +1,7 @@
 import FontFaceObserver from 'fontfaceobserver';
 import { Bodies, Body, Engine, Events, Render, Runner, World } from 'matter-js';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { LavaSplash } from '.';
+import { LavaSplash, StateIndicator } from '.';
 import { useDebounce } from '../hooks';
 import '../styles/Game.scss';
 
@@ -443,6 +443,7 @@ function Game({ mainRef }) {
         ))}
       </div>
     </section>
+    <StateIndicator />
     <aside className='container' id='hud'>
       <div>
         <span id='score'>SCORE: {score}</span>
