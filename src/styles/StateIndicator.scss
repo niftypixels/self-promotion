@@ -29,16 +29,14 @@
   justify-content: center;
   backface-visibility: hidden;
 
-  // &.ready   { background-color: cornflowerblue; }
-  // &.running { background-color: mediumseagreen; }
-  // &.over    { background-color: tomato; }
-  // &.win     { background-color: gold; }
+  &:has(span) { background-color: colors.$accent-color; }
 
   span {
     color: white;
-    font-family: 'Space Mono', monospace;
+    font-family: 'Rubik Bubbles', system-ui;
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 }
