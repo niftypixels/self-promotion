@@ -7,6 +7,7 @@ function Footer() {
       <BackgroundStatic fps={30} />
       <img src='sadmac.png' alt='' />
       <p>Made with <strong>❤</strong> in OC</p>
+      <p>Made with <img src='heart.svg' alt='' /> in OC</p>
       <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
       <a href='mailto:scott@niftypixels.com'>
         Contact
