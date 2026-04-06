@@ -6,7 +6,7 @@ footer {
   position: relative;
   text-align: center;
 
-  img {
+  .avatar {
     border: 6px solid white;
     border-radius: 50%;
     image-rendering: pixelated;
@@ -16,10 +16,10 @@ footer {
 
   p {
     font-size: 1.125em;
-  }
 
-  strong {
-    color: colors.$accent-color;
+    img {
+      height: 0.75em;
+    }
   }
 
   span {
