@@ -6,20 +6,20 @@ footer {
   position: relative;
   text-align: center;
 
-  img {
-    border: 6px solid white;
+  .avatar {
+    border: 8px solid white;
     border-radius: 50%;
     image-rendering: pixelated;
-    width: 128px;
-    height: 128px;
+    width: 184px;
+    height: 184px;
   }
 
   p {
-    font-size: 1.125em;
-  }
+    font-size: 1.25em;
 
-  strong {
-    color: colors.$accent-color;
+    img {
+      height: 0.75em;
+    }
   }
 
   span {

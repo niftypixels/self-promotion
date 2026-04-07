@@ -6,10 +6,10 @@ function Header() {
       <div>
         <hgroup>
           <h1>SCOTT <br /> TWEDE</h1>
-          <h2>UX 🗲 UI</h2>
+          <h2>UX <img src='bolt.svg' alt='🗲' /> UI</h2>
         </hgroup>
-        <a href='mailto:scott@niftypixels.com'>
-          scott@niftypixels.com
+        <a href='mailto:scott@twede.dev'>
+          scott@twede.dev
         </a>
       </div>
     </header>
