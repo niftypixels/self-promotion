@@ -1,3 +1,4 @@
+import About from './About';
 import App from './App';
 import BackgroundGrid from './BackgroundGrid';
 import BackgroundParticles from './BackgroundParticles';
@@ -10,6 +11,7 @@ import Work from './Work';
 import Footer from './Footer';
 
 export {
+  About,
   App,
   BackgroundGrid,
   BackgroundParticles,
