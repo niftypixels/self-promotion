@@ -8,6 +8,7 @@ import Game from './Game';
 import LavaSplash from './LavaSplash';
 import Waves from './Waves';
 import Work from './Work';
+import Experience from './Experience';
 import Footer from './Footer';
 
 export {
@@ -21,5 +22,6 @@ export {
   LavaSplash,
   Waves,
   Work,
+  Experience,
   Footer,
 };
