@@ -4,7 +4,7 @@ import '../styles/Footer.scss';
 function Footer() {
   return (
     <footer className='container'>
-      <BackgroundStatic fps={30} />
+      {/* <BackgroundStatic fps={30} /> */}
       <img className='avatar' src='sadmac.png' alt='' />
       <p>Made with <img src='heart.svg' alt='❤' /> in OC</p>
       <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
