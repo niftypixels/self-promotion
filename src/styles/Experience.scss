@@ -5,6 +5,21 @@
 
   & > div {
     line-height: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+  }
+
+  .blob {
+    &:first-child {
+      grid-column: 1 / -1;
+    }
+
+    &:not(:first-child) {
+      strong {
+        font-size: 40px;
+      }
+    }
   }
 
   h3 {
@@ -15,24 +30,40 @@
     color: colors.$grey-dark;
     display: block;
     font-size: 64px;
-    line-height: 1.6;
+    line-height: 1;
     font-family: "Rubik Bubbles", system-ui;
     font-weight: 400;
     font-style: normal;
   }
 
-  pre {
+  span {
     color: colors.$grey-light;
+    display: block;
     font-size: 16px;
     font-family: 'Space Mono', monospace;
     font-style: normal;
     text-transform: uppercase;
   }
 
+  aside {
+    background-color: colors.$grey-light;
+    display: inline-block;
+    padding: 2em;
+    border-radius: 3em;
+
+    h3 {
+      color: colors.$grey-dark;
+      margin-top: 0;
+
+      strong {
+        color: colors.$accent-color;
+      }
+    }
+  }
 
   ul {
     font-size: 22px;
-    color: colors.$grey-light;
+    color: colors.$accent-color;
     list-style: none;
     margin: 0;
     padding-left: 1.5em;
@@ -56,12 +87,9 @@
     transition: all 250ms ease-in-out;
 
     &:hover {
-      background-color: colors.$grey-dark;
-      color: colors.$grey-light;
+      background-color: colors.$accent-color;
+      color: white;
     }
   }
-
-
-
 
 }

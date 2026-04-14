@@ -7,19 +7,19 @@ function Experience() {
 
         {/* <h2>Experience</h2> */}
 
-        <h3>
+        <h3 className='blob'>
           <strong>Sony Interactive Entertainment</strong>
           Tech Lead, Senior Software Engineer
-          <pre>07/2014 &mdash; 12/2023 &raquo; Aliso Viejo + San Francisco, CA</pre>
+          <span>07/2014 &mdash; 12/2023 &raquo; Aliso Viejo + San Francisco, CA</span>
         </h3>        
 
-        <h3>
+        <h3 className='blob'>
           <strong>RED Interactive Agency</strong>
           Front-end Engineer
-          <pre>09/2010 &mdash; 06/2014 &raquo; Santa Monica, CA</pre>
+          <span>09/2010 &mdash; 06/2014 &raquo; Santa Monica, CA</span>
         </h3>
 
-        <aside>
+        <aside className='blob'>
           <h3>
             <strong>Awards</strong>
             FWA of the Day
