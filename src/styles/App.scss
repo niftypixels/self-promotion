@@ -30,7 +30,11 @@ main {
 }
 
 .container {
-  padding: 3em;
+  padding: 2em;
+
+  @media (min-width: 768px) {
+    padding: 3em;
+  }
 
   & > div {
     margin: auto;

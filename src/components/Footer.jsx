@@ -9,7 +9,7 @@ function Footer() {
       <p>Made with <img src='heart.svg' alt='❤' /> in OC</p>
       <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
       <a href='mailto:scott@twede.dev'>
-        Contact
+        Email
       </a>
       <a href='//github.com/niftypixels/self-promotion/' target='_blank'>
         GitHub
