@@ -5,6 +5,7 @@ import BackgroundParticles from './BackgroundParticles';
 import BackgroundStatic from './BackgroundStatic';
 import Header from './Header';
 import Game from './Game';
+import LavaMask from './LavaMask';
 import LavaSplash from './LavaSplash';
 import Waves from './Waves';
 import Work from './Work';
@@ -19,6 +20,7 @@ export {
   BackgroundStatic,
   Header,
   Game,
+  LavaMask,
   LavaSplash,
   Waves,
   Work,
