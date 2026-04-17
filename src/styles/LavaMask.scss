@@ -1,37 +1,36 @@
+@use 'colors' as *;
+
 .lava-mask {
   height: 85px;
   width: 100%;
-  background-size: 1400px 85px;
-  background-repeat: repeat-x;
+  background-color: $accent-color;
+  mask-image: url('/lava-mask.svg');
+  mask-size: 1400px 85px;
+  mask-repeat: repeat-x;
   position: relative;
   z-index: 1;
   margin-top: -15px;
   transform-origin: top center;
   animation:
-    lava-scroll 9s linear infinite,
+    lava-scroll 12s linear infinite,
     lava-bob    3s ease-in-out infinite;
+}
 
-  &.bottom {
+.lava-mask-flip {
+  transform: scaleY(-1);
+  margin-bottom: -15px;
+
+  .lava-mask {
     margin-top: 0;
-    margin-bottom: -15px;
-    transform-origin: bottom center;
-    animation:
-      lava-scroll     9s linear      infinite reverse,
-      lava-bob-bottom 3s ease-in-out infinite;
   }
 }
 
 @keyframes lava-scroll {
-  from { background-position: 0 0; }
-  to   { background-position: -1400px 0; }
+  from { mask-position: 0 0; }
+  to   { mask-position: 1400px 0; }
 }
 
 @keyframes lava-bob {
   0%, 100% { transform: scaleY(1)    translateY(0px);   }
   50%       { transform: scaleY(1.5) translateY(-10px); }
-}
-
-@keyframes lava-bob-bottom {
-  0%, 100% { transform: scaleY(1)    translateY(0px);  }
-  50%       { transform: scaleY(1.5) translateY(10px); }
 }
