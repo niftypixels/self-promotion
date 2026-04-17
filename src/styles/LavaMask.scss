@@ -1,0 +1,36 @@
+@use 'colors' as *;
+
+.lava-mask {
+  height: 85px;
+  width: 100%;
+  background-color: $accent-color;
+  mask-image: url('/lava-mask.svg');
+  mask-size: 1400px 85px;
+  mask-repeat: repeat-x;
+  position: relative;
+  z-index: 1;
+  margin-top: -15px;
+  transform-origin: top center;
+  animation:
+    lava-scroll 12s linear infinite,
+    lava-bob    3s ease-in-out infinite;
+}
+
+.lava-mask-flip {
+  transform: scaleY(-1);
+  margin-bottom: -15px;
+
+  .lava-mask {
+    margin-top: 0;
+  }
+}
+
+@keyframes lava-scroll {
+  from { mask-position: 0 0; }
+  to   { mask-position: 1400px 0; }
+}
+
+@keyframes lava-bob {
+  0%, 100% { transform: scaleY(1)    translateY(0px);   }
+  50%       { transform: scaleY(1.5) translateY(-10px); }
+}

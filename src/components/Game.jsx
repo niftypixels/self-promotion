@@ -331,6 +331,7 @@ function Game({ mainRef }) {
           mainRef.current.classList.remove('shake');
           void mainRef.current.offsetWidth;
           mainRef.current.classList.add('shake');
+          mainRef.current.addEventListener('animationend', () => mainRef.current.classList.remove('shake'), { once: true });
 
           if (livesRef.current > 1) {
             Body.setPosition(ballBodyRef.current, {
