@@ -1,11 +1,10 @@
 import '../styles/LavaMask.scss';
 
-function LavaMask({ bottom = false, reverse = false }) {
+function LavaMask({ bottom = false }) {
   const src = bottom ? '/lava-mask-bottom.svg' : '/lava-mask.svg';
-  const classes = ['lava-mask', bottom && 'bottom', reverse && 'reverse'].filter(Boolean).join(' ');
   return (
     <div
-      className={classes}
+      className={bottom ? 'lava-mask bottom' : 'lava-mask'}
       style={{ backgroundImage: `url(${src})` }}
       aria-hidden='true'
     />

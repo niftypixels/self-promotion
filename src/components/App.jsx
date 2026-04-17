@@ -16,7 +16,7 @@ function App() {
         {isMobile ? <About /> : <Game mainRef={mainRef} />}
         {/* <Waves /> */}
       </main>
-      <LavaMask reverse />
+      <LavaMask />
       <Experience />
       <LavaMask bottom />
       <Footer />
