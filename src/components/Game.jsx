@@ -16,10 +16,11 @@ const PADDLE_WIDTH = 120;
 const TOTAL_LIVES = 3;
 
 const GAME_STATE = {
-  READY: 'ready',
-  RUNNING: 'running',
-  OVER: 'over',
-  WIN: 'win'
+  READY:   'Click to Play',
+  RESUME:  null,
+  RUNNING: null,
+  OVER:    'Game Over',
+  WIN:     'You Win!',
 };
 
 function playSound(ctx, { frequency, duration, type = 'sine', gain = 0.3, slide }) {
@@ -94,7 +95,7 @@ function normalizeVelocity(velocity) {
 }
 
 function Game({ mainRef }) {
-  const [gameState, setGameState] = useState(GAME_STATE.READY);
+  const [gameState, setGameState] = useState('READY');
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
   const [physicsKey, setPhysicsKey] = useState(0);
@@ -311,7 +312,7 @@ function Game({ mainRef }) {
           if (brickBodiesRef.current.length === 0) {
             Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
             if (audioCtxRef.current) playWin(audioCtxRef.current);
-            setGameState(GAME_STATE.WIN);
+            setGameState('WIN');
           }
         }
 
@@ -340,10 +341,10 @@ function Game({ mainRef }) {
             });
 
             setLives(prevLives => prevLives - 1);
-            setGameState(GAME_STATE.READY);
+            setGameState('RESUME');
           } else {
             setLives(0);
-            setGameState(GAME_STATE.OVER);
+            setGameState('OVER');
             ballBodyRef.current.render.fillStyle = 'transparent';
           }
 
@@ -373,7 +374,7 @@ function Game({ mainRef }) {
         y: paddleBodyRef.current.position.y
       });
 
-      if (gameState === GAME_STATE.READY) {
+      if (gameState === 'READY' || gameState === 'RESUME') {
         Body.setPosition(ballBodyRef.current, {
           x: boundedX,
           y: ballBodyRef.current.position.y
@@ -391,18 +392,19 @@ function Game({ mainRef }) {
     if (!audioCtxRef.current) audioCtxRef.current = new AudioContext();
 
     switch (gameState) {
-      case GAME_STATE.READY:
-        setGameState(GAME_STATE.RUNNING);
+      case 'READY':
+      case 'RESUME':
+        setGameState('RUNNING');
 
         Body.setVelocity(ballBodyRef.current, {
           x: BALL_SPEED * (Math.random() > 0.5 ? 1 : -1),
           y: -BALL_SPEED
         });
         break;
-      case GAME_STATE.OVER:
+      case 'OVER':
         setLives(0);
         break;
-      case GAME_STATE.WIN:
+      case 'WIN':
         setLives(TOTAL_LIVES);
         setScore(0);
         break;
@@ -446,6 +448,7 @@ function Game({ mainRef }) {
     <aside className='container' id='hud'>
       <div>
         <span id='score'>SCORE: {score}</span>
+        <span id='status'>{GAME_STATE[gameState]}</span>
         <span id='lives'>
           {Array.from({ length: TOTAL_LIVES }).map((_, index) => (
             <div key={index} className={index >= lives ? 'dead' : 'alive'} />

@@ -10,7 +10,7 @@ $grey-light: #dedede;
 
   @keyframes rainbow-#{$property} {
     @for $i from 0 through $steps {
-      #{percentage(math.div($i, $steps))} {
+      #{math.percentage(math.div($i, $steps))} {
         #{$property}: hsl(math.div($i * 360, $steps), 100%, 50%);
       }
     }

@@ -5,8 +5,6 @@ function Experience() {
     <section className='container' id='experience'>
       <div>
 
-        {/* <h2>Experience</h2> */}
-
         <h3 className='blob'>
           <strong>Sony Interactive Entertainment</strong>
           Tech Lead, Senior Software Engineer

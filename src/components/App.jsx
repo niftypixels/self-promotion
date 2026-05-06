@@ -1,5 +1,14 @@
 import { useRef } from 'react';
-import { About, BackgroundGrid, BackgroundParticles, Header, Game, Waves, LavaMask, Experience, Footer } from '.';
+import {
+  About,
+  BackgroundGrid,
+  BackgroundParticles,
+  Experience,
+  Footer,
+  Game,
+  Header,
+  LavaMask
+} from '.';
 import { useIsMobile } from '../hooks';
 import '../styles/App.scss';
 
@@ -14,7 +23,6 @@ function App() {
         <BackgroundGrid />
         <Header />
         {isMobile ? <About /> : <Game mainRef={mainRef} />}
-        {/* <Waves /> */}
       </main>
       <LavaMask />
       <Experience />
