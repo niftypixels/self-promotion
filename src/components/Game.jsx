@@ -1,7 +1,7 @@
 import FontFaceObserver from 'fontfaceobserver';
 import { Bodies, Body, Engine, Events, Render, Runner, World } from 'matter-js';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { LavaSplash, StateIndicator } from '.';
+import { LavaSplash } from '.';
 import { ABOUT } from './About';
 import { useDebounce } from '../hooks';
 import '../styles/Game.scss';
@@ -445,10 +445,10 @@ function Game({ mainRef }) {
         ))}
       </div>
     </section>
-    <StateIndicator text={GAME_STATE[gameState]} />
     <aside className='container' id='hud'>
       <div>
         <span id='score'>SCORE: {score}</span>
+        <span id='status'>{GAME_STATE[gameState]}</span>
         <span id='lives'>
           {Array.from({ length: TOTAL_LIVES }).map((_, index) => (
             <div key={index} className={index >= lives ? 'dead' : 'alive'} />
