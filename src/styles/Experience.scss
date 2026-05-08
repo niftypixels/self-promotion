@@ -1,5 +1,11 @@
 @use 'colors';
 
+@keyframes bob {
+  0%   { transform: translateY(calc(-1 * var(--bob-amplitude))); }
+  50%  { transform: translateY(var(--bob-amplitude)); }
+  100% { transform: translateY(calc(-1 * var(--bob-amplitude))); }
+}
+
 #experience {
   margin: 4em auto;
 
@@ -21,6 +27,16 @@
   }
 
   .blob {
+    --bob-amplitude: 12px;
+    --bob-duration: 6s;
+    --bob-delay: 0s;
+    animation: bob var(--bob-duration) var(--bob-delay) ease-in-out infinite;
+    will-change: transform;
+
+    &:hover {
+      animation-play-state: paused;
+    }
+
     &:first-child {
       @media (min-width: 640px) {
         grid-column: 1 / -1;

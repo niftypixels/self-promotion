@@ -5,19 +5,19 @@ function Experience() {
     <section className='container' id='experience'>
       <div>
 
-        <h3 className='blob'>
+        <h3 className='blob' style={{ '--bob-delay': '0s' }}>
           <strong>Sony Interactive Entertainment</strong>
           Tech Lead, Senior Software Engineer
           <span>07/2014 &mdash; 12/2023 &raquo; Aliso Viejo + San Francisco, CA</span>
-        </h3>        
+        </h3>
 
-        <h3 className='blob'>
+        <h3 className='blob' style={{ '--bob-delay': '0.5s' }}>
           <strong>RED Interactive Agency</strong>
           Front-end Engineer
           <span>09/2010 &mdash; 06/2014 &raquo; Santa Monica, CA</span>
         </h3>
 
-        <aside className='blob'>
+        <aside className='blob' style={{ '--bob-delay': '1.3s' }}>
           <h3>
             <strong>Awards</strong>
             FWA of the Day
