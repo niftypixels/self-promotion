@@ -9,6 +9,7 @@ import Game from './Game';
 import Header from './Header';
 import LavaMask from './LavaMask';
 import LavaSplash from './LavaSplash';
+import Magic8Ball from './Magic8Ball';
 
 export {
   About,
@@ -22,4 +23,5 @@ export {
   Header,
   LavaMask,
   LavaSplash,
+  Magic8Ball,
 };
