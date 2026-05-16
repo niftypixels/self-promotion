@@ -17,13 +17,13 @@ function Footer() {
       <a href='mailto:scott@twede.dev' {...face('face1')}>
         Email
       </a>
-      <a href='//github.com/niftypixels/self-promotion/' target='_blank' {...face('face2')}>
+      <a href='//github.com/niftypixels/self-promotion/' target='_blank' {...face('face5')}>
         GitHub
       </a>
       <a href='//linkedin.com/in/niftypixels/' target='_blank' {...face('face3')}>
         LinkedIn
       </a>
-      <a href='Scott-Twede-Resume.pdf' target='_blank' {...face('face4')}>
+      <a href='Scott-Twede-Resume.pdf' target='_blank' {...face('face6')}>
         PDF
       </a>
     </footer>
