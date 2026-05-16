@@ -1,6 +1,7 @@
 @use 'colors';
 
 #magic8ball {
+  background-color: colors.$grey-dark;
   border: 8px solid white;
   border-radius: 50%;
   image-rendering: pixelated;
