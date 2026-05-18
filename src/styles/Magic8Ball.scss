@@ -1,13 +1,13 @@
 @use 'colors';
 
 #magic8ball {
-  // background-color: colors.$grey-medium;
-  // border: 8px solid colors.$grey-light;
-  // border-radius: 50%;
+  background-color: colors.$accent-color;
+  border: 8px solid colors.$grey-light;
+  border-radius: 50%;
   image-rendering: pixelated;
-  // width: 184px;
-  // height: 184px;
-  // overflow: hidden;
+  width: 184px;
+  height: 184px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;

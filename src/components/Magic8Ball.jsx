@@ -50,13 +50,13 @@ function Magic8Ball({ focus = null }) {
             </div>
             <div className='face face2'>2</div>
             <div className='face face3'>
-              <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/maildotru.svg' />
+              <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg' />
             </div>
             <div className='face face4'>
               <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg' />
             </div>
             <div className='face face5'>
-              <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg' />
+              <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/maildotru.svg' />              
             </div>
             <div className='face face6'>
               <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/adobeacrobatreader.svg' />

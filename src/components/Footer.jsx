@@ -14,10 +14,10 @@ function Footer() {
       <Magic8Ball focus={focus} />
       <p>Made with <img src='heart.svg' alt='❤' /> in OC</p>
       <span>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</span>
-      <a href='mailto:scott@twede.dev' {...face('face3')}>
+      <a href='mailto:scott@twede.dev' {...face('face5')}>
         Email
       </a>
-      <a href='//github.com/niftypixels/self-promotion/' target='_blank' {...face('face5')}>
+      <a href='//github.com/niftypixels/self-promotion/' target='_blank' {...face('face3')}>
         GitHub
       </a>
       <a href='//linkedin.com/in/niftypixels/' target='_blank' {...face('face4')}>
