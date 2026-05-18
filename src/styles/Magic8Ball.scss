@@ -1,13 +1,13 @@
 @use 'colors';
 
 #magic8ball {
-  background-color: colors.$grey-dark;
-  border: 8px solid white;
-  border-radius: 50%;
+  // background-color: colors.$grey-medium;
+  // border: 8px solid colors.$grey-light;
+  // border-radius: 50%;
   image-rendering: pixelated;
-  width: 184px;
-  height: 184px;
-  overflow: hidden;
+  // width: 184px;
+  // height: 184px;
+  // overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,16 +40,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
-      font-weight: 500;
       backface-visibility: visible;
 
-      &.face1 { background: #EEEDFE; border-color: #534AB7; color: #3C3489; transform: translateZ(50px); }
-      &.face2 { background: #E1F5EE; border-color: #0F6E56; color: #085041; transform: rotateY(180deg) translateZ(50px); }
-      &.face3 { background: #FAECE7; border-color: #993C1D; color: #712B13; transform: rotateY(-90deg) translateZ(50px); }
-      &.face4 { background: #FAEEDA; border-color: #854F0B; color: #633806; transform: rotateY(90deg) translateZ(50px); }
-      &.face5 { background: #E6F1FB; border-color: #185FA5; color: #0C447C; transform: rotateX(90deg) translateZ(50px); }
-      &.face6 { background: #EAF3DE; border-color: #3B6D11; color: #27500A; transform: rotateX(-90deg) translateZ(50px); }
+      background-color: colors.$grey-light;
+
+      img {
+        width: 60%;
+      }
+
+      &.face1 img {
+        width: inherit;
+      }
+
+      &.face1 { transform: translateZ(50px); }
+      &.face2 { transform: rotateY(180deg) translateZ(50px); }
+      &.face3 { transform: rotateY(-90deg) translateZ(50px); }
+      &.face4 { transform: rotateY(90deg) translateZ(50px); }
+      &.face5 { transform: rotateX(90deg) translateZ(50px); }
+      &.face6 { transform: rotateX(-90deg) translateZ(50px); }
     }
   }
 }
