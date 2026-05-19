@@ -5,7 +5,7 @@ import '../styles/Footer.scss';
 function Footer() {
   const [focus, setFocus] = useState(null);
 
-  const face = (f) => ({ onMouseEnter: () => setFocus(f), onMouseLeave: () => setFocus(null) });
+  const face = (f) => ({ onMouseEnter: () => setFocus(f), onMouseLeave: () => setFocus('face1') });
 
   return (
     <footer className='container'>

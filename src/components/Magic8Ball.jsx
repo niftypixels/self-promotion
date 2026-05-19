@@ -28,14 +28,14 @@ function Magic8Ball({ focus = null }) {
 
     const state = idleState.current;
 
-    function tick() {
-      state.ry += 0.15 * state.dir;
-      if (state.ry > 50) state.dir = -1;
-      if (state.ry < 10) state.dir = 1;
-      cube.style.transform = `rotateX(-20deg) rotateY(${state.ry}deg)`;
-      rafRef.current = requestAnimationFrame(tick);
-    }
-    tick();
+    // function tick() {
+    //   state.ry += 0.15 * state.dir;
+    //   if (state.ry > 50) state.dir = -1;
+    //   if (state.ry < 10) state.dir = 1;
+    //   cube.style.transform = `rotateX(-20deg) rotateY(${state.ry}deg)`;
+    //   rafRef.current = requestAnimationFrame(tick);
+    // }
+    // tick();
 
     return () => cancelAnimationFrame(rafRef.current);
   }, [focus]);
