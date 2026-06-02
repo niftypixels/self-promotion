@@ -1,0 +1,68 @@
+@use 'colors';
+@use 'animations';
+
+#magic8ball {
+  $cube-size: 150px;
+
+  background-color: colors.$accent-color;
+  border: 8px solid colors.$grey-light;
+  border-radius: 50%;
+  image-rendering: pixelated;
+  width: 184px;
+  height: 184px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  #cube-scene {
+    perspective: calc($cube-size * 2);
+    width: $cube-size;
+    height: $cube-size;
+  }
+
+  #cube-bob {
+    --bob-amplitude: -5px;
+    width: $cube-size;
+    height: $cube-size;
+    animation: bob 3s ease-in-out infinite;
+  }
+
+  #cube {
+    width: $cube-size;
+    height: $cube-size;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    .face {
+      position: absolute;
+      width: $cube-size;
+      height: $cube-size;
+      border: 2px solid colors.$grey-medium;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backface-visibility: visible;
+
+      background-color: colors.$grey-light;
+
+      img {
+        width: 60%;
+      }
+
+      &.face1 img {
+        width: inherit;
+      }
+
+      &.face1 { transform: translateZ(calc($cube-size / 2)); }
+      &.face2 { transform: rotateY(180deg) translateZ(calc($cube-size / 2)); }
+      &.face3 { transform: rotateY(-90deg) translateZ(calc($cube-size / 2)); }
+      &.face4 { transform: rotateY(90deg) translateZ(calc($cube-size / 2)); }
+      &.face5 { transform: rotateX(90deg) translateZ(calc($cube-size / 2)); }
+      &.face6 { transform: rotateX(-90deg) translateZ(calc($cube-size / 2)); }
+    }
+  }
+}
+

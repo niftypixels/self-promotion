@@ -2,7 +2,7 @@ import '../styles/LavaMask.scss';
 
 function LavaMask({ flip = false }) {
   return (
-    <div className={flip && 'lava-mask-flip'}>
+    <div className={flip ? 'lava-mask-flip' : undefined}>
       <div className='lava-mask' aria-hidden='true' />
     </div>
   );

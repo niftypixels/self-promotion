@@ -1,10 +1,5 @@
 @use 'colors';
-
-@keyframes bob {
-  0%   { transform: translateY(calc(-1 * var(--bob-amplitude))); }
-  50%  { transform: translateY(var(--bob-amplitude)); }
-  100% { transform: translateY(calc(-1 * var(--bob-amplitude))); }
-}
+@use 'animations';
 
 #experience {
   margin: 4em auto;
