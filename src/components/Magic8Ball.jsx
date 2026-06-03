@@ -46,20 +46,20 @@ function Magic8Ball({ focus = null }) {
         <div id='cube-bob'>
           <div id='cube' ref={cubeRef}>
             <div className='face face1'>
-              <img src='sadmac.png' />
+              <img src='sadmac.png' alt='Mac is Sad' />
             </div>
             <div className='face face2'>2</div>
             <div className='face face3'>
-              <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg' />
+              <img src='github.svg' alt='GitHub' />
             </div>
             <div className='face face4'>
-              <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/linkedin.svg' />
+              <img src='linkedin.svg' alt='LinkedIn' />
             </div>
             <div className='face face5'>
-              <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/maildotru.svg' />              
+              <img src='email.svg' alt='Email' />
             </div>
             <div className='face face6'>
-              <img src='https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/adobeacrobatreader.svg' />
+              <img src='pdf.svg' alt='PDF' />
             </div>
           </div>
         </div>
