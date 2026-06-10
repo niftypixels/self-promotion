@@ -1,6 +1,6 @@
 import '../styles/About.scss';
 
-export const ABOUT = 'I am a software engineer with over a decade of expertise crafting creative interactive experiences for top global brands including PlayStation, Samsung, Nvidia, ESPN, Disney, Paramount, Lionsgate, HBO, and UFC — just to name a few.';
+export const ABOUT = 'I have 20+ years of expertise building creative interactive applications for global brands including PlayStation, Samsung, ESPN, Disney, Paramount, Lionsgate, HBO and UFC.\n\nCurrently consulting; open to contract and full-time opportunities.';
 
 function About() {
   return (

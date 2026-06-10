@@ -440,7 +440,8 @@ function Game({ mainRef }) {
       <canvas ref={canvasRef} />
       <div id='wall'>
         {ABOUT.split('').map((char, index) => (
-          (char === ' ') ? char :
+          char === '\n' ? <br key={index} /> :
+          char === ' ' ? char :
           <span className='brick' key={index}>{char}</span>
         ))}
       </div>
