@@ -3,6 +3,7 @@
 
 #magic8ball {
   $cube-size: 150px;
+  box-shadow: inset 0px 2px 3px colors.$grey-medium;
 
   background-color: colors.$accent-color;
   border: 8px solid colors.$grey-light;
