@@ -24,6 +24,10 @@ footer {
       color: white;
       text-shadow: 0px 1px 2px colors.$grey-medium;
     }
+
+    &:last-of-type {
+      margin: auto;
+    }
   }
 
   a {
