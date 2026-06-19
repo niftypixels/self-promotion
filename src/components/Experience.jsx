@@ -5,23 +5,21 @@ function Experience() {
     <section className='container' id='experience'>
       <div>
 
-        <h3 className='blob' style={{ '--bob-delay': '0s' }}>
+        <article className='blob' style={{ '--bob-delay': '0s' }}>
           <strong>Sony Interactive Entertainment</strong>
-          Tech Lead, Senior Software Engineer
-          <span>07/2014 &mdash; 12/2023 &raquo; Aliso Viejo + San Francisco, CA</span>
-        </h3>
+          <p>Tech Lead, Senior Software Engineer</p>
+          <span>07/2014 &mdash; 12/2023 &bull; Aliso Viejo + San Francisco, CA</span>
+        </article>
 
-        <h3 className='blob' style={{ '--bob-delay': '0.5s' }}>
+        <article className='blob' style={{ '--bob-delay': '0.6s' }}>
           <strong>RED Interactive Agency</strong>
-          Front-end Engineer
-          <span>09/2010 &mdash; 06/2014 &raquo; Santa Monica, CA</span>
-        </h3>
+          <p>Front-end Engineer</p>
+          <span>09/2010 &mdash; 06/2014 &bull; Santa Monica, CA</span>
+        </article>
 
         <aside className='blob' style={{ '--bob-delay': '1.3s' }}>
-          <h3>
-            <strong>Awards</strong>
-            FWA of the Day
-          </h3>
+          <strong>Awards</strong>
+          <p>FWA of the Day</p>
           <ul>
             <li>
               <a href='//thefwa.com/cases/el-rey-network' target='_blank'>
