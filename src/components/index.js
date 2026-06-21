@@ -7,7 +7,7 @@ import Experience from './Experience';
 import Footer from './Footer';
 import Game from './Game';
 import Header from './Header';
-import LavaMask from './LavaMask';
+import Lava from './Lava';
 import LavaSplash from './LavaSplash';
 import Magic8Ball from './Magic8Ball';
 
@@ -21,7 +21,7 @@ export {
   Footer,
   Game,
   Header,
-  LavaMask,
+  Lava,
   LavaSplash,
   Magic8Ball,
 };

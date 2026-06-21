@@ -7,7 +7,7 @@ import {
   Footer,
   Game,
   Header,
-  LavaMask
+  Lava
 } from '.';
 import { useIsMobile } from '../hooks';
 import '../styles/App.scss';
@@ -24,7 +24,7 @@ function App() {
         <Header />
         {isMobile ? <About /> : <Game mainRef={mainRef} />}
       </main>
-      <LavaMask />
+      <Lava />
       <Experience />
       <Footer />
     </>
