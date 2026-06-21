@@ -1,10 +1,8 @@
 import '../styles/LavaMask.scss';
 
-function LavaMask({ flip = false }) {
+function LavaMask() {
   return (
-    <div className={flip ? 'lava-mask-flip' : undefined}>
-      <div className='lava-mask' aria-hidden='true' />
-    </div>
+    <div className='lava-mask' aria-hidden='true' />
   );
 }
 

@@ -16,15 +16,6 @@
     lava-bob    3s ease-in-out infinite;
 }
 
-.lava-mask-flip {
-  transform: scaleY(-1);
-  margin-bottom: -15px;
-
-  .lava-mask {
-    margin-top: 0;
-  }
-}
-
 @keyframes lava-scroll {
   from { mask-position: 0 0; }
   to   { mask-position: 1400px 0; }

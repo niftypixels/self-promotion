@@ -26,7 +26,6 @@ function App() {
       </main>
       <LavaMask />
       <Experience />
-      <LavaMask flip />
       <Footer />
     </>
   )
