@@ -24,7 +24,7 @@ function Footer() {
           PDF
         </a>
       </p>
-      <p class='copyright'>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</p>
+      <p className='copyright'>SCOTT <br /> TWEDE <br /> &copy;{new Date().getFullYear()}</p>
       <p>Made with <img src='heart.svg' alt='❤' /> in OC</p>
     </footer>
   )
