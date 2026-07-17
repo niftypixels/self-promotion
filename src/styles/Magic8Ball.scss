@@ -2,19 +2,18 @@
 @use 'animations';
 
 #magic8ball {
-  $cube-size: 150px;
-  box-shadow: inset 0px 2px 3px colors.$grey-medium;
-
+  $cube-size: 13em;
+  
   background-color: colors.$accent-color;
   border: 8px solid colors.$grey-light;
   border-radius: 50%;
-  image-rendering: pixelated;
-  width: 184px;
-  height: 184px;
-  overflow: hidden;
-  display: flex;
+  box-shadow: inset 0px 2px 3px colors.$grey-medium;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  image-rendering: pixelated;
+  overflow: hidden;
+  padding: 1em;
 
   #cube-scene {
     perspective: calc($cube-size * 2);
