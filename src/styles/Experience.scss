@@ -47,14 +47,13 @@
   }
 
   h3 {
-    color: colors.$grey-dark;
     font-size: clamp(1.3rem, 3.5vw, 2rem);
     line-height: 1.3;
     overflow-wrap: break-word;
   }
 
   strong {
-    color: white;
+    color: colors.$grey-dark;
     display: block;
     font-size: clamp(2rem, 9vw, 4rem);
     line-height: 1.05;
@@ -69,10 +68,8 @@
   span {
     color: colors.$grey-light;
     display: block;
-    font-size: clamp(0.7rem, 2.5vw, 1.1rem);
+    font-size: clamp(0.7rem, 2.5vw, 1rem);
     font-family: 'Space Mono', monospace;
-    font-style: normal;
-    line-height: 1.5;
     letter-spacing: 0.08em;
     margin: .7em auto;
     text-transform: uppercase;

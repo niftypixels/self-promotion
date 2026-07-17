@@ -7,13 +7,13 @@ function Experience() {
 
         <h3 className='blob' style={{ '--bob-delay': '0s' }}>
           <strong>Sony Interactive Entertainment</strong>
-          <span>07/2014 &mdash; 12/2023 &raquo; Aliso Viejo + San Francisco, CA</span>
+          <span>07/2014 &mdash; 12/2023 <br /> &raquo; Aliso Viejo + San Francisco, CA</span>
           Tech Lead, Senior Software Engineer
         </h3>
 
         <h3 className='blob' style={{ '--bob-delay': '0.5s' }}>
           <strong>RED Interactive Agency</strong>
-          <span>09/2010 &mdash; 06/2014 &raquo; Santa Monica, CA</span>
+          <span>09/2010 &mdash; 06/2014 <br /> &raquo; Santa Monica, CA</span>
           Front-end Engineer
         </h3>
 
