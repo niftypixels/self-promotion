@@ -11,14 +11,14 @@ footer {
   &::before {
     content: '';
     display: block;
-    height: $tooth-size * .5;
-    background:
+    background-image:
       linear-gradient(to bottom right, colors.$accent-color 50%, transparent 50%),
       linear-gradient(to bottom left, colors.$accent-color 50%, transparent 50%);
     background-position: bottom center;
     background-repeat: repeat-x;
     background-size: $tooth-size $tooth-size * .7;
-    margin-bottom: 2em;
+    height: $tooth-size * .5;
+    margin-bottom: $tooth-size * .5;
   }
 
   &.container {
