@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { useInterval } from '../hooks';
+import { useInterval, useTabVisible } from '../hooks';
 import '../styles/BackgroundStatic.scss';
 
 function BackgroundStatic({ fps = 60 }) {
   const canvasRef = useRef(null);
+  const tabVisible = useTabVisible();
 
   useEffect(() => {
     const resizeCanvas = () => {
@@ -15,10 +16,7 @@ function BackgroundStatic({ fps = 60 }) {
     resizeCanvas();
 
     window.addEventListener('resize', resizeCanvas);
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
+    return () => window.removeEventListener('resize', resizeCanvas);
   }, []);
 
   useInterval(() => {
@@ -33,7 +31,7 @@ function BackgroundStatic({ fps = 60 }) {
     }
 
     ctx.putImageData(imageData, 0, 0);
-  }, 1000 / fps);
+  }, tabVisible ? 1000 / fps : null);
 
   return (
     <canvas id='background-static' ref={canvasRef} />
