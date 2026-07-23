@@ -1,12 +1,26 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
+import { useTabVisible } from '../hooks';
 import '../styles/BackgroundParticles.scss';
 
 function BackgroundParticles() {
+  const containerRef = useRef(null);
+  const tabVisible = useTabVisible();
+
   const particlesInit = useCallback(async (engine) => {
     await loadSlim(engine);
   }, []);
+
+  const particlesLoaded = useCallback(async (container) => {
+    containerRef.current = container;
+    if (!tabVisible) container.pause();
+  }, [tabVisible]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    tabVisible ? containerRef.current.play() : containerRef.current.pause();
+  }, [tabVisible]);
 
   const particlesOptions = {
     fpsLimit: 60,
@@ -81,6 +95,7 @@ function BackgroundParticles() {
     <Particles
       id='background-particles'
       init={particlesInit}
+      loaded={particlesLoaded}
       options={particlesOptions}
     />
   );
