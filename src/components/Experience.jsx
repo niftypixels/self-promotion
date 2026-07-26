@@ -41,10 +41,10 @@ const AWARDS = [
 ];
 
 function Experience() {
-  function monthYear(date) {
-    const dateString = date.toDateString();
-    return `${dateString.slice(4, 7)} ${dateString.slice(-4)}`;
-  }
+  const monthYear = (date) => date.toLocaleString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  });
 
   return (
     <section className='container' id='experience'>
