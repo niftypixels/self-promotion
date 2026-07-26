@@ -3,15 +3,15 @@ import '../styles/Experience.scss';
 const JOBS = [
   {
     company: 'Sony Interactive Entertainment',
-    startDate: new Date('07/2014'),
-    endDate: new Date('12/2023'),
+    startDate: new Date('7/1/2014'),
+    endDate: new Date('12/1/2023'),
     location: 'Aliso Viejo + San Francisco, CA',
     role: 'Tech Lead, Senior Software Engineer'
   },
   {
     company: 'RED Interactive Agency',
-    startDate: new Date('09/2010'),
-    endDate: new Date('06/2014'),
+    startDate: new Date('9/1/2010'),
+    endDate: new Date('6/1/2014'),
     location: 'Santa Monica, CA',
     role: 'Front-end Engineer'
   }
@@ -41,6 +41,11 @@ const AWARDS = [
 ];
 
 function Experience() {
+  function monthYear(date) {
+    const dateString = date.toDateString();
+    return `${dateString.slice(4, 7)} ${dateString.slice(-4)}`;
+  }
+
   return (
     <section className='container' id='experience'>
       <div>
@@ -48,24 +53,12 @@ function Experience() {
           <h3 className='blob' style={{ '--bob-delay': '0s' }} key={index}>
             <strong>{company}</strong>
             <span>
-              {startDate.toDateString()} &mdash; {endDate.toDateString()}
+              {monthYear(startDate)} &mdash; {monthYear(endDate)}
               <br /> &raquo; {location}
             </span>
             {role}
           </h3>
         ))}
-
-        <h3 className='blob' style={{ '--bob-delay': '0s' }}>
-          <strong>Sony Interactive Entertainment</strong>
-          <span>07/2014 &mdash; 12/2023 <br /> &raquo; Aliso Viejo + San Francisco, CA</span>
-          Tech Lead, Senior Software Engineer
-        </h3>
-
-        <h3 className='blob' style={{ '--bob-delay': '0.5s' }}>
-          <strong>RED Interactive Agency</strong>
-          <span>09/2010 &mdash; 06/2014 <br /> &raquo; Santa Monica, CA</span>
-          Front-end Engineer
-        </h3>
 
         <aside className='blob' style={{ '--bob-delay': '1.3s' }}>
           <h3>
@@ -78,7 +71,7 @@ function Experience() {
                 <a href={href} target='_blank'>
                   {project}
                 </a>
-                {/* {date.toDateString().slice(4)} */}
+                {date.toDateString().slice(4)}
               </li>
             ))}
           </ul>
