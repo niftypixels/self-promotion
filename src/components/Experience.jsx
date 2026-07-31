@@ -39,10 +39,6 @@ function Experience() {
         ))}
 
         <aside className='blob' style={{ '--bob-delay': '1.3s' }}>
-          <h3>
-            <strong>Awards</strong>
-            FWA of the Day
-          </h3>
           <Awards />
         </aside>
       </div>
