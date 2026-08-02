@@ -1,3 +1,28 @@
+@use 'colors';
+
 #awards {
-  
+  display: inline-flex;
+  border-radius: 15px;
+
+  .dispenser {
+    background-color: colors.$grey-dark;
+    color: colors.$accent-color;
+    font-size: 2em;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5em;
+  }
+
+  .tape {
+    background-color: white;
+    color: colors.$grey-dark;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1em;
+
+    small {
+      color: colors.$grey-medium;
+    }
+  }
 }

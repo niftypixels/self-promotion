@@ -30,11 +30,15 @@ const AWARDS = [
 function Awards() {
   return (
     <div id='awards'>
-      <span className='dispenser'>
+      <div className='dispenser'>
         &#9733;
-      </span>
+      </div>
+      <a className='tape'>
+        <strong>{AWARDS[0].project}</strong>
+        <small>{AWARDS[0].award}, {AWARDS[0].date.toDateString().slice(4)}</small>
+      </a>
 
-{/* 
+{/*
       <ul>
         {AWARDS.map(({ date, href, project }) => (
           <li key={href}>
