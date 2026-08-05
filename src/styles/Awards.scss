@@ -1,12 +1,53 @@
 @use 'colors';
 
 #awards {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  font-size: 1.5em;
+
+  .emitter {
+    background-color: colors.$grey-dark;
+    color: colors.$accent-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
   ul {
+    display: grid;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 
     li {
+      grid-area: 1 / 1;
+      justify-self: start;
       list-style: none;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+
+      &.enter {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+
+      &.shown {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      &.exit {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+
+      &.idle {
+        opacity: 0;
+        transform: translateX(-100%);
+        visibility: hidden;
+      }
     }
   }
 
