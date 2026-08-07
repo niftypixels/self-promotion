@@ -1,12 +1,15 @@
 @use 'colors';
 
 #awards {
+  $border-style: 4px dashed white;
+
   display: grid;
   grid-template-columns: auto 1fr;
   font-size: 1.5em;
 
   .emitter {
     background-color: colors.$grey-dark;
+    border-right: $border-style;
     color: colors.$accent-color;
     display: flex;
     align-items: center;
@@ -23,6 +26,7 @@
     overflow: hidden;
 
     li {
+      border-right: $border-style;
       grid-area: 1 / 1;
       justify-self: start;
       list-style: none;
