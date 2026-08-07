@@ -77,7 +77,7 @@ function Awards() {
   return (
     <div id='awards'>
       <div className='emitter'>
-        &#9733;
+        <span className={phase}>&#9733;</span>
       </div>
       <ul role='list'>
         {AWARDS.map(({ award, date, href, project }, i) => (
