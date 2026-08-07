@@ -1,17 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import '../styles/Awards.scss';
 
-const ENTER_MS = 500;
-const VISIBLE_MS = 3000;
-const EXIT_MS = 500;
-const PAUSE_POLL_MS = 200;
-
-const Phase = Object.freeze({
-  ENTER: 'enter',
-  SHOWN: 'shown',
-  EXIT: 'exit',
-});
-
 const AWARDS = [
   {
     award: 'FWA Mobile of the Day',
@@ -38,6 +27,17 @@ const AWARDS = [
     project: "Lucasfilm's Star Wars Visualizer"
   }
 ];
+
+const ENTER_MS = 500;
+const EXIT_MS = 500;
+const PAUSE_POLL_MS = 200;
+const VISIBLE_MS = 3000;
+
+const Phase = Object.freeze({
+  ENTER: 'enter',
+  SHOWN: 'shown',
+  EXIT: 'exit',
+});
 
 function Awards() {
   const [index, setIndex] = useState(0);
