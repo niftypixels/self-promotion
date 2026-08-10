@@ -2,10 +2,12 @@
 @use 'animations';
 
 #experience {
-  margin: 4em auto;
+  // margin: 4em auto;
+  padding: 1em;
   // -webkit-font-smoothing: antialiased;
   // -moz-osx-font-smoothing: grayscale;
 
+  /*
   @media (min-width: 640px) {
     margin: 6em auto;
   }
@@ -21,6 +23,7 @@
       align-items: start;
     }
   }
+  */
 
   .blob {
     --bob-amplitude: 12px;
@@ -33,11 +36,11 @@
       animation-play-state: paused;
     }
 
-    &:first-child {
-      @media (min-width: 640px) {
-        grid-column: 1 / -1;
-      }
-    }
+    // &:first-child {
+    //   @media (min-width: 640px) {
+    //     grid-column: 1 / -1;
+    //   }
+    // }
 
     // &:not(:first-child) {
     //   strong {

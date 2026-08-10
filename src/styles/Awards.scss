@@ -8,7 +8,6 @@
 #awards {
   display: grid;
   grid-template-columns: auto 1fr;
-  font-size: 1.5em;
 
   .emitter {
     aspect-ratio: 1 / 1;
@@ -17,8 +16,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 2em;
     height: 100%;
+    transform-origin: center;
 
     span.enter {
       animation: emitter-spin 0.5s ease;
@@ -32,10 +32,12 @@
     overflow: hidden;
 
     li {
-      border: dashed white;
-      border-width: 0 4px;
+      background-color: white;
       grid-area: 1 / 1;
       justify-self: start;
+      display: flex;
+      align-items: center;
+      line-height: 1;
       list-style: none;
       transition: transform 0.5s ease, opacity 0.5s ease;
 
@@ -63,7 +65,6 @@
   }
 
   a {
-    background-color: white;
     color: colors.$grey-dark;
     display: flex;
     flex-direction: column;
@@ -77,6 +78,7 @@
     small {
       color: colors.$grey-medium;
       display: block;
+      margin-top: 0.5em;
     }
   }
 }
