@@ -33,10 +33,10 @@
 
     li {
       background-color: white;
-      grid-area: 1 / 1;
-      justify-self: start;
       display: flex;
       align-items: center;
+      grid-area: 1 / 1;
+      justify-self: start;
       line-height: 1;
       list-style: none;
       transition: transform 0.5s ease, opacity 0.5s ease;
@@ -66,7 +66,6 @@
 
   a {
     color: colors.$grey-dark;
-    display: flex;
     flex-direction: column;
     padding: 1em;
     text-decoration: none;
