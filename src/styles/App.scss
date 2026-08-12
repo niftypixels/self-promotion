@@ -2,6 +2,12 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Rubik+Bubbles&family=Space+Mono&display=swap');
 
+@keyframes bobber {
+  0%   { transform: translateY(calc(-1 * var(--bob-amplitude))); }
+  50%  { transform: translateY(var(--bob-amplitude)); }
+  100% { transform: translateY(calc(-1 * var(--bob-amplitude))); }
+}
+
 body {
   background-color: colors.$accent-color;
   color: white;
@@ -26,6 +32,18 @@ main {
 
   @media (min-width: 768px) {
     height: 90%;
+  }
+}
+
+.bobber {
+  --bob-amplitude: 12px;
+  --bob-duration: 6s;
+  --bob-delay: 0s;
+  animation: bobber var(--bob-duration) var(--bob-delay) ease-in-out infinite;
+  will-change: transform;
+
+  &:hover {
+    animation-play-state: paused;
   }
 }
 

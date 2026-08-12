@@ -1,11 +1,7 @@
 @use 'colors';
-@use 'animations';
 
 #experience {
-  // margin: 4em auto;
   padding: 1em;
-  // -webkit-font-smoothing: antialiased;
-  // -moz-osx-font-smoothing: grayscale;
 
   /*
   @media (min-width: 640px) {
@@ -24,30 +20,6 @@
     }
   }
   */
-
-  .blob {
-    --bob-amplitude: 12px;
-    --bob-duration: 6s;
-    --bob-delay: 0s;
-    animation: bob var(--bob-duration) var(--bob-delay) ease-in-out infinite;
-    will-change: transform;
-
-    &:hover {
-      animation-play-state: paused;
-    }
-
-    // &:first-child {
-    //   @media (min-width: 640px) {
-    //     grid-column: 1 / -1;
-    //   }
-    // }
-
-    // &:not(:first-child) {
-    //   strong {
-    //     font-size: clamp(1.75rem, 7vw, 2.5rem);
-    //   }
-    // }
-  }
 
   /*
   h3 {
@@ -80,57 +52,4 @@
   }
   */
 
-  /*
-  aside {
-    background-color: colors.$grey-light;
-    display: inline-block;
-    padding: 1.5em;
-    border-radius: 3em;
-    width: fit-content;
-
-    @media (min-width: 640px) {
-      padding: 2em;
-    }
-
-    h3 {
-      color: colors.$grey-dark;
-      margin-top: 0;
-
-      strong {
-        color: colors.$accent-color;
-      }
-    }
-  }
-
-  ul {
-    font-size: clamp(1rem, 4vw, 1.375rem);
-    color: colors.$accent-color;
-    list-style: none;
-    margin: 0;
-    padding-left: 1.5em;
-
-    li {
-      line-height: 1.5;
-      margin: 0;
-      padding: .3em .5em;
-
-      &::marker {
-        content: '★';
-      }
-    }
-  }
-
-  a {
-    border-radius: 3px;
-    color: colors.$grey-dark;
-    padding: .3em .5em;
-    text-decoration: none;
-    transition: all 250ms ease-in-out;
-
-    &:hover {
-      background-color: colors.$accent-color;
-      color: white;
-    }
-  }
-  */
 }

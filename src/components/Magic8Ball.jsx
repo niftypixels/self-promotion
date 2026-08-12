@@ -13,7 +13,6 @@ const FACE_TRANSFORMS = {
 function Magic8Ball({ focus = null }) {
   const cubeRef = useRef(null);
   const rafRef = useRef(null);
-  const idleState = useRef({ ry: 30, dir: 1 });
 
   useEffect(() => {
     const cube = cubeRef.current;
@@ -26,27 +25,16 @@ function Magic8Ball({ focus = null }) {
       return;
     }
 
-    const state = idleState.current;
-
-    // function tick() {
-    //   state.ry += 0.15 * state.dir;
-    //   if (state.ry > 50) state.dir = -1;
-    //   if (state.ry < 10) state.dir = 1;
-    //   cube.style.transform = `rotateX(-20deg) rotateY(${state.ry}deg)`;
-    //   rafRef.current = requestAnimationFrame(tick);
-    // }
-    // tick();
-
     return () => cancelAnimationFrame(rafRef.current);
   }, [focus]);
 
   return (
     <div id='magic8ball'>
       <div id='cube-scene'>
-        <div id='cube-bob'>
+        <div className='bobber' style={{ '--bob-amplitude': '-5px', '--bob-duration': '3s' }}>
           <div id='cube' ref={cubeRef}>
             <div className='face face1'>
-              <img src='sadmac.png' alt='Mac is Sad' />
+              <img src='sadmac.png' alt='Sad Mac' />
             </div>
             <div className='face face2'>2</div>
             <div className='face face3'>
