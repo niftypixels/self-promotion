@@ -2,6 +2,35 @@
 
 #experience {
   padding: 1em;
+  font-size: 1.3em;
+
+  article {
+    line-height: 1;
+
+    h3 {
+      color: colors.$grey-dark;
+      font-family: "Rubik Bubbles", system-ui;
+      font-size: 3em;
+      font-style: normal;
+      font-weight: 400;
+      margin-bottom: 0;
+    }
+
+    span {
+      color: colors.$grey-light;
+      display: block;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.08em;
+      margin: .7em auto;
+      text-transform: uppercase;
+    }
+
+    p {
+      font-size: 1.5em;
+    }
+
+  }
+
 
   /*
   @media (min-width: 640px) {
