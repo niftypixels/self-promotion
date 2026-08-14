@@ -28,8 +28,6 @@ function Experience() {
     <section className='container' id='experience'>
       <div>
 
-        <br /><br /><br />
-
         {JOBS.map(({ company, startDate, endDate, location, role }, index) => (
           <article key={index}>
             <h3>{company}</h3>
@@ -40,8 +38,6 @@ function Experience() {
             <p>{role}</p>
           </article>
         ))}
-
-        <br /><br /><br />
 
         <aside style={{ '--bob-delay': '1.3s' }}>
           <Awards />
