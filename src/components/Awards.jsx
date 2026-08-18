@@ -76,6 +76,7 @@ function Awards() {
 
   return (
     <div id='awards'>
+      <h4>Awards</h4>
       <div className='emitter'>
         <span className={phase}>&#9733;</span>
       </div>

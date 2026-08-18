@@ -9,6 +9,14 @@
   display: grid;
   grid-template-columns: auto 1fr;
 
+  h4 {
+    font-family: "Rubik Bubbles", system-ui;
+    font-style: normal;
+    font-weight: 400;
+    grid-column: 1 / -1;
+    margin: .5em 0;
+  }
+
   .emitter {
     aspect-ratio: 1 / 1;
     background-color: colors.$grey-dark;
