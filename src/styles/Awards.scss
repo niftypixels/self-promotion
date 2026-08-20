@@ -1,0 +1,93 @@
+@use 'colors';
+
+@keyframes emitter-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(72deg); }
+}
+
+#awards {
+  display: grid;
+  grid-template-columns: auto 1fr;
+
+  h4 {
+    font-family: "Rubik Bubbles", system-ui;
+    font-style: normal;
+    font-weight: 400;
+    grid-column: 1 / -1;
+    margin: .5em 0;
+  }
+
+  .emitter {
+    aspect-ratio: 1 / 1;
+    background-color: colors.$grey-dark;
+    color: colors.$accent-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    height: 100%;
+    line-height: 1;
+    transform-origin: center;
+
+    span.enter {
+      animation: emitter-spin 0.5s ease;
+    }
+  }
+
+  ul {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    li {
+      background-color: white;
+      display: flex;
+      align-items: center;
+      grid-area: 1 / 1;
+      justify-self: start;
+      line-height: 1;
+      list-style: none;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+
+      &.enter {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+
+      &.shown {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      &.exit {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+
+      &.idle {
+        opacity: 0;
+        transform: translateX(-100%);
+        visibility: hidden;
+      }
+    }
+  }
+
+  a {
+    color: colors.$grey-dark;
+    flex-direction: column;
+    padding: 1em;
+    text-decoration: none;
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      color: colors.$accent-color;
+    }
+
+    small {
+      color: colors.$grey-medium;
+      display: block;
+      margin-top: 0.5em;
+    }
+  }
+}

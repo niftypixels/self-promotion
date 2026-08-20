@@ -1,129 +1,55 @@
 @use 'colors';
-@use 'animations';
 
 #experience {
-  margin: 4em auto;
-  // -webkit-font-smoothing: antialiased;
-  // -moz-osx-font-smoothing: grayscale;
-
-  @media (min-width: 640px) {
-    margin: 6em auto;
-  }
+  padding: 1em 1em 4em;
 
   & > div {
+    align-items: center;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2em;
+    gap: 3em;
 
-    @media (min-width: 640px) {
-      grid-template-columns: auto auto;
-      justify-content: space-between;
+    @media (min-width: 768px) {
       align-items: start;
-    }
-  }
+      font-size: 1.3em;
+      grid-template-columns: 1fr 1fr;
+      margin: 4em auto 2em;
 
-  .blob {
-    --bob-amplitude: 12px;
-    --bob-duration: 6s;
-    --bob-delay: 0s;
-    animation: bob var(--bob-duration) var(--bob-delay) ease-in-out infinite;
-    will-change: transform;
-
-    &:hover {
-      animation-play-state: paused;
-    }
-
-    &:first-child {
-      @media (min-width: 640px) {
+      & > *:first-child {
         grid-column: 1 / -1;
       }
     }
 
-    &:not(:first-child) {
-      strong {
-        font-size: clamp(1.75rem, 7vw, 2.5rem);
-      }
+    & > * {
+      min-width: 0;
     }
   }
 
-  h3 {
-    font-size: clamp(1.3rem, 3.5vw, 2rem);
-    line-height: 1.3;
-    overflow-wrap: break-word;
-  }
-
-  strong {
-    color: colors.$grey-dark;
-    display: block;
-    font-size: clamp(2rem, 9vw, 4rem);
-    line-height: 1.05;
-    text-wrap: balance;
-    hyphens: auto;
-    font-family: "Rubik Bubbles", system-ui;
-    font-weight: 400;
-    font-style: normal;
-    overflow-wrap: break-word;
-  }
-
-  span {
-    color: colors.$grey-light;
-    display: block;
-    font-size: clamp(0.7rem, 2.5vw, 1rem);
-    font-family: 'Space Mono', monospace;
-    letter-spacing: 0.08em;
-    margin: .7em auto;
-    text-transform: uppercase;
-  }
-
-  aside {
-    background-color: colors.$grey-light;
-    display: inline-block;
-    padding: 1.5em;
-    border-radius: 3em;
-    width: fit-content;
-
-    @media (min-width: 640px) {
-      padding: 2em;
-    }
+  article {
+    line-height: 1;
 
     h3 {
       color: colors.$grey-dark;
-      margin-top: 0;
-
-      strong {
-        color: colors.$accent-color;
-      }
+      font-family: "Rubik Bubbles", system-ui;
+      font-size: 2.8em;
+      font-style: normal;
+      font-weight: 400;
+      margin: 0 auto;
     }
-  }
 
-  ul {
-    font-size: clamp(1rem, 4vw, 1.375rem);
-    color: colors.$accent-color;
-    list-style: none;
-    margin: 0;
-    padding-left: 1.5em;
+    span {
+      color: colors.$grey-light;
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: .8em;
+      letter-spacing: 0.08em;
+      margin: 1em auto;
+      text-transform: uppercase;
+    }
 
-    li {
-      line-height: 1.5;
+    p {
+      font-size: 1.4em;
       margin: 0;
-      padding: .3em .5em;
-
-      &::marker {
-        content: '★';
-      }
-    }
-  }
-
-  a {
-    border-radius: 3px;
-    color: colors.$grey-dark;
-    padding: .3em .5em;
-    text-decoration: none;
-    transition: all 250ms ease-in-out;
-
-    &:hover {
-      background-color: colors.$accent-color;
-      color: white;
     }
   }
 }

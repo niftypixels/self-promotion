@@ -1,5 +1,6 @@
 import About from './About';
 import App from './App';
+import Awards from './Awards';
 import BackgroundGrid from './BackgroundGrid';
 import BackgroundParticles from './BackgroundParticles';
 import BackgroundStatic from './BackgroundStatic';
@@ -14,6 +15,7 @@ import Magic8Ball from './Magic8Ball';
 export {
   About,
   App,
+  Awards,
   BackgroundGrid,
   BackgroundParticles,
   BackgroundStatic,

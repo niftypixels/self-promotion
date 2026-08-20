@@ -1,51 +1,43 @@
+import { Awards } from '.';
 import '../styles/Experience.scss';
 
+const JOBS = [
+  {
+    company: 'Sony Interactive Entertainment',
+    startDate: new Date('7/1/2014'),
+    endDate: new Date('12/1/2023'),
+    location: 'Aliso Viejo + San Francisco, CA',
+    role: 'Tech Lead, Senior Software Engineer'
+  },
+  {
+    company: 'RED Interactive Agency',
+    startDate: new Date('9/1/2010'),
+    endDate: new Date('6/1/2014'),
+    location: 'Santa Monica, CA',
+    role: 'Front-end Engineer'
+  }
+];
+
 function Experience() {
+  const monthYear = (date) => date.toLocaleString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  });
+
   return (
     <section className='container' id='experience'>
       <div>
-
-        <h3 className='blob' style={{ '--bob-delay': '0s' }}>
-          <strong>Sony Interactive Entertainment</strong>
-          <span>07/2014 &mdash; 12/2023 <br /> &raquo; Aliso Viejo + San Francisco, CA</span>
-          Tech Lead, Senior Software Engineer
-        </h3>
-
-        <h3 className='blob' style={{ '--bob-delay': '0.5s' }}>
-          <strong>RED Interactive Agency</strong>
-          <span>09/2010 &mdash; 06/2014 <br /> &raquo; Santa Monica, CA</span>
-          Front-end Engineer
-        </h3>
-
-        <aside className='blob' style={{ '--bob-delay': '1.3s' }}>
-          <h3>
-            <strong>Awards</strong>
-            FWA of the Day
-          </h3>
-          <ul>
-            <li>
-              <a href='//thefwa.com/cases/el-rey-network' target='_blank'>
-                El Rey Network
-              </a>
-            </li>
-            <li>
-              <a href='//thefwa.com/cases/ufc-social' target='_blank'>
-                UFC Social
-              </a>
-            </li>
-            <li>
-              <a href='//thefwa.com/cases/the-hunt-for-the-golden-pistachio' target='_blank'>
-                The Hunt for the Golden Pistachio
-              </a>
-            </li>
-            <li>
-              <a href='//thefwa.com/cases/lucasfilm-s-star-wars-visualizer' target='_blank'>
-                Lucasfilm's Star Wars Visualizer
-              </a>
-            </li>
-          </ul>
-        </aside>
-
+        {JOBS.map(({ company, startDate, endDate, location, role }, index) => (
+          <article key={index}>
+            <h3>{company}</h3>
+            <span>
+              {monthYear(startDate)} &mdash; {monthYear(endDate)}
+              <br /> &raquo; {location}
+            </span>
+            <p>{role}</p>
+          </article>
+        ))}
+        <Awards />
       </div>
     </section>
   );
