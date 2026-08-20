@@ -1,18 +1,19 @@
 @use 'colors';
 
 #experience {
-  padding: 1em;
+  padding: 1em 1em 4em;
 
   & > div {
+    align-items: center;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2em;
-    align-items: center;
+    gap: 3em;
 
     @media (min-width: 768px) {
       align-items: start;
       font-size: 1.3em;
       grid-template-columns: 1fr 1fr;
+      margin: 4em auto 2em;
 
       & > *:first-child {
         grid-column: 1 / -1;
