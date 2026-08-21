@@ -28,7 +28,7 @@ function Experience() {
     <section className='container' id='experience'>
       <div>
         {JOBS.map(({ company, startDate, endDate, location, role }, index) => (
-          <article key={index}>
+          <article key={index} className='bobber' style={{ '--bob-delay': '0s' }}>
             <h3>{company}</h3>
             <span>
               {monthYear(startDate)} &mdash; {monthYear(endDate)}

@@ -75,7 +75,7 @@ function Awards() {
   }, [phase]);
 
   return (
-    <div id='awards'>
+    <div id='awards' className='bobber' style={{ '--bob-delay': '0s' }}>
       <h4>Awards</h4>
       <div className='emitter'>
         <span className={phase}>&#9733;</span>
