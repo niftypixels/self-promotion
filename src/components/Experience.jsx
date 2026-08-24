@@ -18,6 +18,8 @@ const JOBS = [
   }
 ];
 
+const BOB_DELAYS = JOBS.map((_, index) => `${-(index * 1.5 + Math.random()).toFixed(2)}s`);
+
 function Experience() {
   const monthYear = (date) => date.toLocaleString('en-US', {
     month: 'long',
@@ -28,7 +30,7 @@ function Experience() {
     <section className='container' id='experience'>
       <div>
         {JOBS.map(({ company, startDate, endDate, location, role }, index) => (
-          <article key={index}>
+          <article key={index} className='bobber' style={{ '--bob-delay': BOB_DELAYS[index] }}>
             <h3>{company}</h3>
             <span>
               {monthYear(startDate)} &mdash; {monthYear(endDate)}
