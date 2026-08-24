@@ -6,6 +6,28 @@ import { ABOUT } from './About';
 import { useDebounce } from '../hooks';
 import '../styles/Game.scss';
 
+interface GameProps {
+  mainRef: React.RefObject<HTMLElement>;
+}
+
+interface SplashData {
+  x: number;
+  y: number;
+  id: number;
+}
+
+interface SoundOptions {
+  frequency: number;
+  duration: number;
+  type?: OscillatorType;
+  gain?: number;
+  slide?: number;
+}
+
+interface BrickBody extends Body {
+  domElement?: Element;
+}
+
 const BALL_OFFSET = 30;
 const BALL_RADIUS = 9;
 const BALL_SPEED = 6;
@@ -21,9 +43,11 @@ const GAME_STATE = {
   RUNNING: null,
   OVER:    'Game Over',
   WIN:     'You Win!',
-};
+} as const;
 
-function playSound(ctx, { frequency, duration, type = 'sine', gain = 0.3, slide }) {
+type GameStateKey = keyof typeof GAME_STATE;
+
+function playSound(ctx: AudioContext, { frequency, duration, type = 'sine', gain = 0.3, slide }: SoundOptions) {
   const osc = ctx.createOscillator();
   const env = ctx.createGain();
   osc.connect(env);
@@ -37,7 +61,7 @@ function playSound(ctx, { frequency, duration, type = 'sine', gain = 0.3, slide 
   osc.stop(ctx.currentTime + duration);
 }
 
-function playWin(ctx) {
+function playWin(ctx: AudioContext) {
   [523, 659, 784, 1047].forEach((freq, i) => {
     const osc = ctx.createOscillator();
     const env = ctx.createGain();
@@ -53,11 +77,10 @@ function playWin(ctx) {
   });
 }
 
-function increaseBallSpeed(velocity) {
+function increaseBallSpeed(velocity: Matter.Vector): Matter.Vector {
   const angle = Math.atan2(velocity.y, velocity.x);
   const currentSpeed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
 
-  // increase by 5% of remaining speed capacity
   const speedIncrement = (BALL_SPEED_MAX - currentSpeed) * 0.05;
   const newSpeed = Math.min(BALL_SPEED_MAX, currentSpeed + speedIncrement);
 
@@ -67,11 +90,11 @@ function increaseBallSpeed(velocity) {
   };
 }
 
-function normalizeVelocity(velocity) {
+function normalizeVelocity(velocity: Matter.Vector): Matter.Vector {
   const angle = Math.atan2(velocity.y, velocity.x);
   const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
 
-  if (Math.abs(Math.sin(angle)) < Math.sin(MIN_ANGLE)) { // adjust shallow angle
+  if (Math.abs(Math.sin(angle)) < Math.sin(MIN_ANGLE)) {
     const sign = Math.sign(velocity.y) || 1;
     const newAngle = sign * MIN_ANGLE;
 
@@ -81,7 +104,7 @@ function normalizeVelocity(velocity) {
     };
   }
 
-  if (Math.abs(Math.cos(angle)) < Math.sin(MIN_ANGLE)) { // adjust steep angle
+  if (Math.abs(Math.cos(angle)) < Math.sin(MIN_ANGLE)) {
     const sign = Math.sign(velocity.x) || 1;
     const newAngle = sign > 0 ? (Math.PI / 2 - MIN_ANGLE) : (Math.PI / 2 + MIN_ANGLE);
 
@@ -94,31 +117,31 @@ function normalizeVelocity(velocity) {
   return velocity;
 }
 
-function Game({ mainRef }) {
-  const [gameState, setGameState] = useState('READY');
+function Game({ mainRef }: GameProps) {
+  const [gameState, setGameState] = useState<GameStateKey>('READY');
   const [lives, setLives] = useState(TOTAL_LIVES);
   const [score, setScore] = useState(0);
   const [physicsKey, setPhysicsKey] = useState(0);
-  const [splash, setSplash] = useState(null);
+  const [splash, setSplash] = useState<SplashData | null>(null);
 
-  const gameRef = useRef(null);
-  const canvasRef = useRef(null);
+  const gameRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const livesRef = useRef(lives);
 
-  const engineRef = useRef(null);
-  const renderRef = useRef(null);
-  const runnerRef = useRef(null);
-  const worldRef = useRef(null);
-  const ballBodyRef = useRef(null);
-  const paddleBodyRef = useRef(null);
-  const brickBodiesRef = useRef([]);
-  const audioCtxRef = useRef(null);
+  const engineRef = useRef<Matter.Engine | null>(null);
+  const renderRef = useRef<Matter.Render | null>(null);
+  const runnerRef = useRef<Matter.Runner | null>(null);
+  const worldRef = useRef<Matter.World | null>(null);
+  const ballBodyRef = useRef<Matter.Body | null>(null);
+  const paddleBodyRef = useRef<Matter.Body | null>(null);
+  const brickBodiesRef = useRef<BrickBody[]>([]);
+  const audioCtxRef = useRef<AudioContext | null>(null);
 
-  useEffect(() => { // ref tracks state value for non-React event handlers
+  useEffect(() => {
     livesRef.current = lives;
   }, [lives]);
 
-  useEffect(() => { // init physics engine
+  useEffect(() => {
     if (!gameRef.current) return;
 
     const teardownPhysics = () => {
@@ -131,7 +154,7 @@ function Game({ mainRef }) {
       }
 
       if (engineRef.current) {
-        World.clear(worldRef.current);
+        World.clear(worldRef.current!, false);
         Engine.clear(engineRef.current);
       }
     };
@@ -144,8 +167,8 @@ function Game({ mainRef }) {
 
     worldRef.current = engineRef.current.world;
 
-    const { height, width } = mainRef.current.getBoundingClientRect();
-    const canvas = canvasRef.current;
+    const { height, width } = mainRef.current!.getBoundingClientRect();
+    const canvas = canvasRef.current!;
     canvas.width = width;
     canvas.height = height;
 
@@ -167,67 +190,55 @@ function Game({ mainRef }) {
     const initPaddleX = initBallX;
     const wallThickness = PADDLE_HEIGHT;
 
-    const wallBodies =  [
-      Bodies.rectangle( // top
+    const wallBodies = [
+      Bodies.rectangle(
         width / 2,
         -wallThickness / 2,
         width,
         wallThickness,
-        {
-          label: 'wall',
-          isStatic: true
-        }
+        { label: 'wall', isStatic: true }
       ),
-      Bodies.rectangle( // left
+      Bodies.rectangle(
         -wallThickness / 2,
         height / 2,
         wallThickness,
         height,
-        {
-          label: 'wall',
-          isStatic: true
-        }
+        { label: 'wall', isStatic: true }
       ),
-      Bodies.rectangle( // right
+      Bodies.rectangle(
         width + wallThickness / 2,
         height / 2,
         wallThickness,
         height,
-        {
-          label: 'wall',
-          isStatic: true
-        }
+        { label: 'wall', isStatic: true }
       ),
-      Bodies.rectangle( // bottom
+      Bodies.rectangle(
         width / 2,
         height + wallThickness / 2,
         width,
         wallThickness,
-        {
-          label: 'bottom',
-          isStatic: true,
-          isSensor: true
-        }
+        { label: 'bottom', isStatic: true, isSensor: true }
       )
     ];
 
     brickBodiesRef.current = Array.from(gameRef.current.getElementsByClassName('brick'))
-                                  .filter(brick => !brick.classList.contains('hit'))
-                                  .map((domElement) => {
-      const rect = domElement.getBoundingClientRect();
-      return Bodies.rectangle(
-        rect.left + rect.width / 2,
-        rect.top + rect.height / 2,
-        rect.width,
-        rect.height,
-        {
-          label: 'brick',
-          isStatic: true,
-          render: { fillStyle: 'transparent' },
-          domElement
-        }
-      );
-    });
+      .filter(brick => !brick.classList.contains('hit'))
+      .map((domElement) => {
+        const rect = domElement.getBoundingClientRect();
+        const body = Bodies.rectangle(
+          rect.left + rect.width / 2,
+          rect.top + rect.height / 2,
+          rect.width,
+          rect.height,
+          {
+            label: 'brick',
+            isStatic: true,
+            render: { fillStyle: 'transparent' },
+          }
+        ) as BrickBody;
+        body.domElement = domElement;
+        return body;
+      });
 
     ballBodyRef.current = Bodies.circle(
       initBallX,
@@ -235,10 +246,10 @@ function Game({ mainRef }) {
       BALL_RADIUS,
       {
         label: 'ball',
-        restitution: 1, // perfect bounce
+        restitution: 1,
         friction: 0,
         frictionAir: 0,
-        inertia: Infinity, // prevents rotation
+        inertia: Infinity,
         render: { fillStyle: '#dedede' }
       }
     );
@@ -278,7 +289,7 @@ function Game({ mainRef }) {
             (bodyB.label === 'ball' && bodyA.label === 'paddle')) {
           const ball = bodyA.label === 'ball' ? bodyA : bodyB;
           const speed = Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2);
-          const hitPos = (ball.position.x - paddleBodyRef.current.position.x) / (PADDLE_WIDTH / 2);
+          const hitPos = (ball.position.x - paddleBodyRef.current!.position.x) / (PADDLE_WIDTH / 2);
           const angle = -Math.PI / 2 + Math.max(-1, Math.min(1, hitPos)) * (5 * Math.PI / 12);
           Body.setVelocity(ball, {
             x: speed * Math.cos(angle),
@@ -288,17 +299,17 @@ function Game({ mainRef }) {
         }
 
         if (bodyA.label === 'brick' || bodyB.label === 'brick') {
-          const brickBody = bodyA.label === 'brick' ? bodyA : bodyB;
+          const brickBody = (bodyA.label === 'brick' ? bodyA : bodyB) as BrickBody;
 
           if (brickBody.domElement) {
-            const vel = ballBodyRef.current.velocity;
+            const vel = ballBodyRef.current!.velocity;
             const dir = Math.abs(vel.y) >= Math.abs(vel.x)
               ? (vel.y > 0 ? 'top' : 'bottom')
               : (vel.x > 0 ? 'left' : 'right');
             brickBody.domElement.classList.add('hit', dir);
           }
 
-          World.remove(worldRef.current, brickBody);
+          World.remove(worldRef.current!, brickBody);
 
           brickBodiesRef.current = brickBodiesRef.current.filter(b => b.id !== brickBody.id);
 
@@ -306,11 +317,11 @@ function Game({ mainRef }) {
 
           setScore(prevScore => prevScore + 100);
 
-          const newVelocity = increaseBallSpeed(ballBodyRef.current.velocity);
-          Body.setVelocity(ballBodyRef.current, newVelocity);
+          const newVelocity = increaseBallSpeed(ballBodyRef.current!.velocity);
+          Body.setVelocity(ballBodyRef.current!, newVelocity);
 
           if (brickBodiesRef.current.length === 0) {
-            Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
+            Body.setVelocity(ballBodyRef.current!, { x: 0, y: 0 });
             if (audioCtxRef.current) playWin(audioCtxRef.current);
             setGameState('WIN');
           }
@@ -320,23 +331,24 @@ function Game({ mainRef }) {
           (bodyA.label === 'ball' && bodyB.label === 'bottom') ||
           (bodyA.label === 'bottom' && bodyB.label === 'ball')
         ) {
-          const canvasRect = canvasRef.current.getBoundingClientRect();
+          const canvasRect = canvasRef.current!.getBoundingClientRect();
           setSplash({
-            x: canvasRect.left + ballBodyRef.current.position.x,
+            x: canvasRect.left + ballBodyRef.current!.position.x,
             y: canvasRect.bottom,
             id: Date.now()
           });
 
           if (audioCtxRef.current) playSound(audioCtxRef.current, { frequency: 440, duration: 0.5, type: 'sawtooth', gain: 0.4, slide: 55 });
 
-          mainRef.current.classList.remove('shake');
-          void mainRef.current.offsetWidth;
-          mainRef.current.classList.add('shake');
-          mainRef.current.addEventListener('animationend', () => mainRef.current.classList.remove('shake'), { once: true });
+          const main = mainRef.current!;
+          main.classList.remove('shake');
+          void main.offsetWidth;
+          main.classList.add('shake');
+          main.addEventListener('animationend', () => main.classList.remove('shake'), { once: true });
 
           if (livesRef.current > 1) {
-            Body.setPosition(ballBodyRef.current, {
-              x: paddleBodyRef.current.position.x,
+            Body.setPosition(ballBodyRef.current!, {
+              x: paddleBodyRef.current!.position.x,
               y: initBallY
             });
 
@@ -345,10 +357,10 @@ function Game({ mainRef }) {
           } else {
             setLives(0);
             setGameState('OVER');
-            ballBodyRef.current.render.fillStyle = 'transparent';
+            ballBodyRef.current!.render.fillStyle = 'transparent';
           }
 
-          Body.setVelocity(ballBodyRef.current, { x: 0, y: 0 });
+          Body.setVelocity(ballBodyRef.current!, { x: 0, y: 0 });
         }
       }
     });
@@ -362,22 +374,22 @@ function Game({ mainRef }) {
     };
   }, [physicsKey]);
 
-  useEffect(() => { // player movement
-    const canvasRect = canvasRef.current.getBoundingClientRect();
+  useEffect(() => {
+    const canvasRect = canvasRef.current!.getBoundingClientRect();
     const minPaddleX = PADDLE_WIDTH / 2;
     const maxPaddleX = canvasRect.width - minPaddleX;
-    const movePlayer = ({ clientX }) => {
+    const movePlayer = ({ clientX }: MouseEvent) => {
       const boundedX = Math.min(Math.max(clientX, minPaddleX), maxPaddleX);
 
-      Body.setPosition(paddleBodyRef.current, {
+      Body.setPosition(paddleBodyRef.current!, {
         x: boundedX,
-        y: paddleBodyRef.current.position.y
+        y: paddleBodyRef.current!.position.y
       });
 
       if (gameState === 'READY' || gameState === 'RESUME') {
-        Body.setPosition(ballBodyRef.current, {
+        Body.setPosition(ballBodyRef.current!, {
           x: boundedX,
-          y: ballBodyRef.current.position.y
+          y: ballBodyRef.current!.position.y
         });
       }
     };
@@ -396,7 +408,7 @@ function Game({ mainRef }) {
       case 'RESUME':
         setGameState('RUNNING');
 
-        Body.setVelocity(ballBodyRef.current, {
+        Body.setVelocity(ballBodyRef.current!, {
           x: BALL_SPEED * (Math.random() > 0.5 ? 1 : -1),
           y: -BALL_SPEED
         });
@@ -412,8 +424,9 @@ function Game({ mainRef }) {
   }, [gameState]);
 
   useEffect(() => {
-    mainRef.current.addEventListener('click', handleClick);
-    return () => mainRef.current.removeEventListener('click', handleClick);
+    const main = mainRef.current!;
+    main.addEventListener('click', handleClick);
+    return () => main.removeEventListener('click', handleClick);
   }, [handleClick]);
 
   const handleResize = useDebounce(() => setPhysicsKey(key => key + 1), 250);
@@ -423,7 +436,7 @@ function Game({ mainRef }) {
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
-  useEffect(() => { // recalculate physics bodies after font loads
+  useEffect(() => {
     const spaceMono = new FontFaceObserver('Space Mono');
     spaceMono.load().then(() => setPhysicsKey(key => key + 1));
   }, []);
@@ -435,7 +448,7 @@ function Game({ mainRef }) {
       className='container'
       data-state={gameState}
       id='game'
-      ref={gameRef}
+      ref={gameRef as React.RefObject<HTMLElement>}
     >
       <canvas ref={canvasRef} />
       <div id='wall'>

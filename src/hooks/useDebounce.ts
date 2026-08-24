@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-export default function useDebounce(callback, delay) {
-  const timeoutRef = useRef();
+export default function useDebounce<T extends (...args: Parameters<T>) => void>(
+  callback: T,
+  delay: number
+): (...args: Parameters<T>) => void {
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     return () => {
@@ -11,7 +14,7 @@ export default function useDebounce(callback, delay) {
     };
   }, []);
 
-  return useCallback((...args) => {
+  return useCallback((...args: Parameters<T>) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -20,4 +23,4 @@ export default function useDebounce(callback, delay) {
       callback(...args);
     }, delay);
   }, [callback, delay]);
-};
+}

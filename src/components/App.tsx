@@ -14,12 +14,12 @@ import '../styles/App.scss';
 
 function App() {
   const isMobile = useIsMobile();
-  const mainRef = useRef(null);
+  const mainRef = useRef<HTMLElement>(null);
 
   return (
     <>
       <BackgroundParticles />
-      <main ref={mainRef} role='main'>
+      <main ref={mainRef as React.RefObject<HTMLElement>} role='main'>
         <BackgroundGrid />
         <Header />
         {isMobile ? <About /> : <Game mainRef={mainRef} />}

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import '../styles/Magic8Ball.scss';
 
-const FACE_TRANSFORMS = {
+const FACE_TRANSFORMS: Record<string, [number, number]> = {
   face1: [0, 0],
   face2: [0, 180],
   face3: [0, 90],
@@ -10,9 +10,15 @@ const FACE_TRANSFORMS = {
   face6: [90, 0],
 };
 
-function Magic8Ball({ focus = null }) {
-  const cubeRef = useRef(null);
-  const rafRef = useRef(null);
+type FaceName = keyof typeof FACE_TRANSFORMS;
+
+interface Magic8BallProps {
+  focus?: FaceName | null;
+}
+
+function Magic8Ball({ focus = null }: Magic8BallProps) {
+  const cubeRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     const cube = cubeRef.current;
@@ -31,7 +37,7 @@ function Magic8Ball({ focus = null }) {
   return (
     <div id='magic8ball'>
       <div id='cube-scene'>
-        <div className='bobber' style={{ '--bob-amplitude': '-5px', '--bob-duration': '3s' }}>
+        <div className='bobber' style={{ '--bob-amplitude': '-5px', '--bob-duration': '3s' } as React.CSSProperties}>
           <div id='cube' ref={cubeRef}>
             <div className='face face1'>
               <img src='sadmac.png' alt='Sad Mac' />

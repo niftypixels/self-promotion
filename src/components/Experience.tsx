@@ -1,7 +1,15 @@
 import { Awards } from '.';
 import '../styles/Experience.scss';
 
-const JOBS = [
+interface Job {
+  company: string;
+  startDate: Date;
+  endDate: Date;
+  location: string;
+  role: string;
+}
+
+const JOBS: Job[] = [
   {
     company: 'Sony Interactive Entertainment',
     startDate: new Date('7/1/2014'),
@@ -21,7 +29,7 @@ const JOBS = [
 const BOB_DELAYS = JOBS.map((_, index) => `${-(index * 1.5 + Math.random()).toFixed(2)}s`);
 
 function Experience() {
-  const monthYear = (date) => date.toLocaleString('en-US', {
+  const monthYear = (date: Date) => date.toLocaleString('en-US', {
     month: 'long',
     year: 'numeric'
   });
@@ -30,7 +38,7 @@ function Experience() {
     <section className='container' id='experience'>
       <div>
         {JOBS.map(({ company, startDate, endDate, location, role }, index) => (
-          <article key={index} className='bobber' style={{ '--bob-delay': BOB_DELAYS[index] }}>
+          <article key={index} className='bobber' style={{ '--bob-delay': BOB_DELAYS[index] } as React.CSSProperties}>
             <h3>{company}</h3>
             <span>
               {monthYear(startDate)} &mdash; {monthYear(endDate)}

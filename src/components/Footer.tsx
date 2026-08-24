@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { BackgroundStatic, Magic8Ball } from '.';
 import '../styles/Footer.scss';
 
+type FaceName = 'face1' | 'face2' | 'face3' | 'face4' | 'face5' | 'face6';
+
 function Footer() {
-  const [focus, setFocus] = useState(null);
-  const face = (f) => ({ onMouseEnter: () => setFocus(f), onMouseLeave: () => setFocus('face1') });
+  const [focus, setFocus] = useState<FaceName | null>(null);
+  const face = (f: FaceName) => ({ onMouseEnter: () => setFocus(f), onMouseLeave: () => setFocus('face1') });
 
   return (
     <footer className='container'>

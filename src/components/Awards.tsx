@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import '../styles/Awards.scss';
 
-const AWARDS = [
+interface Award {
+  award: string;
+  date: Date;
+  href: string;
+  project: string;
+}
+
+const AWARDS: Award[] = [
   {
     award: 'FWA Mobile of the Day',
     date: new Date('6/22/14'),
@@ -39,9 +46,11 @@ const Phase = Object.freeze({
   EXIT: 'exit',
 });
 
+type PhaseValue = typeof Phase[keyof typeof Phase];
+
 function Awards() {
   const [index, setIndex] = useState(0);
-  const [phase, setPhase] = useState(Phase.ENTER);
+  const [phase, setPhase] = useState<PhaseValue>(Phase.ENTER);
   const pausedRef = useRef(false);
 
   useEffect(() => {
@@ -53,7 +62,7 @@ function Awards() {
   useEffect(() => {
     if (phase !== Phase.SHOWN) return;
 
-    let timer;
+    let timer: ReturnType<typeof setTimeout>;
     const tryExit = () => {
       if (pausedRef.current) {
         timer = setTimeout(tryExit, PAUSE_POLL_MS);
@@ -75,7 +84,7 @@ function Awards() {
   }, [phase]);
 
   return (
-    <div id='awards' className='bobber' style={{ '--bob-delay': '0s' }}>
+    <div id='awards' className='bobber' style={{ '--bob-delay': '0s' } as React.CSSProperties}>
       <h4>Awards</h4>
       <div className='emitter'>
         <span className={phase}>&#9733;</span>

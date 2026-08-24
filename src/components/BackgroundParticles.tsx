@@ -1,27 +1,32 @@
 import { useCallback, useEffect, useRef } from 'react';
 import Particles from 'react-tsparticles';
+import type { IOptions, RecursivePartial } from 'tsparticles-engine';
 import { loadSlim } from 'tsparticles-slim';
 import { useTabVisible } from '../hooks';
 import '../styles/BackgroundParticles.scss';
 
 function BackgroundParticles() {
-  const containerRef = useRef(null);
+  const containerRef = useRef<Awaited<ReturnType<typeof loadSlim>> | null>(null);
   const tabVisible = useTabVisible();
 
-  const particlesInit = useCallback(async (engine) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const particlesInit = useCallback(async (engine: any) => {
     await loadSlim(engine);
   }, []);
 
-  const particlesLoaded = useCallback(async (container) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const particlesLoaded = useCallback(async (container: any) => {
     containerRef.current = container;
     if (!tabVisible) container.pause();
   }, [tabVisible]);
 
   useEffect(() => {
     if (!containerRef.current) return;
-    tabVisible ? containerRef.current.play() : containerRef.current.pause();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    tabVisible ? (containerRef.current as any).play() : (containerRef.current as any).pause();
   }, [tabVisible]);
 
+  // tsparticles types are mismatched across its own sub-packages
   const particlesOptions = {
     fpsLimit: 60,
     interactivity: {
@@ -96,7 +101,7 @@ function BackgroundParticles() {
       id='background-particles'
       init={particlesInit}
       loaded={particlesLoaded}
-      options={particlesOptions}
+      options={particlesOptions as RecursivePartial<IOptions>}
     />
   );
 }

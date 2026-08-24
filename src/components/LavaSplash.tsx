@@ -1,15 +1,36 @@
 import { useEffect, useRef } from 'react';
 
+interface SplashData {
+  x: number;
+  y: number;
+  id: number;
+}
+
+interface LavaSplashProps {
+  splash: SplashData | null;
+}
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  life: number;
+  decay: number;
+  gravity: number;
+}
+
 const LAVA_COLORS = [
   '#ff2200', '#ff3300', '#ff4500', '#ff5500',
   '#ff6600', '#ff7700', '#ff8800', '#ff9900',
   '#ffaa00', '#ffcc00', '#e02000', '#cc1a00'
 ];
 
-function createSplashParticles(x, y) {
-  const particles = [];
+function createSplashParticles(x: number, y: number): Particle[] {
+  const particles: Particle[] = [];
 
-  // Main upward burst — small fast droplets
   for (let i = 0; i < 18; i++) {
     const spread = (Math.random() - 0.5) * Math.PI * 0.7;
     const angle = -Math.PI / 2 + spread;
@@ -26,7 +47,6 @@ function createSplashParticles(x, y) {
     });
   }
 
-  // Crown jets — sideways splatter at the base
   for (let side = -1; side <= 1; side += 2) {
     for (let i = 0; i < 5; i++) {
       const angle = side * (Math.PI * 0.04 + Math.random() * Math.PI * 0.25);
@@ -44,7 +64,6 @@ function createSplashParticles(x, y) {
     }
   }
 
-  // Large slow blobs — heavy viscous lava
   for (let i = 0; i < 4; i++) {
     const spread = (Math.random() - 0.5) * Math.PI * 0.45;
     const angle = -Math.PI / 2 + spread;
@@ -61,7 +80,6 @@ function createSplashParticles(x, y) {
     });
   }
 
-  // Ember sparks — tiny bright specks that fly far
   for (let i = 0; i < 10; i++) {
     const spread = (Math.random() - 0.5) * Math.PI * 0.9;
     const angle = -Math.PI / 2 + spread;
@@ -81,15 +99,15 @@ function createSplashParticles(x, y) {
   return particles;
 }
 
-function LavaSplash({ splash }) {
-  const canvasRef = useRef(null);
-  const particlesRef = useRef([]);
-  const animFrameRef = useRef(null);
-  const startAnimRef = useRef(null);
+function LavaSplash({ splash }: LavaSplashProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<Particle[]>([]);
+  const animFrameRef = useRef<number | null>(null);
+  const startAnimRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const canvas = canvasRef.current!;
+    const ctx = canvas.getContext('2d')!;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -105,7 +123,6 @@ function LavaSplash({ splash }) {
         const alpha = Math.max(0, p.life);
         const radius = p.size * (0.5 + alpha * 0.5);
 
-        // outer glow
         ctx.globalAlpha = alpha * 0.3;
         ctx.shadowBlur = 0;
         ctx.fillStyle = p.color;
@@ -113,7 +130,6 @@ function LavaSplash({ splash }) {
         ctx.arc(p.x, p.y, radius * 1.6, 0, Math.PI * 2);
         ctx.fill();
 
-        // core with inner glow
         ctx.globalAlpha = alpha;
         ctx.shadowBlur = radius * 2;
         ctx.shadowColor = p.color;
