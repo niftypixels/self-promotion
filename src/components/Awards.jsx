@@ -90,7 +90,7 @@ function Awards() {
             onMouseLeave={() => { pausedRef.current = false; }}
           >
             <a href={href} target='_blank'>
-              {project}
+              <span>{project}</span>
               <small>{award}, {date.toDateString().slice(4)}</small>
             </a>
           </li>
